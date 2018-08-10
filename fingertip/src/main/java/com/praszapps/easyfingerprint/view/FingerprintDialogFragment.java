@@ -1,0 +1,52 @@
+package com.praszapps.easyfingerprint.view;
+
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.praszapps.easyfingerprint.MVP.FingerprintMVPContract;
+import com.praszapps.easyfingerprint.R;
+import com.praszapps.easyfingerprint.model.di.component.DaggerContextComponent;
+
+public final class FingerprintDialogFragment extends DialogFragment implements FingerprintMVPContract.View {
+
+    private FingerprintMVPContract.Presenter<FingerprintDialogFragment> mPresenter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        DaggerContextComponent.builder().build().inject(this);
+        mPresenter.init(this);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fingerprint_dialog, container, false);
+        return view;
+    }
+
+    @Override
+    public void setUpFingerprintViews() {
+
+    }
+
+    @Override
+    public void handleNoFingerprintAuthPossible() {
+
+    }
+
+    @Override
+    public void onFingerPrintAuthenticationSuccess() {
+
+    }
+
+    @Override
+    public void onFingerprintAuthenticationFailed(String text) {
+
+    }
+}
