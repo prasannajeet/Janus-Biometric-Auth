@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.praszapps.easyfingerprint.model.repository.FingerPrintRepository;
 
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -13,7 +12,7 @@ public class FingerprintRepoModule {
 
     @Provides
     public FingerPrintRepository provideRepository(Context context) {
-        return new FingerPrintRepository(context);
+        return FingerPrintRepository.getInstance(context);
     }
 
 }

@@ -8,16 +8,24 @@ import com.praszapps.easyfingerprint.MVP.FingerprintMVPContract;
 
 public class FingerPrintRepository extends FingerprintManagerCompat.AuthenticationCallback implements FingerprintMVPContract.IFingerprintRepository {
 
+    private static FingerPrintRepository INSTANCE = null;
     private FingerprintManagerCompat mFingerprintManager;
     private CancellationSignal mSignal = null;
     private Context mContext;
 
     private FingerPrintRepository(){}
 
-    public FingerPrintRepository(Context context) {
+
+    private FingerPrintRepository(Context context) {
         this.mContext = context;
     }
 
+    public static FingerPrintRepository getInstance(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = new FingerPrintRepository(context);
+        }
+        return INSTANCE;
+    }
 
     @Override
     public void initalize() {
