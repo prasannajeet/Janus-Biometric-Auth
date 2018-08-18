@@ -7,7 +7,7 @@ import com.praszapps.easyfingerprint.model.repository.FingerPrintRepository;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = ContextModule.class)
+@Module
 public class FingerprintRepoModule {
 
     @Provides

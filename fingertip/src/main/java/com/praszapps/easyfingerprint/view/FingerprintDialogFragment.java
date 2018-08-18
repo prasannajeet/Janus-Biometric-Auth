@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.praszapps.easyfingerprint.MVP.FingerprintMVPContract;
 import com.praszapps.easyfingerprint.R;
-import com.praszapps.easyfingerprint.model.di.component.DaggerContextComponent;
 
 public final class FingerprintDialogFragment extends DialogFragment implements FingerprintMVPContract.View {
 
@@ -19,7 +18,6 @@ public final class FingerprintDialogFragment extends DialogFragment implements F
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DaggerContextComponent.builder().build().inject(this);
         mPresenter.init(this);
     }
 
