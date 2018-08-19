@@ -10,11 +10,16 @@ import android.view.ViewGroup;
 import com.praszapps.easyfingerprint.MVP.FingertipMVPContract;
 import com.praszapps.easyfingerprint.R;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import dagger.android.DaggerDialogFragment;
 
 public final class FingertipDialogFragment extends DaggerDialogFragment implements FingertipMVPContract.View {
 
-    private FingertipMVPContract.Presenter mPresenter;
+    @Inject
+    @Named("dialogFragmentPresenter")
+    public FingertipMVPContract.Presenter mPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

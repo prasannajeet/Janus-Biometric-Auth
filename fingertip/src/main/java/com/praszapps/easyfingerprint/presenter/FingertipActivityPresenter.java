@@ -9,8 +9,11 @@ import javax.inject.Named;
 public class FingertipActivityPresenter implements FingertipMVPContract.Presenter {
 
     @Inject
-    public FingertipActivityPresenter(@Named("activityView") FingertipMVPContract.View view, FingertipRepository repository) {
-    }
+    @Named("activityView")
+    public FingertipMVPContract.View view;
+
+    @Inject
+    FingertipRepository repository;
 
     @Override
     public void authenticateViaFingerprint() {

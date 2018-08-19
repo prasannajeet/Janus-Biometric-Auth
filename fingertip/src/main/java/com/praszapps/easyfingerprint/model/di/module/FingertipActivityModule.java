@@ -1,7 +1,6 @@
 package com.praszapps.easyfingerprint.model.di.module;
 
 import com.praszapps.easyfingerprint.MVP.FingertipMVPContract;
-import com.praszapps.easyfingerprint.model.repository.FingertipRepository;
 import com.praszapps.easyfingerprint.presenter.FingertipActivityPresenter;
 import com.praszapps.easyfingerprint.view.FingertipActivity;
 
@@ -20,9 +19,8 @@ public class FingertipActivityModule {
     }
 
     @Provides
-    FingertipMVPContract.Presenter providerFingerprintPresenter(FingertipMVPContract.View view, FingertipRepository repository) {
-        return new FingertipActivityPresenter(view, repository);
+    @Named("activityPresenter")
+    FingertipMVPContract.Presenter provideFingertipPresenter() {
+        return new FingertipActivityPresenter();
     }
-
-
 }

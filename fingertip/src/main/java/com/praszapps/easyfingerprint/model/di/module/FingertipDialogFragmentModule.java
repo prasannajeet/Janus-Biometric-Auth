@@ -1,7 +1,6 @@
 package com.praszapps.easyfingerprint.model.di.module;
 
 import com.praszapps.easyfingerprint.MVP.FingertipMVPContract;
-import com.praszapps.easyfingerprint.model.repository.FingertipRepository;
 import com.praszapps.easyfingerprint.presenter.FingertipDialogFragmentPresenter;
 import com.praszapps.easyfingerprint.view.FingertipDialogFragment;
 
@@ -15,12 +14,13 @@ public class FingertipDialogFragmentModule {
 
     @Provides
     @Named("dialogFragmentView")
-    FingertipMVPContract.View provideFingertipView(FingertipDialogFragment dialogFragment) {
+    FingertipMVPContract.View provideFingertipDialogView(FingertipDialogFragment dialogFragment) {
         return dialogFragment;
     }
 
     @Provides
-    FingertipMVPContract.Presenter provideFingertipPresenter(FingertipMVPContract.View view, FingertipRepository repository) {
-        return new FingertipDialogFragmentPresenter(view, repository);
+    @Named("dialogFragmentPresenter")
+    FingertipMVPContract.Presenter provideFingertipDialogPresenter() {
+        return new FingertipDialogFragmentPresenter();
     }
 }

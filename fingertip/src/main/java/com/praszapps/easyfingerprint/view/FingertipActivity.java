@@ -4,16 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.praszapps.easyfingerprint.MVP.FingertipMVPContract;
-import com.praszapps.easyfingerprint.presenter.FingertipActivityPresenter;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class FingertipActivity extends DaggerAppCompatActivity implements FingertipMVPContract.View {
 
     @Inject
-    FingertipActivityPresenter mPresenter;
+    @Named("activityPresenter")
+    public FingertipMVPContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
