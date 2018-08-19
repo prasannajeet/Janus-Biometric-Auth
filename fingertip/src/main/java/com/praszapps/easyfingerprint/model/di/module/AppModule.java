@@ -1,21 +1,19 @@
 package com.praszapps.easyfingerprint.model.di.module;
 
-import android.app.Application;
 import android.content.Context;
 
-import com.praszapps.easyfingerprint.model.di.component.FingerprintActivityComponent;
+import com.praszapps.easyfingerprint.view.FingertipApplication;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 
-@Module(subcomponents = FingerprintActivityComponent.class)
+@Module()
 public class AppModule {
-
     @Provides
     @Singleton
-    Context provideContext(Application application) {
+    Context provideContext(FingertipApplication application) {
         return application.getApplicationContext();
     }
 

@@ -3,22 +3,22 @@ package com.praszapps.easyfingerprint.view;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.praszapps.easyfingerprint.MVP.FingerprintMVPContract;
+import com.praszapps.easyfingerprint.MVP.FingertipMVPContract;
 import com.praszapps.easyfingerprint.R;
 
-public final class FingerprintDialogFragment extends DialogFragment implements FingerprintMVPContract.View {
+import dagger.android.DaggerDialogFragment;
 
-    private FingerprintMVPContract.Presenter<FingerprintDialogFragment> mPresenter;
+public final class FingertipDialogFragment extends DaggerDialogFragment implements FingertipMVPContract.View {
+
+    private FingertipMVPContract.Presenter mPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter.init(this);
     }
 
     @Nullable

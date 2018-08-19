@@ -2,17 +2,21 @@ package com.praszapps.easyfingerprint.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
-import com.praszapps.easyfingerprint.MVP.FingerprintMVPContract;
+import com.praszapps.easyfingerprint.MVP.FingertipMVPContract;
+import com.praszapps.easyfingerprint.presenter.FingertipActivityPresenter;
 
-import dagger.android.AndroidInjection;
+import javax.inject.Inject;
 
-public class FingerprintActivity extends AppCompatActivity implements FingerprintMVPContract.View {
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class FingertipActivity extends DaggerAppCompatActivity implements FingertipMVPContract.View {
+
+    @Inject
+    FingertipActivityPresenter mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
     }
 

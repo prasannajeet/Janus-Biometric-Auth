@@ -4,25 +4,26 @@ import android.content.Context;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.os.CancellationSignal;
 
-import com.praszapps.easyfingerprint.MVP.FingerprintMVPContract;
+import com.praszapps.easyfingerprint.MVP.FingertipMVPContract;
 
-public class FingerPrintRepository extends FingerprintManagerCompat.AuthenticationCallback implements FingerprintMVPContract.IFingerprintRepository {
+public class FingertipRepository extends FingerprintManagerCompat.AuthenticationCallback implements FingertipMVPContract.IFingerprintRepository {
 
-    private static FingerPrintRepository INSTANCE = null;
+    private static FingertipRepository INSTANCE = null;
     private FingerprintManagerCompat mFingerprintManager;
     private CancellationSignal mSignal = null;
     private Context mContext;
 
-    private FingerPrintRepository(){}
+    private FingertipRepository() {
+    }
 
 
-    private FingerPrintRepository(Context context) {
+    private FingertipRepository(Context context) {
         this.mContext = context;
     }
 
-    public static FingerPrintRepository getInstance(Context context) {
+    public static FingertipRepository getInstance(Context context) {
         if (INSTANCE == null) {
-            INSTANCE = new FingerPrintRepository(context);
+            INSTANCE = new FingertipRepository(context);
         }
         return INSTANCE;
     }

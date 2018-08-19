@@ -1,8 +1,6 @@
 package com.praszapps.easyfingerprint.MVP;
 
-import android.content.Context;
-
-public interface FingerprintMVPContract {
+public interface FingertipMVPContract {
 
     interface View {
         void setUpFingerprintViews();
@@ -12,8 +10,7 @@ public interface FingerprintMVPContract {
 
     }
 
-    interface Presenter<V extends View> {
-        void init(V view);
+    interface Presenter {
         void authenticateViaFingerprint();
         void stopFingerprintTracking();
     }

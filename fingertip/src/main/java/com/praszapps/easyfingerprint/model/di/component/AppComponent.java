@@ -1,32 +1,24 @@
 package com.praszapps.easyfingerprint.model.di.component;
 
-import android.app.Application;
 
 import com.praszapps.easyfingerprint.model.di.module.ActivityBuilder;
 import com.praszapps.easyfingerprint.model.di.module.AppModule;
-import com.praszapps.easyfingerprint.model.di.module.FingerprintRepoModule;
+import com.praszapps.easyfingerprint.model.di.module.FingertipDialogFragmentModule;
+import com.praszapps.easyfingerprint.model.di.module.FingertipRepoModule;
 import com.praszapps.easyfingerprint.view.FingertipApplication;
 
 import javax.inject.Singleton;
 
-import dagger.BindsInstance;
 import dagger.Component;
-import dagger.android.AndroidInjectionModule;
+import dagger.android.AndroidInjector;
+import dagger.android.support.AndroidSupportInjectionModule;
 
 @Singleton
-@Component(modules = {AndroidInjectionModule.class, AppModule.class, ActivityBuilder.class, FingerprintRepoModule.class})
-public interface AppComponent {
-
-    void inject(FingertipApplication app);
+@Component(modules = {AndroidSupportInjectionModule.class, AppModule.class, ActivityBuilder.class, FingertipRepoModule.class, FingertipDialogFragmentModule.class})
+public interface AppComponent extends AndroidInjector<FingertipApplication> {
 
     @Component.Builder
-    interface Builder {
-
-        @BindsInstance
-        Builder application(Application application);
-
-        AppComponent build();
-
+    abstract class Builder extends AndroidInjector.Builder<FingertipApplication> {
     }
 
 }
