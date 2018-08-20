@@ -1,4 +1,4 @@
-package com.praszapps.easyfingerprint.view;
+package com.praszapps.fingertip.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.praszapps.easyfingerprint.MVP.FingertipMVPContract;
-import com.praszapps.easyfingerprint.R;
+import com.praszapps.fingertip.MVP.FingertipMVPContract;
+import com.praszapps.fingertip.R;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,6 +24,8 @@ public final class FingertipDialogFragment extends DaggerDialogFragment implemen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog);
     }
 
     @Nullable

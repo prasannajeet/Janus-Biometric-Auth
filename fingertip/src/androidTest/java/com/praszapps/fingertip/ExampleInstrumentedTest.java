@@ -1,4 +1,4 @@
-package com.praszapps.easyfingerprint;
+package com.praszapps.fingertip;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

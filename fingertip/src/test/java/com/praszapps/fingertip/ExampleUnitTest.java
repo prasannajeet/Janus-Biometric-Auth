@@ -1,4 +1,4 @@
-package com.praszapps.easyfingerprint;
+package com.praszapps.fingertip;
 
 import org.junit.Test;
 

@@ -1,7 +1,7 @@
-package com.praszapps.easyfingerprint.view;
+package com.praszapps.fingertip.view;
 
 
-import com.praszapps.easyfingerprint.model.di.component.DaggerAppComponent;
+import com.praszapps.fingertip.model.di.component.DaggerAppComponent;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;

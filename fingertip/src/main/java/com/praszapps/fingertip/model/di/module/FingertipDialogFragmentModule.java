@@ -1,8 +1,8 @@
-package com.praszapps.easyfingerprint.model.di.module;
+package com.praszapps.fingertip.model.di.module;
 
-import com.praszapps.easyfingerprint.MVP.FingertipMVPContract;
-import com.praszapps.easyfingerprint.presenter.FingertipDialogFragmentPresenter;
-import com.praszapps.easyfingerprint.view.FingertipDialogFragment;
+import com.praszapps.fingertip.MVP.FingertipMVPContract;
+import com.praszapps.fingertip.presenter.FingertipDialogFragmentPresenter;
+import com.praszapps.fingertip.view.FingertipDialogFragment;
 
 import javax.inject.Named;
 

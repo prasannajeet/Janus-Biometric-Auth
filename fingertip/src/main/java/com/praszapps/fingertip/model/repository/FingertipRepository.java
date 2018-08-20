@@ -1,37 +1,31 @@
-package com.praszapps.easyfingerprint.model.repository;
+package com.praszapps.fingertip.model.repository;
 
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.os.CancellationSignal;
 
-import com.praszapps.easyfingerprint.MVP.FingertipMVPContract;
+import com.praszapps.fingertip.MVP.FingertipMVPContract;
+
+import javax.inject.Inject;
 
 public class FingertipRepository extends FingerprintManagerCompat.AuthenticationCallback implements FingertipMVPContract.IFingerprintRepository {
 
-    private static FingertipRepository INSTANCE = null;
     private FingerprintManagerCompat mFingerprintManager;
     private CancellationSignal mSignal = null;
-    private Context mContext;
-
-    private FingertipRepository() {
-    }
-
-
-    private FingertipRepository(Context context) {
-        this.mContext = context;
-    }
-
-    public static FingertipRepository getInstance(Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = new FingertipRepository(context);
-        }
-        return INSTANCE;
-    }
+    @Inject
+    Context mContext;
+    private KeyguardManager mKeyguardManager = null;
 
     @Override
     public void initalize() {
         mFingerprintManager = FingerprintManagerCompat.from(mContext);
         mSignal = new CancellationSignal();
+        mKeyguardManager = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
+    }
+
+    public boolean isDeviceFingerprintAuthReady() {
+        return mFingerprintManager != null && mKeyguardManager != null && mFingerprintManager.isHardwareDetected() && mFingerprintManager.hasEnrolledFingerprints() && mKeyguardManager.isKeyguardSecure();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.praszapps.easyfingerprint.MVP;
+package com.praszapps.fingertip.MVP;
 
 public interface FingertipMVPContract {
 

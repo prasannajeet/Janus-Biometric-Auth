@@ -1,7 +1,7 @@
-package com.praszapps.easyfingerprint.presenter;
+package com.praszapps.fingertip.presenter;
 
-import com.praszapps.easyfingerprint.MVP.FingertipMVPContract;
-import com.praszapps.easyfingerprint.model.repository.FingertipRepository;
+import com.praszapps.fingertip.MVP.FingertipMVPContract;
+import com.praszapps.fingertip.model.repository.FingertipRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;

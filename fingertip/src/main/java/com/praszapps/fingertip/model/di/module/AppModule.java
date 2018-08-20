@@ -1,8 +1,8 @@
-package com.praszapps.easyfingerprint.model.di.module;
+package com.praszapps.fingertip.model.di.module;
 
 import android.content.Context;
 
-import com.praszapps.easyfingerprint.view.FingertipApplication;
+import com.praszapps.fingertip.view.FingertipApplication;
 
 import javax.inject.Singleton;
 

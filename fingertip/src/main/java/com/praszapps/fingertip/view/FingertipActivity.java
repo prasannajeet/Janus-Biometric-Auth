@@ -1,9 +1,9 @@
-package com.praszapps.easyfingerprint.view;
+package com.praszapps.fingertip.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.praszapps.easyfingerprint.MVP.FingertipMVPContract;
+import com.praszapps.fingertip.MVP.FingertipMVPContract;
 
 import javax.inject.Inject;
 import javax.inject.Named;
