@@ -4,9 +4,9 @@
 Fingertip - The easy fingerprint authentication library for Android
 ### Currently in alpha (v0.1) not ready for consumption
 
-##CHANGELOG
-v0.1.3 - Converted project to Kotlin
-v0.1.2 - Initial Commit
+### CHANGELOG
+- v0.1.3 - Converted project to Kotlin
+- v0.1.2 - Initial Commit
 
 
 ## License
