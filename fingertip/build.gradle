@@ -36,7 +36,7 @@ publishing {
             setArtifactId(artifactId)
             version android.defaultConfig.versionName
 
-            artifact(bundleRelease)
+            artifact(bundleDebug)
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 configurations.compile.allDependencies.each {
