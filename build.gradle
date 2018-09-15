@@ -28,3 +28,12 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    versionMajor = 0
+    versionMinor = 1
+    versionPatch = 3
+    isPrelease = true
+    preReleaseSuffix = "-SNAPSHOT"
+    minimumSdkVersion = 19
+}

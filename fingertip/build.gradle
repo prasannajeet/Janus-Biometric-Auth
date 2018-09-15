@@ -11,36 +11,58 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        minSdkVersion 23
+        minSdkVersion rootProject.ext.minimumSdkVersion
         targetSdkVersion 28
-        versionCode 1
-        versionName "0.1.3"
+        versionCode generateVersionCode()
+        versionName generateVersionName()
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
 
     buildTypes {
-        release {
+
+        debug {
+            debuggable true
             minifyEnabled false
+        }
+
+        release {
+            debuggable false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
 }
 
+private Integer generateVersionCode() {
+    return rootProject.ext.minimumSdkVersion * 10000000 + rootProject.ext.versionMajor * 10000 + rootProject.ext.versionMinor * 100 + rootProject.ext.versionPatch
+}
+
+private String generateVersionName() {
+    String versionName = "${rootProject.ext.versionMajor}.${rootProject.ext.versionMinor}.${rootProject.ext.versionPatch}"
+
+    if (rootProject.ext.isPrelease) {
+        versionName += preReleaseSuffix
+    }
+
+    return versionName
+}
+
 publishing {
     publications {
         library(MavenPublication) {
+
             setGroupId(groupId)
             setArtifactId(artifactId)
-            version android.defaultConfig.versionName
+            setVersion(android.defaultConfig.versionName)
 
             artifact(bundleDebug)
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 configurations.compile.allDependencies.each {
-                    if (it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null) {
+                    if (it.group != null && (it.name != null || "unspecified" == it.name) && it.version != null) {
                         def dependencyNode = dependenciesNode.appendNode('dependency')
                         dependencyNode.appendNode('groupId', it.group)
                         dependencyNode.appendNode('artifactId', it.name)
