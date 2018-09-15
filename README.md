@@ -4,6 +4,20 @@
 Fingertip - The easy fingerprint authentication library for Android
 ### Currently in alpha (v0.1) not ready for consumption
 
+This Android library project is designed to simplify the complicated fingerprint authentication process in Android.
+
+It offers 3 types of Fingerprint authentication UI
+
+- Fingerprint Authentication Dialog (both pre and post SDK 28 versions)
+- Fingerprint Authentication Activity
+- Device lock based Authentication (with or without fingerprint)
+
+For now the UI will be the default UI provided by the library, eventually override options will be provided
+
+There are 2 steps in conducting the authentication
+1. Set configuration such as type of authentication (dialog/activity/device lock) 
+2. Call authentication API and listen for results
+
 ### CHANGELOG
 - v0.1.3 - Converted project to Kotlin
 - v0.1.2 - Initial Commit
