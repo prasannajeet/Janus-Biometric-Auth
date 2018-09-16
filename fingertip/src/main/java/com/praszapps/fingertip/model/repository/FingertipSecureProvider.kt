@@ -9,6 +9,7 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.support.v4.os.CancellationSignal
 import android.util.Log
 import com.praszapps.fingertip.MVP.FingertipMVPContract
+import com.praszapps.fingertip.presenter.FingertipDialogFragmentPresenter
 import java.io.IOException
 import java.security.*
 import java.security.cert.CertificateException
@@ -27,6 +28,7 @@ internal class FingertipSecureProvider : FingerprintManagerCompat.Authentication
     private lateinit var keyStore: KeyStore
     private lateinit var keyGenerator: KeyGenerator
     private lateinit var mCryptoObj: FingerprintManagerCompat.CryptoObject
+    private lateinit var mCallback: FingertipDialogFragmentPresenter.FingerprintResultCallback
 
     override fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager) {
 
@@ -107,18 +109,6 @@ internal class FingertipSecureProvider : FingerprintManagerCompat.Authentication
 
     }
 
-
-    /**
-     * Lifted code from the Google samples - https://github.com/googlesamples/android-FingerprintDialog/blob/master/kotlinApp/app/src/main/java/com/example/android/fingerprintdialog/MainActivity.kt
-     *
-     * Initialize the [Cipher] instance with the created key in the
-     * [.createKey] method.
-     *
-     * @param keyName the key name to init the cipher
-     * @return `true` if initialization is successful, `false` if the lock screen has
-     * been disabled or reset after the key was generated, or if a fingerprint got enrolled after
-     * the key was generated.
-     */
     private fun initCipher(cipher: Cipher, keyName: String): Boolean {
         try {
             keyStore.load(null)
@@ -143,7 +133,8 @@ internal class FingertipSecureProvider : FingerprintManagerCompat.Authentication
     }
 
 
-    override fun startFingerprintTracking() {
+    override fun startFingerprintTracking(callback: FingertipDialogFragmentPresenter.FingerprintResultCallback) {
+        mCallback = callback
         fManager.authenticate(mCryptoObj, 0, mSignal, this, null)
     }
 
@@ -154,24 +145,25 @@ internal class FingertipSecureProvider : FingerprintManagerCompat.Authentication
     override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
         super.onAuthenticationSucceeded(result)
         Log.d("Repo", "Auth success")
+        mCallback.onSuccess()
     }
 
     override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
         super.onAuthenticationError(errMsgId, errString)
-
         Log.d("Repo", "Auth Error")
+        mCallback.onFailed(errString.toString())
     }
 
     override fun onAuthenticationHelp(helpMsgId: Int, helpString: CharSequence?) {
         super.onAuthenticationHelp(helpMsgId, helpString)
-
         Log.d("Repo", "Auth Help")
+        mCallback.onFailed(helpString.toString())
     }
 
     override fun onAuthenticationFailed() {
         super.onAuthenticationFailed()
-
         Log.d("Repo", "Auth failed")
+        mCallback.onFailed("Fingerprint not recognized. Try again")
     }
 
 }
