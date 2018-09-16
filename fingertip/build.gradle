@@ -86,10 +86,10 @@ dependencies {
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     androidTestImplementation "com.android.support.test:runner:$rootProject.ext.testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.ext.espressionVersion"
-
-    implementation "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
+    implementation "com.android.support:design:$rootProject.ext.androidSupportLibVersion"
+    api "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerVersion" // if you use the support libraries
+    api "com.google.dagger:dagger-android-support:$rootProject.ext.daggerVersion" // if you use the support libraries
     kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
