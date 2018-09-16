@@ -1,3 +1,5 @@
 package com.praszapps.fingertip.manager
 
-data class FingertipAuthConfig(var mAuthStyle: AuthenticationStyle, val errorString: String)
+import android.content.Context
+
+data class FingertipAuthConfig(val context: Context, val mAuthStyle: AuthenticationStyle)

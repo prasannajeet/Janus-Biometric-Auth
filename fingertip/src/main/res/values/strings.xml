@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Easy Fingerprint</string>
     <string name="cancel">Cancel</string>
+    <string name="sign_in">Sign In</string>
+    <string name="confirm_fingerprint_to_continue">Confirm fingerprint to continue.</string>
+    <string name="touch_sensor">Touch sensor</string>
 </resources>

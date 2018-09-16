@@ -1,38 +1,51 @@
 package com.praszapps.fingertip.view
 
+import android.app.KeyguardManager
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.praszapps.fingertip.MVP.FingertipMVPContract
 import com.praszapps.fingertip.R
-import dagger.android.DaggerDialogFragment
-import javax.inject.Inject
-import javax.inject.Named
+import com.praszapps.fingertip.presenter.FingertipDialogFragmentIPresenter
+import kotlinx.android.synthetic.main.fingerprint_dialog.*
 
-class FingertipDialogFragment : DaggerDialogFragment(), FingertipMVPContract.View {
+internal class FingertipDialogFragment : DialogFragment(), FingertipMVPContract.IView {
 
-    @Inject
-    @Named("dialogFragmentPresenter")
-    lateinit var mPresenter: FingertipMVPContract.Presenter
+    lateinit var fManager: FingerprintManagerCompat
+    lateinit var kManager: KeyguardManager
+
+    private val mIPresenter: FingertipMVPContract.IPresenter by lazy {
+        FingertipDialogFragmentIPresenter(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog)
         return LayoutInflater.from(activity).inflate(R.layout.fingerprint_dialog, container, false)
     }
 
-    override fun setUpFingerprintViews() {
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mIPresenter.initialize(fManager, kManager)
     }
 
-    override fun handleNoFingerprintAuthPossible() {
+    override fun onDestroy() {
+        super.onDestroy()
+        mIPresenter.onViewDestroyed()
+    }
 
+    override fun setUpFingerprintViews() {
+        cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        mIPresenter.authenticateViaFingerprint()
     }
 
     override fun onFingerPrintAuthenticationSuccess() {

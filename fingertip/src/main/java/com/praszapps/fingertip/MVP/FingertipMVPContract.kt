@@ -1,27 +1,25 @@
 package com.praszapps.fingertip.MVP
 
-interface FingertipMVPContract {
+import android.app.KeyguardManager
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 
-    interface View {
+internal interface FingertipMVPContract {
+
+    interface IView {
         fun setUpFingerprintViews()
-        fun handleNoFingerprintAuthPossible()
         fun onFingerPrintAuthenticationSuccess()
         fun onFingerprintAuthenticationFailed(text: String)
 
     }
 
-    interface Presenter {
+    interface IPresenter {
+        fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager)
         fun authenticateViaFingerprint()
-        fun stopFingerprintTracking()
+        fun onViewDestroyed()
     }
 
-    interface IModel {
-        fun getStandardErrorText()
-    }
-
-    interface IFingerprintRepository {
-        val isFingerprintAvailable: Boolean
-        fun initalize()
+    interface IProvider {
+        fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager)
         fun startFingerprintTracking()
         fun stopFingerprintTracking()
     }
