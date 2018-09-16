@@ -35,7 +35,7 @@ ext {
     versionPatch = 0
     isPrelease = true
     preReleaseSuffix = "-SNAPSHOT"
-    minimumSdkVersion = 23
+    minimumSdkVersion = 21
 
     daggerVersion = "2.16"
     androidSupportLibVersion = "28.0.0-rc02"
