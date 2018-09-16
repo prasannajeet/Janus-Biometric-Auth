@@ -8,9 +8,9 @@ This Android library project is designed to simplify the complicated fingerprint
 
 It offers 3 types of Fingerprint authentication UI
 
-- Fingerprint Authentication Dialog (both pre and post SDK 28 versions)
-- Fingerprint Authentication Activity
-- Device lock based Authentication (with or without fingerprint)
+- Fingerprint Authentication Dialog (both pre and post SDK 28 versions) (Currently in progress)
+- Fingerprint Authentication Activity (TBD)
+- Device lock based Authentication (with or without fingerprint) (TBD)
 
 For now the UI will be the default UI provided by the library, eventually override options will be provided
 
