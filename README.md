@@ -18,9 +18,10 @@ There are 2 steps in conducting the authentication
 1. Set configuration such as type of authentication (dialog/activity/device lock) 
 2. Call authentication API and listen for results
 
-### CHANGELOG
-- v0.1.3 - Converted project to Kotlin
-- v0.1.2 - Initial Commit
+### Development Milestones
+- v0.2.0 - Fragment based fingerprint authentication implemented with initial UI (September 15 2018)
+- v0.1.3 - Converted project to Kotlin (September 15 2018)
+- v0.1.2 - Initial Commit (August 9 2018
 
 
 ## License
