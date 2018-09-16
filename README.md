@@ -12,7 +12,11 @@ It offers 3 types of Fingerprint authentication mechanisms
 - Device lock based Authentication (will work only if fingerprint available) (In Progress)
 - Fingerprint Authentication Activity (TBD)
 
-In order to add a fingerprint dialog fragment and recieve results in a callback below is the sample code:
+There are 2 steps in conducting the authentication
+1. Set configuration such as context and type of authentication (dialog/activity/device lock) 
+2. Call authentication API and listen for results
+
+**Sample Code:** In order to add a fingerprint dialog fragment and recieve results in a callback below is the sample code:
 ```
 val config = FingertipAuthConfig(this, AuthenticationStyle.FINGERPRINT_DIALOG)
 FingertipAuthenticator.INSTANCE.doFingerprintAuthentication(config, object : FingertipAuthenticationResult {
@@ -27,10 +31,6 @@ FingertipAuthenticator.INSTANCE.doFingerprintAuthentication(config, object : Fin
 ```
 
 For now the UI will be the default UI provided by the library, eventually override options will be provided
-
-There are 2 steps in conducting the authentication
-1. Set configuration such as type of authentication (dialog/activity/device lock) 
-2. Call authentication API and listen for results
 
 ### Development Milestones
 - **v0.2.0** - Fragment based fingerprint authentication implemented with initial UI *(September 15 2018)*
