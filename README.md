@@ -33,7 +33,7 @@ FingertipAuthenticator.INSTANCE.doFingerprintAuthentication(config, object : Fin
 For now the UI will be the default UI provided by the library, eventually override options will be provided
 
 ### Development Milestones
-- **v0.2.0** - Fragment based fingerprint authentication implemented with initial UI *(September 15 2018)*
+- **[v0.2.0](https://github.com/prasannajeet/Fingertip/releases/tag/v0.2.0)** - Fragment based fingerprint authentication implemented with initial UI *(September 15 2018)*
 - **v0.1.3** - Converted project to Kotlin *(September 15 2018)*
 - **v0.1.2** - Initial Commit *(August 9 2018)*
 
