@@ -165,5 +165,4 @@ internal class FingertipSecureProvider : FingerprintManagerCompat.Authentication
         Log.d("Repo", "Auth failed")
         mCallback.onFailed("Fingerprint not recognized. Try again")
     }
-
 }

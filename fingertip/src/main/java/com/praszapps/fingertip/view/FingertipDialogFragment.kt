@@ -39,10 +39,6 @@ internal class FingertipDialogFragment : DialogFragment(), FingertipMVPContract.
         mPresenter.initialize(fManager, kManager)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mPresenter.cancelFingerprintDetection()
-    }
 
     override fun setUpFingerprintViews() {
         cancelButton.setOnClickListener {
