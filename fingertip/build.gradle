@@ -37,7 +37,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 private Integer generateVersionCode() {
@@ -80,16 +79,17 @@ publishing {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation "com.android.support:appcompat-v7:$rootProject.ext.androidSupportLibVersion"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintLayoutVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     androidTestImplementation "com.android.support.test:runner:$rootProject.ext.testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.ext.espressionVersion"
     implementation "com.android.support:design:$rootProject.ext.androidSupportLibVersion"
-    api "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
+    /*api "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
     api "com.google.dagger:dagger-android-support:$rootProject.ext.daggerVersion" // if you use the support libraries
-    kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"*/
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"// ReactiveX
+    implementation "io.reactivex.rxjava2:rxjava:$project.rxVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$project.rxVersion"
 }

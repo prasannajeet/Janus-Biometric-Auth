@@ -1,5 +1,6 @@
 package com.praszapps.fingertip.model.repository
 
+import android.annotation.TargetApi
 import android.app.KeyguardManager
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
@@ -10,6 +11,7 @@ import android.support.v4.os.CancellationSignal
 import android.util.Log
 import com.praszapps.fingertip.MVP.FingertipMVPContract
 import com.praszapps.fingertip.presenter.FingertipDialogFragmentPresenter
+import io.reactivex.Observable
 import java.io.IOException
 import java.security.*
 import java.security.cert.CertificateException
@@ -18,6 +20,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.NoSuchPaddingException
 import javax.crypto.SecretKey
 
+@TargetApi(23)
 internal class FingertipSecureProvider : FingerprintManagerCompat.AuthenticationCallback(), FingertipMVPContract.IProvider {
 
     private val DEFAULT_KEY_NAME = "FingertipKeyName"
@@ -30,108 +33,70 @@ internal class FingertipSecureProvider : FingerprintManagerCompat.Authentication
     private lateinit var mCryptoObj: FingerprintManagerCompat.CryptoObject
     private lateinit var mCallback: FingertipDialogFragmentPresenter.FingerprintResultCallback
 
-    override fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager) {
+    override fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager): Observable<ErrorModel> {
 
         fManager = mFingerprintManager
         kManager = mKeyguardManager
 
-        try {
-            keyStore = KeyStore.getInstance("AndroidKeyStore")
-        } catch (e: KeyStoreException) {
-            throw RuntimeException("Failed to get an instance of KeyStore", e)
-        }
-
-        try {
-            keyGenerator = KeyGenerator
-                    .getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
-        } catch (e: NoSuchAlgorithmException) {
-            throw RuntimeException("Failed to get an instance of KeyGenerator", e)
-        } catch (e: NoSuchProviderException) {
-            throw RuntimeException("Failed to get an instance of KeyGenerator", e)
-        }
-
-        createKey(DEFAULT_KEY_NAME, false)
+        var initObservable: Observable<ErrorModel>
 
         val defaultCipher: Cipher
+
         try {
-            defaultCipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
-                    + KeyProperties.BLOCK_MODE_CBC + "/"
-                    + KeyProperties.ENCRYPTION_PADDING_PKCS7)
-        } catch (e: NoSuchAlgorithmException) {
-            throw RuntimeException("Failed to get an instance of Cipher", e)
-        } catch (e: NoSuchPaddingException) {
-            throw RuntimeException("Failed to get an instance of Cipher", e)
-        }
-
-        if (initCipher(defaultCipher, DEFAULT_KEY_NAME)) {
-            mCryptoObj = FingerprintManagerCompat.CryptoObject(defaultCipher)
-        }
-
-    }
-
-
-    private fun createKey(keyName: String, invalidatedByBiometricEnrollment: Boolean) {
-        // The enrolling flow for fingerprint. This is where you ask the user to set up fingerprint
-        // for your flow. Use of keys is necessary if you need to know if the set of
-        // enrolled fingerprints has changed.
-        try {
+            keyStore = KeyStore.getInstance("AndroidKeyStore")
+            keyGenerator = KeyGenerator
+                    .getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
             keyStore.load(null)
             // Set the alias of the entry in Android KeyStore where the key will appear
             // and the constrains (purposes) in the constructor of the Builder
 
-            val builder = KeyGenParameterSpec.Builder(keyName,
+            val builder = KeyGenParameterSpec.Builder(DEFAULT_KEY_NAME,
                     KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                    // Require the user to authenticate with a fingerprint to authorize every use
-                    // of the key
                     .setUserAuthenticationRequired(true)
                     .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
 
             // This is a workaround to avoid crashes on devices whose API level is < 24
             // because KeyGenParameterSpec.Builder#setInvalidatedByBiometricEnrollment is only
             // visible on API level +24.
-            // Ideally there should be a compat library for KeyGenParameterSpec.Builder but
-            // which isn't available yet.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                builder.setInvalidatedByBiometricEnrollment(invalidatedByBiometricEnrollment)
+                builder.setInvalidatedByBiometricEnrollment(false)
             }
             keyGenerator.init(builder.build())
             keyGenerator.generateKey()
-        } catch (e: NoSuchAlgorithmException) {
-            throw RuntimeException(e)
-        } catch (e: InvalidAlgorithmParameterException) {
-            throw RuntimeException(e)
-        } catch (e: CertificateException) {
-            throw RuntimeException(e)
-        } catch (e: IOException) {
-            throw RuntimeException(e)
-        }
-
-    }
-
-    private fun initCipher(cipher: Cipher, keyName: String): Boolean {
-        try {
+            defaultCipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
+                    + KeyProperties.BLOCK_MODE_CBC + "/"
+                    + KeyProperties.ENCRYPTION_PADDING_PKCS7)
             keyStore.load(null)
-            val key = keyStore.getKey(keyName, null) as SecretKey
-            cipher.init(Cipher.ENCRYPT_MODE, key)
-            return true
-        } catch (e: KeyPermanentlyInvalidatedException) {
-            return false
-        } catch (e: KeyStoreException) {
-            throw RuntimeException("Failed to init Cipher", e)
-        } catch (e: CertificateException) {
-            throw RuntimeException("Failed to init Cipher", e)
-        } catch (e: UnrecoverableKeyException) {
-            throw RuntimeException("Failed to init Cipher", e)
-        } catch (e: IOException) {
-            throw RuntimeException("Failed to init Cipher", e)
-        } catch (e: NoSuchAlgorithmException) {
-            throw RuntimeException("Failed to init Cipher", e)
-        } catch (e: InvalidKeyException) {
-            throw RuntimeException("Failed to init Cipher", e)
-        }
-    }
+            val key = keyStore.getKey(DEFAULT_KEY_NAME, null) as SecretKey
+            defaultCipher.init(Cipher.ENCRYPT_MODE, key)
+            mCryptoObj = FingerprintManagerCompat.CryptoObject(defaultCipher)
 
+            initObservable = Observable.just(ErrorModel(true))
+
+        } catch (e: NoSuchAlgorithmException) {
+            initObservable = Observable.just(ErrorModel(message = e.localizedMessage))
+        } catch (e: NoSuchProviderException) {
+            initObservable = Observable.just(ErrorModel(message = e.localizedMessage))
+        } catch (e: InvalidAlgorithmParameterException) {
+            initObservable = Observable.just(ErrorModel(message = e.localizedMessage))
+        } catch (e: CertificateException) {
+            initObservable = Observable.just(ErrorModel(message = e.localizedMessage))
+        } catch (e: IOException) {
+            initObservable = Observable.just(ErrorModel(message = e.localizedMessage))
+        } catch (e: NoSuchPaddingException) {
+            initObservable = Observable.just(ErrorModel(message = e.localizedMessage))
+        } catch (e: KeyPermanentlyInvalidatedException) {
+            initObservable = Observable.just(ErrorModel(message = e.localizedMessage))
+        } catch (e: UnrecoverableKeyException) {
+            initObservable = Observable.just(ErrorModel(message = e.localizedMessage))
+        } catch (e: InvalidKeyException) {
+            initObservable = Observable.just(ErrorModel(message = e.localizedMessage))
+        } catch (e: KeyStoreException) {
+            initObservable = Observable.just(ErrorModel(message = e.localizedMessage))
+        }
+        return initObservable
+    }
 
     override fun startFingerprintTracking(callback: FingertipDialogFragmentPresenter.FingerprintResultCallback) {
         mCallback = callback

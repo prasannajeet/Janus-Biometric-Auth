@@ -27,7 +27,6 @@ internal class FingertipDialogFragment : DialogFragment(), FingertipMVPContract.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -57,7 +56,7 @@ internal class FingertipDialogFragment : DialogFragment(), FingertipMVPContract.
     override fun onFingerprintAuthenticationFailed(text: String) {
         iconFAB.setImageResource(R.drawable.ic_error_white_24dp)
         errorTextView.text = text
-        if (text.startsWith("Too many attempts")) {
+        if (text.startsWith(getString(R.string.too_many_attempts))) {
             dismissAfterHalfSecond(false, text)
         }
     }
@@ -72,7 +71,6 @@ internal class FingertipDialogFragment : DialogFragment(), FingertipMVPContract.
                     listener.onAuthFailure(message)
                 }
             }
-
             dismiss()
         }, 700)
     }

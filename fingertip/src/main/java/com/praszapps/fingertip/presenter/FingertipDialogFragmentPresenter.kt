@@ -5,6 +5,9 @@ import android.app.KeyguardManager
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import com.praszapps.fingertip.MVP.FingertipMVPContract
 import com.praszapps.fingertip.model.repository.FingertipSecureProvider
+import com.praszapps.fingertip.model.repository.ErrorModel
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 
 internal class FingertipDialogFragmentPresenter(IView: FingertipMVPContract.IView) : FingertipMVPContract.IPresenter {
 
@@ -12,10 +15,25 @@ internal class FingertipDialogFragmentPresenter(IView: FingertipMVPContract.IVie
 
     private val mFingerprintRepository = FingertipSecureProvider()
 
+    private lateinit var observable:Observable<ErrorModel>
 
     override fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager) {
         mFingerprintRepository.initialize(mFingerprintManager, mKeyguardManager)
-        mView.setUpFingerprintViews()
+                .subscribeOn(Schedulers.io())
+                .subscribe {
+                    if (it.isSuccess) {
+                        mView.setUpFingerprintViews()
+                        observable = Observable.create {
+                            subscriber ->
+                            subscriber.onNext(ErrorModel())
+                            subscriber.onComplete()
+                        }
+
+
+                    } else {
+                        mView.onFingerprintAuthenticationFailed(it.message)
+                    }
+                }
     }
 
     override fun authenticateViaFingerprint() {
