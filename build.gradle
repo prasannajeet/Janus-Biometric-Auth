@@ -32,7 +32,7 @@ task clean(type: Delete) {
 ext {
     versionMajor = 0
     versionMinor = 2
-    versionPatch = 0
+    versionPatch = 1
     isPrelease = true
     preReleaseSuffix = "-SNAPSHOT"
     minimumSdkVersion = 21
