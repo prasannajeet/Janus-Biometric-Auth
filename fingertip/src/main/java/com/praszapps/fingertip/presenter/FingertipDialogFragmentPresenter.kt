@@ -3,57 +3,54 @@ package com.praszapps.fingertip.presenter
 
 import android.app.KeyguardManager
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
-import com.praszapps.fingertip.MVP.FingertipMVPContract
-import com.praszapps.fingertip.model.repository.FingertipSecureProvider
-import com.praszapps.fingertip.model.repository.ErrorModel
-import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
+import com.praszapps.fingertip.contract.FingertipMVPContract
+import com.praszapps.fingertip.model.repository.FingertipSecureModel
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.launch
 
 internal class FingertipDialogFragmentPresenter(IView: FingertipMVPContract.IView) : FingertipMVPContract.IPresenter {
 
     private val mView = IView
 
-    private val mFingerprintRepository = FingertipSecureProvider()
+    private val mFingerprintRepository = FingertipSecureModel()
 
-    private lateinit var observable:Observable<ErrorModel>
+    private val listener = object : FingerprintManagerCompat.AuthenticationCallback() {
+        override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
+            mView.onFingerPrintAuthenticationSuccess()
+        }
+
+        override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
+            mView.onFingerprintAuthenticationFailed(errString.toString())
+        }
+
+        override fun onAuthenticationHelp(helpMsgId: Int, helpString: CharSequence?) {
+            mView.onFingerprintAuthenticationFailed(helpString.toString())
+        }
+
+        override fun onAuthenticationFailed() {
+            mView.onFingerprintAuthenticationFailed("Fingerprint not recognized. Try again")
+        }
+    }
 
     override fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager) {
-        mFingerprintRepository.initialize(mFingerprintManager, mKeyguardManager)
-                .subscribeOn(Schedulers.io())
-                .subscribe {
-                    if (it.isSuccess) {
-                        mView.setUpFingerprintViews()
-                        observable = Observable.create {
-                            subscriber ->
-                            subscriber.onNext(ErrorModel())
-                            subscriber.onComplete()
-                        }
 
+        GlobalScope.launch {
+            val model = mFingerprintRepository.initialize(mFingerprintManager, mKeyguardManager)
 
-                    } else {
-                        mView.onFingerprintAuthenticationFailed(it.message)
-                    }
-                }
+            if (model.isSuccess) {
+                mView.setUpFingerprintViews()
+            } else {
+                mView.onFingerprintAuthenticationFailed(model.message)
+            }
+        }
     }
 
     override fun authenticateViaFingerprint() {
-        mFingerprintRepository.startFingerprintTracking(object : FingerprintResultCallback {
-            override fun onSuccess() {
-                mView.onFingerPrintAuthenticationSuccess()
-            }
 
-            override fun onFailed(message: String) {
-                mView.onFingerprintAuthenticationFailed(message)
-            }
-        })
+        mFingerprintRepository.startFingerprintTracking(listener)
     }
 
     override fun cancelFingerprintDetection() {
         mFingerprintRepository.stopFingerprintTracking()
-    }
-
-    interface FingerprintResultCallback {
-        fun onSuccess()
-        fun onFailed(message: String)
     }
 }

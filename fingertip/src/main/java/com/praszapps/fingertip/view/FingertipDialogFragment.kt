@@ -8,9 +8,9 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.praszapps.fingertip.MVP.FingertipMVPContract
-import com.praszapps.fingertip.MVP.ManagerViewInteractor
 import com.praszapps.fingertip.R
+import com.praszapps.fingertip.contract.FingertipMVPContract
+import com.praszapps.fingertip.contract.ManagerViewInteractor
 import com.praszapps.fingertip.presenter.FingertipDialogFragmentPresenter
 import kotlinx.android.synthetic.main.fingerprint_dialog.*
 

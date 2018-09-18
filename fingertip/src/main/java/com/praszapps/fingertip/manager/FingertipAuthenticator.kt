@@ -6,7 +6,7 @@ import android.content.Context
 import android.os.Build
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.support.v7.app.AppCompatActivity
-import com.praszapps.fingertip.MVP.ManagerViewInteractor
+import com.praszapps.fingertip.contract.ManagerViewInteractor
 import com.praszapps.fingertip.view.FingertipDialogFragment
 
 /**
