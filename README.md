@@ -1,5 +1,5 @@
 # Fingertip - Now in Kotlin!
-[![CircleCI](https://circleci.com/gh/prasannajeet/Fingertip/tree/master.svg?style=svg)](https://circleci.com/gh/prasannajeet/Fingertip/tree/master) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fprasannajeet%2FFingertip.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fprasannajeet%2FFingertip?ref=badge_shield)
+[![CircleCI](https://circleci.com/gh/prasannajeet/Fingertip/tree/master.svg?style=svg)](https://circleci.com/gh/prasannajeet/Fingertip/tree/master) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fprasannajeet%2FFingertip.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fprasannajeet%2FFingertip?ref=badge_shield) [ ![Download](https://api.bintray.com/packages/prasannajeet89/praszappsMaven/com.praszapps.fingertip/images/download.svg) ](https://bintray.com/prasannajeet89/praszappsMaven/com.praszapps.fingertip/_latestVersion)
 
 Fingertip - The easy fingerprint authentication library for Android
 ### Currently in alpha (v0.2) - may be buggy
