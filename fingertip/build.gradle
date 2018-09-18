@@ -35,6 +35,13 @@ ext {
     allLicenses = ["MIT License"]
 }
 
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
+
 android {
     compileSdkVersion 28
 
@@ -74,8 +81,8 @@ private Integer generateVersionCode() {
 private String generateVersionName() {
     String versionName = "${rootProject.ext.versionMajor}.${rootProject.ext.versionMinor}.${rootProject.ext.versionPatch}"
 
-    if (rootProject.ext.isPrelease) {
-        versionName += preReleaseSuffix
+    if (rootProject.ext.isSnapshot) {
+        versionName += snapshotSuffiix
     }
 
     return versionName
@@ -125,9 +132,4 @@ dependencies {
 if (project.rootProject.file('local.properties').exists()) {
     apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
     apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
-}
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
 }

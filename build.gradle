@@ -37,8 +37,8 @@ ext {
     versionMajor = 0
     versionMinor = 2
     versionPatch = 1
-    isPrelease = true
-    preReleaseSuffix = "-SNAPSHOT"
+    isSnapshot = false
+    snapshotSuffiix = "-SNAPSHOT"
     minimumSdkVersion = 21
 
     daggerVersion = "2.16"
