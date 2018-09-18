@@ -23,10 +23,18 @@ FingertipAuthenticator.INSTANCE.doFingerprintAuthentication(config, object : Fin
    override fun onFingertipAuthSuccess() {
      Toast.makeText(this@MainActivity, "Successful Auth", Toast.LENGTH_LONG).show()
    }
-   override fun onFingertipAuthFailed(errorString: String) {
-     Log.e("MainActivity", "Failure reason: $errorString")
-     Toast.makeText(this@MainActivity, "Auth failed with reason - $errorString", Toast.LENGTH_LONG).show()
-   }
+   override fun onFingertipAuthFailed(errorType: FingertipErrorType) {
+     when(errorType) {
+      is FingertipErrorType.DeviceApiLevelBelow23 -> {
+         Log.e("MainActivity", "FailureReason: API level is below 23 for device")
+         Toast.makeText(this@MainActivity, "FailureReason: API level is below 23 for device", Toast.LENGTH_LONG).show()
+      }
+      is FingertipErrorType.ErrorDuringFingerprintAuthentication -> {
+         Log.e("MainActivity", "Failure reason: ${errorType.message}")
+         Toast.makeText(this@MainActivity, "Auth failed with reason - ${errorType.message}", Toast.LENGTH_LONG).show()
+      }
+    }
+  }
 })
 ```
 
