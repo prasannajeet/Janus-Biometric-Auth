@@ -17,7 +17,7 @@ ext {
     libraryName = artifactId
 
     publishedGroupId = groupId
-    artifact = 'clapfab'
+    artifact = artifactId
     libraryVersion = generateVersionName()
 
     libraryDescription = 'Fingertip - The easy fingerprint authentication library for Android'
@@ -81,26 +81,24 @@ private Integer generateVersionCode() {
 private String generateVersionName() {
     String versionName = "${rootProject.ext.versionMajor}.${rootProject.ext.versionMinor}.${rootProject.ext.versionPatch}"
 
-    if (rootProject.ext.isSnapshot) {
-        versionName += snapshotSuffiix
-    }
-
     return versionName
 }
 
 publishing {
     publications {
-        library(MavenPublication) {
+        maven(MavenPublication) {
 
             setGroupId(groupId)
             setArtifactId(artifactId)
             setVersion(android.defaultConfig.versionName)
-
-            artifact(bundleDebug)
+            project.logger.lifecycle("I am in publications")
+            artifact(bundleRelease)
             pom.withXml {
+                project.logger.lifecycle("I am in withXml")
                 def dependenciesNode = asNode().appendNode('dependencies')
-                configurations.compile.allDependencies.each {
-                    if (it.group != null && (it.name != null || "unspecified" == it.name) && it.version != null) {
+                configurations.implementation.allDependencies.each {
+                    if ("unspecified" != it.name) {
+                        project.logger.lifecycle("Dependency addded - "+it.group+":"+it.name+":"+it.version)
                         def dependencyNode = dependenciesNode.appendNode('dependency')
                         dependencyNode.appendNode('groupId', it.group)
                         dependencyNode.appendNode('artifactId', it.name)

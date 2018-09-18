@@ -1,9 +1,12 @@
 package com.praszapps.fingertip.manager
 
+import android.support.annotation.Keep
+
 /**
  * Callback methods for [FingertipAuthenticator.doFingerprintAuthentication] method
  * @since 0.2.1
  */
+@Keep
 interface FingertipAuthenticationResult {
 
     /**

@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.app.KeyguardManager
 import android.content.Context
 import android.os.Build
+import android.support.annotation.Keep
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.support.v7.app.AppCompatActivity
 import com.praszapps.fingertip.contract.ManagerViewInteractor
@@ -15,6 +16,7 @@ import com.praszapps.fingertip.view.FingertipDialogFragment
  * @since 0.1.0
  */
 @TargetApi(23)
+@Keep
 enum class FingertipAuthenticator : ManagerViewInteractor {
 
     INSTANCE;
