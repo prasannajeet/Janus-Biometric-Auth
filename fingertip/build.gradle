@@ -3,38 +3,23 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.novoda.bintray-release'
 
-def artifactId = 'fingertip'
-def groupId = 'com.praszapps.fingertip'
+def libArtifactId = 'fingertip'
+def libGroupId = 'com.praszapps.fingertip'
 
-ext {
-
-    bintrayRepo = "praszappsMaven"
-    bintrayName = "com.praszapps.fingertip"
-
-    libraryName = artifactId
-
-    publishedGroupId = groupId
-    artifact = artifactId
-    libraryVersion = generateVersionName()
-
-    libraryDescription = 'Fingertip - The easy fingerprint authentication library for Android'
-
-    siteUrl = 'https://github.com/prasannajeet/Fingertip'
-    gitUrl = 'https://github.com/prasannajeet/Fingertip.git'
-
-
-    developerId = 'prasannajeet89'
-    developerName = 'Praszapps'
-    developerEmail = 'developer.praszapps@gmail.com'
-
-    licenseName = 'MIT License'
-    licenseUrl = 'https://opensource.org/licenses/MIT'
-    allLicenses = ["MIT License"]
+publish {
+    userOrg = 'prasannajeet89'
+    repoName = 'praszappsMaven'
+    groupId = libGroupId
+    artifactId = libArtifactId
+    publishVersion = generateVersionName()
+    licences = ['MIT']
+    desc = 'Fingertip - The easy fingerprint authentication library for Android'
+    website = 'https://github.com/prasannajeet/Fingertip'
+    issueTracker = 'https://github.com/prasannajeet/Fingertip/issues'
+    repository = 'https://github.com/prasannajeet/Fingertip.git'
 }
-
 
 kotlin {
     experimental {
@@ -88,8 +73,8 @@ publishing {
     publications {
         maven(MavenPublication) {
 
-            setGroupId(groupId)
-            setArtifactId(artifactId)
+            setGroupId(libGroupId)
+            setArtifactId(libArtifactId)
             setVersion(android.defaultConfig.versionName)
             project.logger.lifecycle("I am in publications")
             artifact(bundleRelease)
@@ -125,9 +110,4 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"// ReactiveX
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.0"
-}
-
-if (project.rootProject.file('local.properties').exists()) {
-    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 }

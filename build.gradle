@@ -11,9 +11,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.novoda:bintray-release:0.8.1'
     }
 }
 
@@ -36,7 +34,7 @@ subprojects {
 ext {
     versionMajor = 0
     versionMinor = 2
-    versionPatch = 1
+    versionPatch = 2
     isSnapshot = false
     snapshotSuffiix = "-SNAPSHOT"
     minimumSdkVersion = 21
