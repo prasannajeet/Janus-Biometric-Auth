@@ -18,7 +18,7 @@ There are 2 steps in conducting the authentication
 2. Call authentication API and listen for results
 
 ## Gradle Dependency
-In your project level build.gradle add the following maven url
+In your project level build.gradle add the following maven url *This will go away soon as soon we get approval for JCenter*
 ```
 maven { url "https://dl.bintray.com/prasannajeet89/praszappsMaven" }
 ```
