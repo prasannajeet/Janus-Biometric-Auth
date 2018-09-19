@@ -14,7 +14,6 @@ publish {
     groupId = libGroupId
     artifactId = libArtifactId
     publishVersion = generateVersionName()
-    licences = ['MIT']
     desc = 'Fingertip - The easy fingerprint authentication library for Android'
     website = 'https://github.com/prasannajeet/Fingertip'
     issueTracker = 'https://github.com/prasannajeet/Fingertip/issues'
