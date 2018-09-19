@@ -43,9 +43,7 @@ FingertipAuthConfig config = new FingertipAuthConfig(MainActivity.this, Authenti
    FingertipAuthenticator.INSTANCE.doFingerprintAuthentication(config, new FingertipAuthenticationResult() {
       @Override
       public void onFingertipAuthSuccess() {
-         SafetyNet.getClient(MainActivity.this).verifyWithRecaptcha(getResources().getString(R.string.pubK))
-                      .addOnSuccessListener(new SuccessListener())
-                      .addOnFailureListener(new FailureListener());
+         Toast.makeText(MainActivity.this, "Successful Auth", Toast.LENGTH_LONG).show()
       }
 
       @Override
