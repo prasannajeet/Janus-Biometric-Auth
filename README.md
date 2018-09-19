@@ -26,7 +26,8 @@ In you module level build.gradle add the following dependency
 implementation 'com.praszapps.fingertip:fingertip:0.2.2'
 ```
 
-**Sample Code:** In order to add a fingerprint dialog fragment and recieve results in a callback below is the sample code:
+## Sample Code
+**Kotlin**
 ```
 val config = FingertipAuthConfig(this, AuthenticationStyle.FINGERPRINT_DIALOG)
 FingertipAuthenticator.INSTANCE.doFingerprintAuthentication(config, object : FingertipAuthenticationResult {
@@ -47,7 +48,7 @@ FingertipAuthenticator.INSTANCE.doFingerprintAuthentication(config, object : Fin
   }
 })
 ```
-The equivalent code if called in Java will be like below
+**Java**
 ```
 FingertipAuthConfig config = new FingertipAuthConfig(MainActivity.this, AuthenticationStyle.FINGERPRINT_DIALOG);
    FingertipAuthenticator.INSTANCE.doFingerprintAuthentication(config, new FingertipAuthenticationResult() {
