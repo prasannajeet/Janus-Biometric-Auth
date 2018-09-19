@@ -16,6 +16,16 @@ There are 2 steps in conducting the authentication
 1. Set configuration such as context and type of authentication (dialog/activity/device lock) 
 2. Call authentication API and listen for results
 
+## Gradle Dependency
+In your project level build.gradle add the following maven url
+```
+maven { url "https://dl.bintray.com/prasannajeet89/praszappsMaven" }
+```
+In you module level build.gradle add the following dependency
+```
+implementation 'com.praszapps.fingertip:fingertip:0.2.2'
+```
+
 **Sample Code:** In order to add a fingerprint dialog fragment and recieve results in a callback below is the sample code:
 ```
 val config = FingertipAuthConfig(this, AuthenticationStyle.FINGERPRINT_DIALOG)
@@ -61,9 +71,12 @@ FingertipAuthConfig config = new FingertipAuthConfig(MainActivity.this, Authenti
 
 For now the UI will be the default UI provided by the library, eventually override options will be provided
 
+### Release Notes
+Release notes can be found [here](https://github.com/prasannajeet/Fingertip/blob/master/release-notes.md)
+
 ### Development Milestones
-- **0.2.2** - Stabilized fingerprint dialog. Added coroutines. Removed RxJava. Configured proguard.
-- **[v0.2.0](https://github.com/prasannajeet/Fingertip/releases/tag/v0.2.0)** - Fragment based fingerprint authentication implemented with initial UI *(September 15 2018)*
+- **v0.2.2** - Stabilized fingerprint dialog. Added coroutines. Removed RxJava. Configured proguard. *(September 18 2018)*
+- **v0.2.0** - Fragment based fingerprint authentication implemented with initial UI *(September 15 2018)*
 - **v0.1.3** - Converted project to Kotlin *(September 15 2018)*
 - **v0.1.2** - Initial Commit *(August 9 2018)*
 
