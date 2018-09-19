@@ -37,6 +37,29 @@ FingertipAuthenticator.INSTANCE.doFingerprintAuthentication(config, object : Fin
   }
 })
 ```
+The equivalent code if called in Java will be like below
+```
+FingertipAuthConfig config = new FingertipAuthConfig(MainActivity.this, AuthenticationStyle.FINGERPRINT_DIALOG);
+   FingertipAuthenticator.INSTANCE.doFingerprintAuthentication(config, new FingertipAuthenticationResult() {
+      @Override
+      public void onFingertipAuthSuccess() {
+         SafetyNet.getClient(MainActivity.this).verifyWithRecaptcha(getResources().getString(R.string.pubK))
+                      .addOnSuccessListener(new SuccessListener())
+                      .addOnFailureListener(new FailureListener());
+      }
+
+      @Override
+      public void onFingertipAuthFailed(@NonNull FingertipErrorType fingertipErrorType) {
+         if(fingertipErrorType instanceof FingertipErrorType.DeviceApiLevelBelow23) {
+            Log.e("MainActivity", "FailureReason: API level is below 23 for device")
+            Toast.makeText(MainActivity.this, "FailureReason: API level is below 23 for device", Toast.LENGTH_SHORT).show();
+         } else if(fingertipErrorType instanceof FingertipErrorType.ErrorDuringFingerprintAuthentication) {
+            Log.e("MainActivity", "Failure reason: "+((FingertipErrorType.ErrorDuringFingerprintAuthentication) fingertipErrorType).getMessage());
+            Toast.makeText(MainActivity.this, ((FingertipErrorType.ErrorDuringFingerprintAuthentication) fingertipErrorType).getMessage(), Toast.LENGTH_SHORT).show();
+         }
+      }
+});
+```
 
 For now the UI will be the default UI provided by the library, eventually override options will be provided
 
