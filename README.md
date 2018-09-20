@@ -17,7 +17,6 @@ There are 2 steps in conducting the authentication
 
 ## Gradle Dependency
 
-```
 In you module level build.gradle add the following dependency
 ```
 implementation 'com.praszapps.biometric:janus:0.3.0'
@@ -80,4 +79,4 @@ Release notes can be found [here](https://github.com/prasannajeet/Fingertip/blob
 
 
 ## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fprasannajeet%2FFingertip.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fprasannajeet%2FFingertip?ref=badge_large)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fprasannajeet%2FJanus.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fprasannajeet%2FJanus?ref=badge_large)
