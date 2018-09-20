@@ -1,4 +1,4 @@
-package com.praszapps.fingertip
+package com.praszapps.janus
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

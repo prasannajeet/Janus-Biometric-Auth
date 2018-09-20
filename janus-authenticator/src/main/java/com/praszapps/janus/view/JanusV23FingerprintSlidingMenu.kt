@@ -1,4 +1,4 @@
-package com.praszapps.fingertip.view
+package com.praszapps.janus.view
 
 import android.app.KeyguardManager
 import android.os.Bundle
@@ -8,20 +8,20 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.praszapps.fingertip.R
-import com.praszapps.fingertip.contract.FingertipMVPContract
-import com.praszapps.fingertip.contract.ManagerViewInteractor
-import com.praszapps.fingertip.presenter.FingertipDialogFragmentPresenter
+import com.praszapps.janus.R
+import com.praszapps.janus.contract.JanusContract
+import com.praszapps.janus.contract.ManagerViewInteractor
+import com.praszapps.janus.presenter.JanusBiometricPresenter
 import kotlinx.android.synthetic.main.fingerprint_dialog.*
 
-internal class FingertipDialogFragment : DialogFragment(), FingertipMVPContract.IView {
+internal class JanusV23FingerprintSlidingMenu : DialogFragment(), JanusContract.IView {
 
     lateinit var fManager: FingerprintManagerCompat
     lateinit var kManager: KeyguardManager
     lateinit var listener: ManagerViewInteractor
 
-    private val mPresenter: FingertipMVPContract.IPresenter by lazy {
-        FingertipDialogFragmentPresenter(this)
+    private val mPresenter: JanusContract.IPresenter by lazy {
+        JanusBiometricPresenter(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

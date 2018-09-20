@@ -1,4 +1,4 @@
-package com.praszapps.fingertip.model.repository
+package com.praszapps.janus.model.repository
 
 import android.annotation.TargetApi
 import android.app.KeyguardManager
@@ -7,16 +7,16 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.support.v4.os.CancellationSignal
-import com.praszapps.fingertip.contract.FingertipMVPContract
+import com.praszapps.janus.contract.JanusContract
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 
 @TargetApi(23)
-internal class FingertipSecureModel : FingerprintManagerCompat.AuthenticationCallback(), FingertipMVPContract.IModel {
+internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCallback(), JanusContract.IModel {
 
-    private val DEFAULT_KEY_NAME = "FingertipKeyName"
+    private val DEFAULT_KEY_NAME = "JanusKeyName"
     private val mSignal = CancellationSignal()
 
     private lateinit var fManager: FingerprintManagerCompat
@@ -25,7 +25,7 @@ internal class FingertipSecureModel : FingerprintManagerCompat.AuthenticationCal
     private lateinit var keyGenerator: KeyGenerator
     private lateinit var mCryptoObj: FingerprintManagerCompat.CryptoObject
 
-    override suspend fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager): FingertipInitResponseModel {
+    override suspend fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager): JanusInitResponseModel {
 
         fManager = mFingerprintManager
         kManager = mKeyguardManager
@@ -61,10 +61,10 @@ internal class FingertipSecureModel : FingerprintManagerCompat.AuthenticationCal
             defaultCipher.init(Cipher.ENCRYPT_MODE, key)
             mCryptoObj = FingerprintManagerCompat.CryptoObject(defaultCipher)
 
-            return FingertipInitResponseModel(true)
+            return JanusInitResponseModel(true)
 
         } catch (e: Exception) {
-            return FingertipInitResponseModel(message = e.localizedMessage)
+            return JanusInitResponseModel(message = e.localizedMessage)
         }
     }
 

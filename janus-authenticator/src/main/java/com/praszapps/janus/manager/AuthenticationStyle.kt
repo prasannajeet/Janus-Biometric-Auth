@@ -1,4 +1,4 @@
-package com.praszapps.fingertip.manager
+package com.praszapps.janus.manager
 
 import android.support.annotation.Keep
 
@@ -9,7 +9,7 @@ import android.support.annotation.Keep
  */
 @Keep
 enum class AuthenticationStyle {
-    FINGERPRINT_DIALOG,
+    BIOMETRIC_DIALOG,
     //FINGERPRINT_ACTIVITY,
     //DEVICE_LOCK
 }

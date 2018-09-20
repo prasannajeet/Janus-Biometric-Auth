@@ -1,18 +1,18 @@
-package com.praszapps.fingertip.presenter
+package com.praszapps.janus.presenter
 
 
 import android.app.KeyguardManager
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
-import com.praszapps.fingertip.contract.FingertipMVPContract
-import com.praszapps.fingertip.model.repository.FingertipSecureModel
+import com.praszapps.janus.contract.JanusContract
+import com.praszapps.janus.model.repository.JanusSecureProvider
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 
-internal class FingertipDialogFragmentPresenter(IView: FingertipMVPContract.IView) : FingertipMVPContract.IPresenter {
+internal class JanusBiometricPresenter(IView: JanusContract.IView) : JanusContract.IPresenter {
 
     private val mView = IView
 
-    private val mFingerprintRepository = FingertipSecureModel()
+    private val mFingerprintRepository = JanusSecureProvider()
 
     private val listener = object : FingerprintManagerCompat.AuthenticationCallback() {
         override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {

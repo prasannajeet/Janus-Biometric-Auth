@@ -19,7 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.praszapps.fingertip.*
+-keep class com.praszapps.janus.manager*
 -keep public class dagger.android.** {
   public protected *;
 }

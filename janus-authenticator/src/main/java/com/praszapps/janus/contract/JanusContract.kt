@@ -1,10 +1,10 @@
-package com.praszapps.fingertip.contract
+package com.praszapps.janus.contract
 
 import android.app.KeyguardManager
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
-import com.praszapps.fingertip.model.repository.FingertipInitResponseModel
+import com.praszapps.janus.model.repository.JanusInitResponseModel
 
-internal interface FingertipMVPContract {
+internal interface JanusContract {
 
     interface IView {
         fun setUpFingerprintViews()
@@ -20,7 +20,7 @@ internal interface FingertipMVPContract {
     }
 
     interface IModel {
-        suspend fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager): FingertipInitResponseModel
+        suspend fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager): JanusInitResponseModel
         fun startFingerprintTracking(listener: FingerprintManagerCompat.AuthenticationCallback)
         fun stopFingerprintTracking()
     }

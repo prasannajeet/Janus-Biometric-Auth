@@ -1,4 +1,4 @@
-package com.praszapps.fingertip.contract
+package com.praszapps.janus.contract
 
 import android.support.annotation.Keep
 

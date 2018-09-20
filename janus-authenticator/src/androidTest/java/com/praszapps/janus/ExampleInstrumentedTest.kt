@@ -1,4 +1,4 @@
-package com.praszapps.fingertip
+package com.praszapps.janus
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
