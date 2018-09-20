@@ -1,4 +1,4 @@
-# Fingertip - The easy fingerprint authentication library for Android
+# Janus - The easy biometric authentication library for Android
 [![CircleCI](https://circleci.com/gh/prasannajeet/Fingertip/tree/master.svg?style=svg)](https://circleci.com/gh/prasannajeet/Fingertip/tree/master) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fprasannajeet%2FFingertip.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fprasannajeet%2FFingertip?ref=badge_shield)  [ ![Download](https://api.bintray.com/packages/prasannajeet89/praszappsMaven/fingertip/images/download.svg) ](https://bintray.com/prasannajeet89/praszappsMaven/fingertip/_latestVersion) [![Apache 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/prasannajeet/Fingertip/blob/master/LICENSE)
 ### Currently in alpha (v0.2) - may be buggy
 
@@ -23,7 +23,7 @@ maven { url "https://dl.bintray.com/prasannajeet89/praszappsMaven" }
 ```
 In you module level build.gradle add the following dependency
 ```
-implementation 'com.praszapps.fingertip:fingertip:0.2.2'
+implementation 'com.praszapps.biometric:janus:0.3.0'
 ```
 
 ## Sample Code
