@@ -8,18 +8,15 @@ This Android library project is designed to simplify the complicated fingerprint
 
 Upon completion, it will offer 3 types of Fingerprint authentication mechanisms
 
-- Fingerprint Authentication Dialog (both pre and post SDK 28 versions) (Implementation Complete, post SDK 28 version UI pending)
-- Device lock based Authentication (will work only if fingerprint available) (In Progress)
-- Fingerprint Authentication Activity (TBD)
+- Biometric Authentication Dialog - Fingerprint slider for pre-Android P and biometric slider for Android P and above
+- Device lock based Authentication (will work only if biometrics is available)
 
 There are 2 steps in conducting the authentication
 1. Set configuration such as context and type of authentication (dialog/activity/device lock) 
-2. Call authentication API and listen for results
+2. Call authentication UI and listen for results
 
 ## Gradle Dependency
-In your project level build.gradle add the following maven url *(This will go away as soon as we get approval for JCenter)*
-```
-maven { url "https://dl.bintray.com/prasannajeet89/praszappsMaven" }
+
 ```
 In you module level build.gradle add the following dependency
 ```
