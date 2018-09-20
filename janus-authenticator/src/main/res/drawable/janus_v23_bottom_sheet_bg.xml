@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~                                     Apache License
   ~                            Version 2.0, January 2004
   ~                         http://www.apache.org/licenses/
@@ -202,81 +201,11 @@
   ~    See the License for the specific language governing permissions and
   ~    limitations under the License.
   -->
-
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp"
-    android:paddingTop="12dp"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent">
-
-    <TextView
-        android:id="@+id/title_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/sign_in"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/subtitle_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/confirm_fingerprint_to_continue"
-        app:layout_constraintHorizontal_bias="0.013"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_TextView" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/icon_FAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/subtitle_TextView"
-        android:src="@drawable/ic_fingerprint_white_24dp" />
-
-    <TextView
-        android:id="@+id/error_TextView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="@id/icon_FAB"
-        app:layout_constraintLeft_toRightOf="@id/icon_FAB"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/icon_FAB"
-        android:text="@string/touch_sensor" />
-
-    <LinearLayout
-        android:id="@+id/button_s"
-        style="?android:attr/buttonBarStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="end"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/icon_FAB">
-
-        <Button
-            android:id="@+id/cancel_Button"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel" />
-    </LinearLayout>
-
-
-</android.support.constraint.ConstraintLayout>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners
+        android:topLeftRadius="@dimen/bottom_sheet_corner_radius"
+        android:topRightRadius="@dimen/bottom_sheet_corner_radius" />
+    <padding android:top="@dimen/bottom_sheet_top_padding" />
+    <solid android:color="@android:color/white" />
+</shape>

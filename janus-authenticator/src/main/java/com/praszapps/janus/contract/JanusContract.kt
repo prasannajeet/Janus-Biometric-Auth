@@ -205,12 +205,14 @@
 package com.praszapps.janus.contract
 
 import android.app.KeyguardManager
+import android.support.v4.app.FragmentManager
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import com.praszapps.janus.model.repository.JanusInitResponseModel
 
 internal interface JanusContract {
 
     interface IView {
+        fun initalize(fragmentManager: FragmentManager, tag: String = "")
         fun setUpFingerprintViews()
         fun onFingerPrintAuthenticationSuccess()
         fun onFingerprintAuthenticationFailed(text: String)

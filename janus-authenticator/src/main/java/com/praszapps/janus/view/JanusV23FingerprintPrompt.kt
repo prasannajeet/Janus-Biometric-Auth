@@ -204,10 +204,13 @@
 
 package com.praszapps.janus.view
 
+import android.app.Dialog
 import android.app.KeyguardManager
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.DialogFragment
+import android.support.design.widget.BottomSheetDialog
+import android.support.design.widget.BottomSheetDialogFragment
+import android.support.v4.app.FragmentManager
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -218,20 +221,26 @@ import com.praszapps.janus.contract.ManagerViewInteractor
 import com.praszapps.janus.presenter.JanusBiometricPresenter
 import kotlinx.android.synthetic.main.fingerprint_dialog.*
 
-internal class JanusV23FingerprintSlidingMenu : DialogFragment(), JanusContract.IView {
+internal class JanusV23FingerprintPrompt : BottomSheetDialogFragment(), JanusContract.IView {
 
-    lateinit var fManager: FingerprintManagerCompat
-    lateinit var kManager: KeyguardManager
-    lateinit var listener: ManagerViewInteractor
+    internal lateinit var fManager: FingerprintManagerCompat
+    internal lateinit var kManager: KeyguardManager
+    internal lateinit var listener: ManagerViewInteractor
+
+    override fun getTheme(): Int {
+        return R.style.JanusV23BottomSheetDialogTheme
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
+
+    override fun initalize(fragmentManager: FragmentManager, tag: String) {
+        show(fragmentManager, tag)
+    }
 
     private val mPresenter: JanusContract.IPresenter by lazy {
         JanusBiometricPresenter(this)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        retainInstance = true
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return LayoutInflater.from(activity).inflate(R.layout.fingerprint_dialog, container, false)
@@ -244,22 +253,23 @@ internal class JanusV23FingerprintSlidingMenu : DialogFragment(), JanusContract.
 
 
     override fun setUpFingerprintViews() {
-        cancelButton.setOnClickListener {
+        cancel_Button.setOnClickListener {
+            mPresenter.cancelFingerprintDetection()
             dialog.dismiss()
         }
         mPresenter.authenticateViaFingerprint()
     }
 
     override fun onFingerPrintAuthenticationSuccess() {
-        iconFAB.setImageResource(R.drawable.ic_check_white_24dp)
-        errorTextView.text = getString(R.string.auth_success_message)
+        icon_FAB.setImageResource(R.drawable.ic_check_white_24dp)
+        error_TextView.text = getString(R.string.auth_success_message)
         dismissAfterHalfSecond()
 
     }
 
     override fun onFingerprintAuthenticationFailed(text: String) {
-        iconFAB.setImageResource(R.drawable.ic_error_white_24dp)
-        errorTextView.text = text
+        icon_FAB.setImageResource(R.drawable.ic_error_white_24dp)
+        error_TextView.text = text
         if (text.startsWith(getString(R.string.too_many_attempts))) {
             dismissAfterHalfSecond(false, text)
         }

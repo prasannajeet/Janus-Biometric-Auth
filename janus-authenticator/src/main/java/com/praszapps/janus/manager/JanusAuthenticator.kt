@@ -207,12 +207,13 @@ package com.praszapps.janus.manager
 import android.annotation.TargetApi
 import android.app.KeyguardManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.support.annotation.Keep
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.support.v7.app.AppCompatActivity
 import com.praszapps.janus.contract.ManagerViewInteractor
-import com.praszapps.janus.view.JanusV23FingerprintSlidingMenu
+import com.praszapps.janus.view.JanusV23FingerprintPrompt
 
 /**
  * Authenticator class for Janus. Main entry point for the library. Provides functions for authentication and verifying is authentication is possible
@@ -225,7 +226,9 @@ enum class JanusAuthenticator : ManagerViewInteractor {
 
     INSTANCE;
 
-    lateinit var mListener: JanusAuthResultListener
+    private lateinit var mListener: JanusAuthResultListener
+    private lateinit var fManager: FingerprintManagerCompat
+    private lateinit var kManager: KeyguardManager
 
     /**
      * The authentication function that initiated the desired type of fingerprint authentication. If the API level of the application on which this function is called is less than 23
@@ -236,38 +239,55 @@ enum class JanusAuthenticator : ManagerViewInteractor {
     fun doFingerprintAuthentication(mConfig: JanusAuthConfig, listener: JanusAuthResultListener) {
 
         mListener = listener
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val fManager = FingerprintManagerCompat.from(mConfig.context)
-            val kManager = mConfig.context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
-            if (fManager.isHardwareDetected && fManager.hasEnrolledFingerprints() && kManager.isDeviceSecure && kManager.isKeyguardSecure) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            fManager = FingerprintManagerCompat.from(mConfig.context)
+            kManager = mConfig.context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+
+            if (isSupportFingerprintAuthentication(mConfig.context)) {
                 when (mConfig.mAuthStyle) {
 
                     //AuthenticationStyle.DEVICE_LOCK -> {}
                     AuthenticationStyle.BIOMETRIC_DIALOG -> {
-                        val activity: AppCompatActivity = mConfig.context as AppCompatActivity
-
-                        val fingerdialog = JanusV23FingerprintSlidingMenu()
-                        fingerdialog.fManager = fManager
-                        fingerdialog.kManager = kManager
-                        fingerdialog.listener = this@JanusAuthenticator
-                        fingerdialog.show(activity.supportFragmentManager, "Janusdialog")
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            showAndroidPAndAboveDialog(mConfig.context)
+                        } else {
+                            showBelowAndroidPDialog(mConfig.context)
+                        }
                     }
-                    //AuthenticationStyle.FINGERPRINT_ACTIVITY -> {}
                 }
             } else {
-                listener.onAuthenticationFail(JanusErrorType.ErrorDuringFingerprintAuthentication("Either device not support fingerprint or no fingerprint added"))
+                mListener.onAuthenticationFail(JanusErrorType.ErrorDuringFingerprintAuthentication("Either device not support fingerprint or no fingerprint added"))
             }
         } else {
             mListener.onAuthenticationFail(JanusErrorType.DeviceApiLevelBelow23)
         }
     }
 
+    private fun isApiLevelSupported(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+
+    private fun showAndroidPAndAboveDialog(context: Context) {
+        showBelowAndroidPDialog(context)
+    }
+
+    private fun showBelowAndroidPDialog(context: Context) {
+        val activity: AppCompatActivity = context as AppCompatActivity
+
+        val fingerDialog = JanusV23FingerprintPrompt()
+        fingerDialog.fManager = fManager
+        fingerDialog.kManager = kManager
+        fingerDialog.listener = this@JanusAuthenticator
+        fingerDialog.initalize(activity.supportFragmentManager, "fingertipdialog")
+    }
+
     /**
-     * Helper function to inform application if Janus supports authentication in the current API
-     * @return true if API level is below 23 (Marshmallow) else returns false
+     * Helper function to inform application if Fingertip supports authentication
+     * @return true if supports, false otherwise
      */
-    fun isApiLevelSupported(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+    fun isSupportFingerprintAuthentication(context: Context): Boolean {
+        val packageManager: PackageManager = context.packageManager
+        return packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT) && fManager.isHardwareDetected && fManager.hasEnrolledFingerprints() && kManager.isDeviceSecure && kManager.isKeyguardSecure && isApiLevelSupported()
+    }
 
     override fun onAuthSuccess() {
         mListener.onAuthenticationSuccess()

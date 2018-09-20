@@ -304,12 +304,7 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$rootProject.ext.testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.ext.espressionVersion"
     implementation "com.android.support:design:$rootProject.ext.androidSupportLibVersion"
-    /*api "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
-        kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
-        api "com.google.dagger:dagger-android-support:$rootProject.ext.daggerVersion" // if you use the support libraries
-        kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"*/
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    // ReactiveX
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.0'
 }
