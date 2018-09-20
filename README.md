@@ -25,44 +25,44 @@ implementation 'com.praszapps.biometric:janus:0.3.0'
 ## Sample Code
 **Kotlin**
 ```
-val config = FingertipAuthConfig(this, AuthenticationStyle.FINGERPRINT_DIALOG)
-FingertipAuthenticator.INSTANCE.doFingerprintAuthentication(config, object : FingertipAuthenticationResult {
-   override fun onFingertipAuthSuccess() {
-     Toast.makeText(this@MainActivity, "Successful Auth", Toast.LENGTH_LONG).show()
-   }
-   override fun onFingertipAuthFailed(errorType: FingertipErrorType) {
-     when(errorType) {
-      is FingertipErrorType.DeviceApiLevelBelow23 -> {
-         Log.e("MainActivity", "FailureReason: API level is below 23 for device")
-         Toast.makeText(this@MainActivity, "FailureReason: API level is below 23 for device", Toast.LENGTH_LONG).show()
-      }
-      is FingertipErrorType.ErrorDuringFingerprintAuthentication -> {
-         Log.e("MainActivity", "Failure reason: ${errorType.message}")
-         Toast.makeText(this@MainActivity, "Auth failed with reason - ${errorType.message}", Toast.LENGTH_LONG).show()
-      }
+val config = JanusAuthConfig(this, AuthenticationStyle.BIOMETRIC_DIALOG)
+JanusAuthenticator.INSTANCE.doFingerprintAuthentication(config, object : JanusAuthResultListener {
+    override fun onAuthenticationSuccess() {
+        Toast.makeText(this@MainActivity, "Successful Auth", Toast.LENGTH_LONG).show()
     }
-  }
+    override fun onAuthenticationFail(errorType: JanusErrorType) {
+        when(errorType) {
+            is JanusErrorType.DeviceApiLevelBelow23 -> {
+                Log.e("MainActivity", "FailureReason: API level is below 23 for device")
+                Toast.makeText(this@MainActivity, "FailureReason: API level is below 23 for device", Toast.LENGTH_LONG).show()
+            }
+            is JanusErrorType.ErrorDuringFingerprintAuthentication -> {
+                Log.e("MainActivity", "Failure reason: ${errorType.message}")
+                Toast.makeText(this@MainActivity, "Auth failed with reason - ${errorType.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 })
 ```
 **Java**
 ```
-FingertipAuthConfig config = new FingertipAuthConfig(MainActivity.this, AuthenticationStyle.FINGERPRINT_DIALOG);
-   FingertipAuthenticator.INSTANCE.doFingerprintAuthentication(config, new FingertipAuthenticationResult() {
-      @Override
-      public void onFingertipAuthSuccess() {
-         Toast.makeText(MainActivity.this, "Successful Auth", Toast.LENGTH_LONG).show()
-      }
-
-      @Override
-      public void onFingertipAuthFailed(@NonNull FingertipErrorType fingertipErrorType) {
-         if(fingertipErrorType instanceof FingertipErrorType.DeviceApiLevelBelow23) {
-            Log.e("MainActivity", "FailureReason: API level is below 23 for device")
-            Toast.makeText(MainActivity.this, "FailureReason: API level is below 23 for device", Toast.LENGTH_SHORT).show();
-         } else if(fingertipErrorType instanceof FingertipErrorType.ErrorDuringFingerprintAuthentication) {
-            Log.e("MainActivity", "Failure reason: "+((FingertipErrorType.ErrorDuringFingerprintAuthentication) fingertipErrorType).getMessage());
-            Toast.makeText(MainActivity.this, ((FingertipErrorType.ErrorDuringFingerprintAuthentication) fingertipErrorType).getMessage(), Toast.LENGTH_SHORT).show();
-         }
-      }
+JanusAuthConfig config = new JanusAuthConfig(MainActivity.this, AuthenticationStyle.BIOMETRIC_DIALOG);
+JanusAuthenticator.INSTANCE.doFingerprintAuthentication(config, new JanusAuthResultListener() {
+    @Override
+    public void onAuthenticationSuccess() {
+        SafetyNet.getClient(MainActivity.this).verifyWithRecaptcha(getResources().getString(R.string.pubK))
+                .addOnSuccessListener(new SuccessListener())
+                .addOnFailureListener(new FailureListener());
+    }
+    
+    @Override
+    public void onAuthenticationFail(@NonNull JanusErrorType fingertipErrorType) {
+        if(fingertipErrorType instanceof JanusErrorType.DeviceApiLevelBelow23) {
+            Toast.makeText(MainActivity.this, "Device error below API 23", Toast.LENGTH_SHORT).show();
+        } else if(fingertipErrorType instanceof JanusErrorType.ErrorDuringFingerprintAuthentication) {
+            Toast.makeText(MainActivity.this, ((JanusErrorType.ErrorDuringFingerprintAuthentication) fingertipErrorType).getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
 });
 ```
 
