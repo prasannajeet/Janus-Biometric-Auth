@@ -2,9 +2,9 @@
 [![CircleCI](https://circleci.com/gh/prasannajeet/Janus.svg?style=svg)](https://circleci.com/gh/prasannajeet/Janus) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fprasannajeet%2FJanus.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fprasannajeet%2FJanus?ref=badge_shield) [ ![Download](https://api.bintray.com/packages/prasannajeet89/praszappsMaven/janus/images/download.svg) ](https://bintray.com/prasannajeet89/praszappsMaven/janus/_latestVersion) [![Apache 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/prasannajeet/Fingertip/blob/master/LICENSE)
 ### Currently in alpha (v0.3) - may be buggy
 
-Tired of having to write an entire chunk of code, check for OS versions, create layouts and store icons to implement a simple fingerprint authentication dialog? 
+Tired of having to write an entire chunk of code, check for OS versions, create layouts and store icons to implement a simple biometric authentication dialog? 
 
-This Android library project is designed to simplify the complicated fingerprint authentication process in Android.
+This Android library project is designed to simplify the complicated biometric authentication process in Android.
 
 Upon completion, it will offer 2 biometric authentication mechanisms
 
