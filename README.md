@@ -19,7 +19,7 @@ There are 2 steps in conducting the authentication
 
 In you module level build.gradle add the following dependency
 ```
-implementation 'com.praszapps.biometric:janus:0.3.0'
+implementation 'com.praszapps.biometric:janus:0.3.1'
 ```
 
 ## Sample Code
