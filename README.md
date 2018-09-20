@@ -72,6 +72,7 @@ For now the UI will be the default UI provided by the library, eventually overri
 Release notes can be found [here](https://github.com/prasannajeet/Fingertip/blob/master/release-notes.md)
 
 ## Development Milestones
+- **v0.3.1** - Converted fingerprint dialog to bottom sheet for pre Pie API level *(September 19 2018)*
 - **v0.3.0** - Rebranded Fingertip to Janus *(September 19 2018)*
 - **v0.2.2** - Stabilized fingerprint dialog. Added coroutines. Removed RxJava. Configured proguard. *(September 18 2018)*
 - **v0.2.0** - Fragment based fingerprint authentication implemented with initial UI *(September 15 2018)*
