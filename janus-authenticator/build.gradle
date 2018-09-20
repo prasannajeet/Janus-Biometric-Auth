@@ -5,8 +5,9 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'maven-publish'
 apply plugin: 'com.novoda.bintray-release'
 
-def libArtifactId = 'fingertip'
-def libGroupId = 'com.praszapps.fingertip'
+def libArtifactId = 'janus'
+def libGroupId = 'com.praszapps.biometric'
+
 
 publish {
     userOrg = 'prasannajeet89'
@@ -14,10 +15,10 @@ publish {
     groupId = libGroupId
     artifactId = libArtifactId
     publishVersion = generateVersionName()
-    desc = 'Fingertip - The easy fingerprint authentication library for Android'
-    website = 'https://github.com/prasannajeet/Fingertip'
-    issueTracker = 'https://github.com/prasannajeet/Fingertip/issues'
-    repository = 'https://github.com/prasannajeet/Fingertip.git'
+    desc = 'Janus - The easy biometric authentication library for Android'
+    website = 'https://github.com/prasannajeet/Janus'
+    issueTracker = 'https://github.com/prasannajeet/Janus/issues'
+    repository = 'https://github.com/prasannajeet/Janus.git'
 }
 
 kotlin {
