@@ -48,7 +48,7 @@ JanusAuthenticator.INSTANCE.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIAL
     public void onAuthenticationResponse(@NotNull JanusAuthenticationResponse janusAuthenticationResponse) {
         if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.Success){
             Toast.makeText(MainActivity.this, "Authentication Success!", Toast.LENGTH_SHORT).show();
-        }else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.DeviceApiLevelBelow23) {
+        } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.DeviceApiLevelBelow23) {
             Toast.makeText(MainActivity.this, "Device error below API 23", Toast.LENGTH_SHORT).show();
         } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication) {
             Toast.makeText(MainActivity.this, ((JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication) janusAuthenticationResponse).getErrorMessage(), Toast.LENGTH_SHORT).show();
