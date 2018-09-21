@@ -238,7 +238,7 @@ subprojects {
 ext {
     versionMajor = 0
     versionMinor = 3
-    versionPatch = 1
+    versionPatch = 2
     isSnapshot = false
     snapshotSuffiix = "-SNAPSHOT"
     minimumSdkVersion = 21

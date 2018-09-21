@@ -204,8 +204,15 @@
 
 package com.praszapps.janus.manager
 
-import android.content.Context
 import android.support.annotation.Keep
 
+/**
+ * Denotes various fingeprint authentication styles supported by the library
+ * @author Prasannajeet Pani
+ * @since 0.2.0
+ */
 @Keep
-data class JanusAuthConfig(val context: Context, val mAuthStyle: AuthenticationStyle)
+enum class JanusAuthenticationStyle {
+    BIOMETRIC_DIALOG,
+    //DEVICE_LOCK
+}

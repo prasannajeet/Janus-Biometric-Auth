@@ -207,22 +207,16 @@ package com.praszapps.janus.manager
 import android.support.annotation.Keep
 
 /**
- * Callback methods for [JanusAuthenticator.doFingerprintAuthentication] method
+ * Callback methods for [JanusAuthenticator.authenticate] method
  * @since 0.2.1
  */
 @Keep
-interface JanusAuthResultListener {
-
-    /**
-     * Callback method for successful authentication
-     * @since 0.2.1
-     */
-    fun onAuthenticationSuccess()
+interface JanusAuthenticationCallback {
 
     /**
      * Callback method for failed authentication
-     * @since 0.2.1
-     * @param errorType [JanusErrorType] sealed object representing the error ocurred
+     * @since 0.3.3
+     * @param authenticationResponse [JanusAuthenticationResponse] sealed object representing the error ocurred
      */
-    fun onAuthenticationFail(errorType: JanusErrorType)
+    fun onAuthenticationResponse(authenticationResponse: JanusAuthenticationResponse)
 }

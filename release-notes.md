@@ -1,5 +1,7 @@
 # Release Notes
 
+## 0.3.2
+- Removed config class, streamlined API
 ## 0.3.1
 - Converted pre Android pie fingerprint UX from dialog to bottom sheet
 ## 0.3.0
