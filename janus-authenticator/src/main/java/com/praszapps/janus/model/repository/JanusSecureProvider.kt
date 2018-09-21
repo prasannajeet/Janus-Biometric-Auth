@@ -205,13 +205,15 @@
 package com.praszapps.janus.model.repository
 
 import android.annotation.TargetApi
-import android.app.KeyguardManager
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.support.v4.os.CancellationSignal
 import com.praszapps.janus.contract.JanusContract
+import com.praszapps.janus.model.JanusInitResponseModel
+import com.praszapps.janus.util.JanusUtil
+import com.praszapps.janus.util.JanusUtil.DEFAULT_KEY_NAME
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -220,19 +222,14 @@ import javax.crypto.SecretKey
 @TargetApi(23)
 internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCallback(), JanusContract.IModel {
 
-    private val DEFAULT_KEY_NAME = "JanusKeyName"
     private val mSignal = CancellationSignal()
 
-    private lateinit var fManager: FingerprintManagerCompat
-    private lateinit var kManager: KeyguardManager
     private lateinit var keyStore: KeyStore
     private lateinit var keyGenerator: KeyGenerator
     private lateinit var mCryptoObj: FingerprintManagerCompat.CryptoObject
 
-    override suspend fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager): JanusInitResponseModel {
+    override suspend fun initialize(): JanusInitResponseModel {
 
-        fManager = mFingerprintManager
-        kManager = mKeyguardManager
         val defaultCipher: Cipher
 
         try {
@@ -273,7 +270,7 @@ internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCall
     }
 
     override fun startFingerprintTracking(listener: FingerprintManagerCompat.AuthenticationCallback) {
-        fManager.authenticate(mCryptoObj, 0, mSignal, listener, null)
+        JanusUtil.fManager.authenticate(mCryptoObj, 0, mSignal, listener, null)
     }
 
     override fun stopFingerprintTracking() {

@@ -202,6 +202,17 @@
  *    limitations under the License.
  */
 
-package com.praszapps.janus.model.repository
+package com.praszapps.janus.manager
 
-internal data class JanusInitResponseModel(val isSuccess: Boolean = false, val message: String = "")
+import android.support.annotation.Keep
+
+/**
+ * Denotes various fingeprint authentication styles supported by the library
+ * @author Prasannajeet Pani
+ * @since 0.2.0
+ */
+@Keep
+enum class JanusAuthenticationStyle {
+    BIOMETRIC_DIALOG,
+    //DEVICE_LOCK
+}

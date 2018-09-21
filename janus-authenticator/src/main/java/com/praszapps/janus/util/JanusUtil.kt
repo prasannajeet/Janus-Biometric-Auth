@@ -202,17 +202,48 @@
  *    limitations under the License.
  */
 
-package com.praszapps.janus.manager
+package com.praszapps.janus.util
 
-import android.support.annotation.Keep
+import android.annotation.TargetApi
+import android.app.KeyguardManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import android.support.v4.app.FragmentManager
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
+import android.support.v7.app.AppCompatActivity
+import com.praszapps.janus.contract.ManagerViewInteractor
+import com.praszapps.janus.view.JanusFingerprintPrompt
 
-/**
- * Denotes various fingeprint authentication styles supported by the library
- * @author Prasannajeet Pani
- * @since 0.2.0
- */
-@Keep
-enum class AuthenticationStyle {
-    BIOMETRIC_DIALOG,
-    //DEVICE_LOCK
+@TargetApi(23)
+object JanusUtil {
+
+    internal lateinit var fManager: FingerprintManagerCompat
+    private lateinit var kManager: KeyguardManager
+    private lateinit var supportFragmentManager: FragmentManager
+    internal val DEFAULT_KEY_NAME = "JanusKeyName"
+    internal val tag = "fingerprintdialogTag"
+
+    /**
+     * Helper function to inform application if Fingertip supports authentication
+     * @return true if supports, false otherwise
+     */
+    internal fun isSupportFingerprintAuthentication(context: Context): Boolean {
+        val packageManager: PackageManager = context.packageManager
+        supportFragmentManager = (context as AppCompatActivity).supportFragmentManager
+        fManager = FingerprintManagerCompat.from(context)
+        kManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+
+        return packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT) && fManager.isHardwareDetected && fManager.hasEnrolledFingerprints() && kManager.isDeviceSecure && kManager.isKeyguardSecure && isApiLevelSupported()
+    }
+
+    internal fun showBiometricDialog(listener: ManagerViewInteractor) {
+        val fingerDialog = JanusFingerprintPrompt()
+        fingerDialog.listener = listener
+        fingerDialog.fragmentManager = supportFragmentManager
+        fingerDialog.initialize()
+    }
+
+
+    private fun isApiLevelSupported(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 }

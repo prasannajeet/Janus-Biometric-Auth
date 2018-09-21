@@ -204,8 +204,6 @@
 
 package com.praszapps.janus.presenter
 
-
-import android.app.KeyguardManager
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import com.praszapps.janus.contract.JanusContract
 import com.praszapps.janus.model.repository.JanusSecureProvider
@@ -236,10 +234,10 @@ internal class JanusBiometricPresenter(IView: JanusContract.IView) : JanusContra
         }
     }
 
-    override fun initialize(mFingerprintManager: FingerprintManagerCompat, mKeyguardManager: KeyguardManager) {
+    override fun initialize() {
 
         GlobalScope.launch {
-            val model = mFingerprintRepository.initialize(mFingerprintManager, mKeyguardManager)
+            val model = mFingerprintRepository.initialize()
 
             if (model.isSuccess) {
                 mView.setUpFingerprintViews()

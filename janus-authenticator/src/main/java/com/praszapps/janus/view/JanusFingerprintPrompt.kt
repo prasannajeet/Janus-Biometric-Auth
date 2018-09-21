@@ -202,10 +202,88 @@
  *    limitations under the License.
  */
 
-package com.praszapps.janus.manager
+package com.praszapps.janus.view
 
-import android.content.Context
-import android.support.annotation.Keep
+import android.app.Dialog
+import android.os.Bundle
+import android.os.Handler
+import android.support.design.widget.BottomSheetDialog
+import android.support.design.widget.BottomSheetDialogFragment
+import android.support.v4.app.FragmentManager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.praszapps.janus.R
+import com.praszapps.janus.contract.JanusContract
+import com.praszapps.janus.contract.ManagerViewInteractor
+import com.praszapps.janus.presenter.JanusBiometricPresenter
+import com.praszapps.janus.util.JanusUtil
+import kotlinx.android.synthetic.main.fingerprint_dialog.*
 
-@Keep
-data class JanusAuthConfig(val context: Context, val mAuthStyle: AuthenticationStyle)
+internal class JanusFingerprintPrompt : BottomSheetDialogFragment(), JanusContract.IView {
+
+    internal lateinit var listener: ManagerViewInteractor
+    internal lateinit var fragmentManager: FragmentManager
+
+    override fun getTheme(): Int {
+        return R.style.JanusV23BottomSheetDialogTheme
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
+
+    override fun initialize() {
+        show(fragmentManager, JanusUtil.tag)
+    }
+
+    private val mPresenter: JanusContract.IPresenter by lazy {
+        JanusBiometricPresenter(this)
+    }
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fingerprint_dialog, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mPresenter.initialize()
+    }
+
+
+    override fun setUpFingerprintViews() {
+        cancel_Button.setOnClickListener {
+            mPresenter.cancelFingerprintDetection()
+            dialog.dismiss()
+        }
+        mPresenter.authenticateViaFingerprint()
+    }
+
+    override fun onFingerPrintAuthenticationSuccess() {
+        icon_FAB.setImageResource(R.drawable.ic_check_white_24dp)
+        error_TextView.text = getString(R.string.auth_success_message)
+        dismissAfterHalfSecond()
+
+    }
+
+    override fun onFingerprintAuthenticationFailed(text: String) {
+        icon_FAB.setImageResource(R.drawable.ic_error_white_24dp)
+        error_TextView.text = text
+        if (text.startsWith(getString(R.string.too_many_attempts))) {
+            dismissAfterHalfSecond(false, text)
+        }
+    }
+
+    private fun dismissAfterHalfSecond(isSuccess: Boolean = true, message: String? = null) {
+        Handler().postDelayed({
+            mPresenter.cancelFingerprintDetection()
+            if (isSuccess) {
+                listener.onAuthSuccess()
+            } else {
+                if (message != null) {
+                    listener.onAuthFailure(message)
+                }
+            }
+            dismiss()
+        }, 700)
+    }
+}

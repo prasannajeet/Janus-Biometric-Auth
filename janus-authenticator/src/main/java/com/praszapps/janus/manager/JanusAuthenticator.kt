@@ -205,15 +205,11 @@
 package com.praszapps.janus.manager
 
 import android.annotation.TargetApi
-import android.app.KeyguardManager
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
 import android.support.annotation.Keep
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
-import android.support.v7.app.AppCompatActivity
 import com.praszapps.janus.contract.ManagerViewInteractor
-import com.praszapps.janus.view.JanusV23FingerprintPrompt
+import com.praszapps.janus.util.JanusUtil
 
 /**
  * Authenticator class for Janus. Main entry point for the library. Provides functions for authentication and verifying is authentication is possible
@@ -222,78 +218,40 @@ import com.praszapps.janus.view.JanusV23FingerprintPrompt
  */
 @TargetApi(23)
 @Keep
-enum class JanusAuthenticator : ManagerViewInteractor {
-
-    INSTANCE;
-
-    private lateinit var mListener: JanusAuthResultListener
-    private lateinit var fManager: FingerprintManagerCompat
-    private lateinit var kManager: KeyguardManager
+object JanusAuthenticator {
 
     /**
      * The authentication function that initiated the desired type of fingerprint authentication. If the API level of the application on which this function is called is less than 23
-     * the method will invoke the failure callback [JanusAuthResultListener.onAuthenticationFail] passing the [JanusErrorType.DeviceApiLevelBelow23] object
-     * @param mConfig [JanusAuthConfig] object which specifies the [AuthenticationStyle] to be done alongwith the [Context] object of the calling Activity
-     * @param listener [JanusAuthResultListener] callback to denote the calling application for success and failure scenarios
+     * the method will invoke the failure callback [JanusAuthenticationCallback.onAuthenticationResponse] passing the [JanusAuthenticationResponse.DeviceApiLevelBelow23] object
+     * @since 0.3.3
+     * @param context [Context] object of the calling Activity
+     * @param listener [JanusAuthenticationCallback] callback to denote the calling application for success and failure scenarios
      */
-    fun doFingerprintAuthentication(mConfig: JanusAuthConfig, listener: JanusAuthResultListener) {
-
-        mListener = listener
+    fun authenticate(janusAuthenticationStyle: JanusAuthenticationStyle, context: Context, listener: JanusAuthenticationCallback) {
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fManager = FingerprintManagerCompat.from(mConfig.context)
-            kManager = mConfig.context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            if (JanusUtil.isSupportFingerprintAuthentication(context)) {
+                when (janusAuthenticationStyle) {
 
-            if (isSupportFingerprintAuthentication(mConfig.context)) {
-                when (mConfig.mAuthStyle) {
+                    //JanusAuthenticationStyle.DEVICE_LOCK -> {}
+                    JanusAuthenticationStyle.BIOMETRIC_DIALOG -> {
+                        JanusUtil.showBiometricDialog(object : ManagerViewInteractor {
 
-                    //AuthenticationStyle.DEVICE_LOCK -> {}
-                    AuthenticationStyle.BIOMETRIC_DIALOG -> {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                            showAndroidPAndAboveDialog(mConfig.context)
-                        } else {
-                            showBelowAndroidPDialog(mConfig.context)
-                        }
+                            override fun onAuthSuccess() {
+                                listener.onAuthenticationResponse(JanusAuthenticationResponse.Success)
+                            }
+
+                            override fun onAuthFailure(message: String) {
+                                listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(message))
+                            }
+                        })
                     }
                 }
             } else {
-                mListener.onAuthenticationFail(JanusErrorType.ErrorDuringFingerprintAuthentication("Either device not support fingerprint or no fingerprint added"))
+                listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication("Either device not support fingerprint or no fingerprint added"))
             }
         } else {
-            mListener.onAuthenticationFail(JanusErrorType.DeviceApiLevelBelow23)
+            listener.onAuthenticationResponse(JanusAuthenticationResponse.DeviceApiLevelBelow23)
         }
-    }
-
-    private fun isApiLevelSupported(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-
-    private fun showAndroidPAndAboveDialog(context: Context) {
-        showBelowAndroidPDialog(context)
-    }
-
-    private fun showBelowAndroidPDialog(context: Context) {
-        val activity: AppCompatActivity = context as AppCompatActivity
-
-        val fingerDialog = JanusV23FingerprintPrompt()
-        fingerDialog.fManager = fManager
-        fingerDialog.kManager = kManager
-        fingerDialog.listener = this@JanusAuthenticator
-        fingerDialog.initalize(activity.supportFragmentManager, "fingertipdialog")
-    }
-
-    /**
-     * Helper function to inform application if Fingertip supports authentication
-     * @return true if supports, false otherwise
-     */
-    fun isSupportFingerprintAuthentication(context: Context): Boolean {
-        val packageManager: PackageManager = context.packageManager
-        return packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT) && fManager.isHardwareDetected && fManager.hasEnrolledFingerprints() && kManager.isDeviceSecure && kManager.isKeyguardSecure && isApiLevelSupported()
-    }
-
-    override fun onAuthSuccess() {
-        mListener.onAuthenticationSuccess()
-    }
-
-    override fun onAuthFailure(message: String) {
-        mListener.onAuthenticationFail(JanusErrorType.ErrorDuringFingerprintAuthentication(message))
     }
 }

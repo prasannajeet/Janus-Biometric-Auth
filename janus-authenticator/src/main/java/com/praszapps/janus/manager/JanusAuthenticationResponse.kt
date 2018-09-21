@@ -202,90 +202,34 @@
  *    limitations under the License.
  */
 
-package com.praszapps.janus.view
+package com.praszapps.janus.manager
 
-import android.app.Dialog
-import android.app.KeyguardManager
-import android.os.Bundle
-import android.os.Handler
-import android.support.design.widget.BottomSheetDialog
-import android.support.design.widget.BottomSheetDialogFragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.praszapps.janus.R
-import com.praszapps.janus.contract.JanusContract
-import com.praszapps.janus.contract.ManagerViewInteractor
-import com.praszapps.janus.presenter.JanusBiometricPresenter
-import kotlinx.android.synthetic.main.fingerprint_dialog.*
+import android.support.annotation.Keep
 
-internal class JanusV23FingerprintPrompt : BottomSheetDialogFragment(), JanusContract.IView {
+/**
+ * This sealed class represents the different error scenarios for the [JanusAuthenticationCallback.onAuthenticationFail] callback in [JanusAuthenticator]
+ * @author Prasannajeet Pani
+ * @since 0.2.1
+ */
+@Keep
+sealed class JanusAuthenticationResponse {
 
-    internal lateinit var fManager: FingerprintManagerCompat
-    internal lateinit var kManager: KeyguardManager
-    internal lateinit var listener: ManagerViewInteractor
-
-    override fun getTheme(): Int {
-        return R.style.JanusV23BottomSheetDialogTheme
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
-
-    override fun initalize(fragmentManager: FragmentManager, tag: String) {
-        show(fragmentManager, tag)
-    }
-
-    private val mPresenter: JanusContract.IPresenter by lazy {
-        JanusBiometricPresenter(this)
-    }
+    /**
+     * Success instance
+     */
+    @Keep
+    object Success : JanusAuthenticationResponse()
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return LayoutInflater.from(activity).inflate(R.layout.fingerprint_dialog, container, false)
-    }
+    /**
+     * Error instance for device API level less than 23
+     */
+    @Keep
+    object DeviceApiLevelBelow23 : JanusAuthenticationResponse()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        mPresenter.initialize(fManager, kManager)
-    }
-
-
-    override fun setUpFingerprintViews() {
-        cancel_Button.setOnClickListener {
-            mPresenter.cancelFingerprintDetection()
-            dialog.dismiss()
-        }
-        mPresenter.authenticateViaFingerprint()
-    }
-
-    override fun onFingerPrintAuthenticationSuccess() {
-        icon_FAB.setImageResource(R.drawable.ic_check_white_24dp)
-        error_TextView.text = getString(R.string.auth_success_message)
-        dismissAfterHalfSecond()
-
-    }
-
-    override fun onFingerprintAuthenticationFailed(text: String) {
-        icon_FAB.setImageResource(R.drawable.ic_error_white_24dp)
-        error_TextView.text = text
-        if (text.startsWith(getString(R.string.too_many_attempts))) {
-            dismissAfterHalfSecond(false, text)
-        }
-    }
-
-    private fun dismissAfterHalfSecond(isSuccess: Boolean = true, message: String? = null) {
-        Handler().postDelayed({
-            mPresenter.cancelFingerprintDetection()
-            if (isSuccess) {
-                listener.onAuthSuccess()
-            } else {
-                if (message != null) {
-                    listener.onAuthFailure(message)
-                }
-            }
-            dismiss()
-        }, 700)
-    }
+    /**
+     * Error class for any error message to be passed to the app during the failure of authentication via fingerprint
+     */
+    @Keep
+    data class ErrorDuringFingerprintAuthentication(val errorMessage: String) : JanusAuthenticationResponse()
 }

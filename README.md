@@ -19,26 +19,23 @@ There are 2 steps in conducting the authentication
 
 In you module level build.gradle add the following dependency
 ```
-implementation 'com.praszapps.biometric:janus:0.3.1'
+implementation 'com.praszapps.biometric:janus:0.3.2'
 ```
 
 ## Sample Code
 **Kotlin**
 ```
-val config = JanusAuthConfig(this, AuthenticationStyle.BIOMETRIC_DIALOG)
-JanusAuthenticator.INSTANCE.doFingerprintAuthentication(config, object : JanusAuthResultListener {
-    override fun onAuthenticationSuccess() {
-        Toast.makeText(this@MainActivity, "Successful Auth", Toast.LENGTH_LONG).show()
-    }
-    override fun onAuthenticationFail(errorType: JanusErrorType) {
-        when(errorType) {
-            is JanusErrorType.DeviceApiLevelBelow23 -> {
-                Log.e("MainActivity", "FailureReason: API level is below 23 for device")
+JanusAuthenticator.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, this, object : JanusAuthenticationCallback {
+    override fun onAuthenticationResponse(authenticationResponse: JanusAuthenticationResponse) {
+        when(authenticationResponse) {
+            is JanusAuthenticationResponse.Success -> {
+                Toast.makeText(this@MainActivity, "Successful Auth", Toast.LENGTH_LONG).show()
+            }
+            is JanusAuthenticationResponse.DeviceApiLevelBelow23 -> {
                 Toast.makeText(this@MainActivity, "FailureReason: API level is below 23 for device", Toast.LENGTH_LONG).show()
             }
-            is JanusErrorType.ErrorDuringFingerprintAuthentication -> {
-                Log.e("MainActivity", "Failure reason: ${errorType.message}")
-                Toast.makeText(this@MainActivity, "Auth failed with reason - ${errorType.message}", Toast.LENGTH_LONG).show()
+            is JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication -> {
+                Toast.makeText(this@MainActivity, "Auth failed with reason - ${authenticationResponse.errorMessage}", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -46,21 +43,15 @@ JanusAuthenticator.INSTANCE.doFingerprintAuthentication(config, object : JanusAu
 ```
 **Java**
 ```
-JanusAuthConfig config = new JanusAuthConfig(MainActivity.this, AuthenticationStyle.BIOMETRIC_DIALOG);
-JanusAuthenticator.INSTANCE.doFingerprintAuthentication(config, new JanusAuthResultListener() {
+JanusAuthenticator.INSTANCE.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, this, new JanusAuthenticationCallback() {
     @Override
-    public void onAuthenticationSuccess() {
-        SafetyNet.getClient(MainActivity.this).verifyWithRecaptcha(getResources().getString(R.string.pubK))
-                .addOnSuccessListener(new SuccessListener())
-                .addOnFailureListener(new FailureListener());
-    }
-    
-    @Override
-    public void onAuthenticationFail(@NonNull JanusErrorType fingertipErrorType) {
-        if(fingertipErrorType instanceof JanusErrorType.DeviceApiLevelBelow23) {
+    public void onAuthenticationResponse(@NotNull JanusAuthenticationResponse janusAuthenticationResponse) {
+        if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.Success){
+            Toast.makeText(MainActivity.this, "Authentication Success!", Toast.LENGTH_SHORT).show();
+        }else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.DeviceApiLevelBelow23) {
             Toast.makeText(MainActivity.this, "Device error below API 23", Toast.LENGTH_SHORT).show();
-        } else if(fingertipErrorType instanceof JanusErrorType.ErrorDuringFingerprintAuthentication) {
-            Toast.makeText(MainActivity.this, ((JanusErrorType.ErrorDuringFingerprintAuthentication) fingertipErrorType).getMessage(), Toast.LENGTH_SHORT).show();
+        } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication) {
+            Toast.makeText(MainActivity.this, ((JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication) janusAuthenticationResponse).getErrorMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 });
