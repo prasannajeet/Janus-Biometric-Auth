@@ -222,15 +222,15 @@ internal class JanusBiometricPresenter(IView: JanusContract.IView) : JanusContra
         }
 
         override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
-            mView.onFingerprintAuthenticationFailed(errString.toString())
+            mView.onFingerprintAuthenticationFailed(errMsgId, errString.toString())
         }
 
         override fun onAuthenticationHelp(helpMsgId: Int, helpString: CharSequence?) {
-            mView.onFingerprintAuthenticationFailed(helpString.toString())
+            mView.onFingerprintAuthenticationFailed(helpMsgId, helpString.toString())
         }
 
         override fun onAuthenticationFailed() {
-            mView.onFingerprintAuthenticationFailed("Fingerprint not recognized. Try again")
+            mView.onFingerprintAuthenticationFailed(text = "Fingerprint not recognized. Try again")
         }
     }
 
@@ -242,7 +242,7 @@ internal class JanusBiometricPresenter(IView: JanusContract.IView) : JanusContra
             if (model.isSuccess) {
                 mView.setUpFingerprintViews()
             } else {
-                mView.onFingerprintAuthenticationFailed(model.message)
+                mView.onFingerprintAuthenticationFailed(text = model.message)
             }
         }
     }

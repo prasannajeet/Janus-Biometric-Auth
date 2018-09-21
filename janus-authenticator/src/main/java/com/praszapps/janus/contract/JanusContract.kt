@@ -213,7 +213,7 @@ internal interface JanusContract {
         fun initialize()
         fun setUpFingerprintViews()
         fun onFingerPrintAuthenticationSuccess()
-        fun onFingerprintAuthenticationFailed(text: String)
+        fun onFingerprintAuthenticationFailed(id: Int = -2000, text: String)
 
     }
 

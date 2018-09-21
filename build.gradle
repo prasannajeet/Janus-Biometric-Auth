@@ -238,9 +238,7 @@ subprojects {
 ext {
     versionMajor = 0
     versionMinor = 3
-    versionPatch = 2
-    isSnapshot = false
-    snapshotSuffiix = "-SNAPSHOT"
+    versionPatch = 3
     minimumSdkVersion = 21
 
     daggerVersion = "2.16"
