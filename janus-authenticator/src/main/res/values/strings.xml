@@ -209,5 +209,4 @@
     <string name="confirm_fingerprint_to_continue">Confirm fingerprint to continue.</string>
     <string name="touch_sensor">Touch sensor</string>
     <string name="auth_success_message">Authentication Successful</string>
-    <string name="too_many_attempts">Too many attempts</string>
 </resources>

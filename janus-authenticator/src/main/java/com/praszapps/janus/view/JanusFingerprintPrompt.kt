@@ -205,6 +205,7 @@
 package com.praszapps.janus.view
 
 import android.app.Dialog
+import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.BottomSheetDialog
@@ -253,7 +254,6 @@ internal class JanusFingerprintPrompt : BottomSheetDialogFragment(), JanusContra
     override fun setUpFingerprintViews() {
         cancel_Button.setOnClickListener {
             mPresenter.cancelFingerprintDetection()
-            dialog.dismiss()
         }
         mPresenter.authenticateViaFingerprint()
     }
@@ -265,10 +265,11 @@ internal class JanusFingerprintPrompt : BottomSheetDialogFragment(), JanusContra
 
     }
 
-    override fun onFingerprintAuthenticationFailed(text: String) {
+    override fun onFingerprintAuthenticationFailed(id: Int, text: String) {
+
         icon_FAB.setImageResource(R.drawable.ic_error_white_24dp)
         error_TextView.text = text
-        if (text.startsWith(getString(R.string.too_many_attempts))) {
+        if (id == FingerprintManager.FINGERPRINT_ERROR_LOCKOUT || id == FingerprintManager.FINGERPRINT_ERROR_CANCELED) {
             dismissAfterHalfSecond(false, text)
         }
     }
@@ -284,6 +285,6 @@ internal class JanusFingerprintPrompt : BottomSheetDialogFragment(), JanusContra
                 }
             }
             dismiss()
-        }, 700)
+        }, 500)
     }
 }
