@@ -1,6 +1,6 @@
 # Release Notes
 
-## 0.3.3.
+## 0.3.3
 - Fixed crash on tapping cancel button
 ## 0.3.2
 - Removed config class, streamlined API
