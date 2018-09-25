@@ -211,7 +211,7 @@ import android.security.keystore.KeyProperties
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
 import com.praszapps.janus.contract.JanusContract
-import com.praszapps.janus.model.JanusInitResponseModel
+import com.praszapps.janus.model.JanusResponseModel
 import com.praszapps.janus.util.JanusUtil
 import com.praszapps.janus.util.JanusUtil.DEFAULT_KEY_NAME
 import java.security.KeyStore
@@ -228,7 +228,7 @@ internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCall
     private lateinit var keyGenerator: KeyGenerator
     private lateinit var mCryptoObj: FingerprintManagerCompat.CryptoObject
 
-    override suspend fun initialize(): JanusInitResponseModel {
+    override suspend fun initialize(): JanusResponseModel {
 
         val defaultCipher: Cipher
 
@@ -262,10 +262,10 @@ internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCall
             defaultCipher.init(Cipher.ENCRYPT_MODE, key)
             mCryptoObj = FingerprintManagerCompat.CryptoObject(defaultCipher)
 
-            return JanusInitResponseModel(true)
+            return JanusResponseModel(true)
 
         } catch (e: Exception) {
-            return JanusInitResponseModel(message = e.localizedMessage)
+            return JanusResponseModel(message = e.localizedMessage)
         }
     }
 

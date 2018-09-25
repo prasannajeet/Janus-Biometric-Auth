@@ -211,18 +211,19 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.praszapps.janus.R
 import com.praszapps.janus.contract.JanusContract
-import com.praszapps.janus.contract.ManagerViewInteractor
+import com.praszapps.janus.model.JanusResponseModel
 import com.praszapps.janus.presenter.JanusBiometricPresenter
 import com.praszapps.janus.util.JanusUtil
 import kotlinx.android.synthetic.main.fingerprint_dialog.*
 
 internal class JanusFingerprintPrompt : BottomSheetDialogFragment(), JanusContract.IView {
 
-    internal lateinit var listener: ManagerViewInteractor
+    internal lateinit var liveData: MutableLiveData<JanusResponseModel>
     internal lateinit var fragmentManager: androidx.fragment.app.FragmentManager
 
     override fun getTheme(): Int {
@@ -277,10 +278,10 @@ internal class JanusFingerprintPrompt : BottomSheetDialogFragment(), JanusContra
         Handler().postDelayed({
             mPresenter.cancelFingerprintDetection()
             if (isSuccess) {
-                listener.onAuthSuccess()
+                liveData.value = JanusResponseModel(true)
             } else {
                 if (message != null) {
-                    listener.onAuthFailure(message)
+                    liveData.value = JanusResponseModel(message = message)
                 }
             }
             dismiss()

@@ -206,7 +206,7 @@
 ext {
     versionMajor = 0
     versionMinor = 4
-    versionPatch = 5
+    versionPatch = 6
     minimumSdkVersion = 21
 
 
@@ -216,7 +216,8 @@ ext {
     materialVersion = "1.0.0"
     coroutinesVersion = "0.26.0"
     junitVersion = "4.12"
-    kotlin_version = '1.2.71'
+    kotlin_version = "1.2.71"
+    livedataVersion = "2.0.0"
 }
 buildscript {
     repositories {

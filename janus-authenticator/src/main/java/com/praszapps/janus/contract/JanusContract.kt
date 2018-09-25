@@ -205,7 +205,7 @@
 package com.praszapps.janus.contract
 
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
-import com.praszapps.janus.model.JanusInitResponseModel
+import com.praszapps.janus.model.JanusResponseModel
 
 internal interface JanusContract {
 
@@ -224,7 +224,7 @@ internal interface JanusContract {
     }
 
     interface IModel {
-        suspend fun initialize(): JanusInitResponseModel
+        suspend fun initialize(): JanusResponseModel
         fun startFingerprintTracking(listener: FingerprintManagerCompat.AuthenticationCallback)
         fun stopFingerprintTracking()
     }

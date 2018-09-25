@@ -206,9 +206,11 @@ package com.praszapps.janus.manager
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.os.Build
 import androidx.annotation.Keep
-import com.praszapps.janus.contract.ManagerViewInteractor
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import com.praszapps.janus.model.JanusResponseModel
 import com.praszapps.janus.util.JanusUtil
 
 /**
@@ -229,29 +231,24 @@ object JanusAuthenticator {
      */
     fun authenticate(janusAuthenticationStyle: JanusAuthenticationStyle, context: Context, listener: JanusAuthenticationCallback) {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (JanusUtil.isSupportFingerprintAuthentication(context)) {
-                when (janusAuthenticationStyle) {
+        if (JanusUtil.isSupportFingerprintAuthentication(context)) {
+            when (janusAuthenticationStyle) {
 
-                    //JanusAuthenticationStyle.DEVICE_LOCK -> {}
-                    JanusAuthenticationStyle.BIOMETRIC_DIALOG -> {
-                        JanusUtil.showBiometricDialog(object : ManagerViewInteractor {
-
-                            override fun onAuthSuccess() {
-                                listener.onAuthenticationResponse(JanusAuthenticationResponse.Success)
-                            }
-
-                            override fun onAuthFailure(message: String) {
-                                listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(message))
-                            }
-                        })
-                    }
+                //JanusAuthenticationStyle.DEVICE_LOCK -> {}
+                JanusAuthenticationStyle.BIOMETRIC_DIALOG -> {
+                    val liveData = MutableLiveData<JanusResponseModel>()
+                    liveData.observe(context as LifecycleOwner, Observer<JanusResponseModel> { response ->
+                        if (response.isSuccess) {
+                            listener.onAuthenticationResponse(JanusAuthenticationResponse.Success)
+                        } else {
+                            listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(response.message))
+                        }
+                    })
+                    JanusUtil.showBiometricDialog(liveData)
                 }
-            } else {
-                listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication("Either device not support fingerprint or no fingerprint added"))
             }
         } else {
-            listener.onAuthenticationResponse(JanusAuthenticationResponse.DeviceApiLevelBelow23)
+            listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication("Either device not support fingerprint or no fingerprint added"))
         }
     }
 }

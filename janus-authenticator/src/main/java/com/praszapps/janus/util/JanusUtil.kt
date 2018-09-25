@@ -212,7 +212,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.lifecycle.MutableLiveData
-import com.praszapps.janus.model.JanusInitResponseModel
+import com.praszapps.janus.model.JanusResponseModel
 import com.praszapps.janus.view.JanusFingerprintPrompt
 
 @TargetApi(23)
@@ -240,7 +240,7 @@ object JanusUtil {
         return packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT) && fManager.isHardwareDetected && fManager.hasEnrolledFingerprints() && kManager.isDeviceSecure && kManager.isKeyguardSecure && isApiLevelSupported()
     }
 
-    internal fun showBiometricDialog(successLiveData: MutableLiveData<JanusInitResponseModel>) {
+    internal fun showBiometricDialog(successLiveData: MutableLiveData<JanusResponseModel>) {
         val fingerDialog = JanusFingerprintPrompt()
         fingerDialog.liveData = successLiveData
         fingerDialog.fragmentManager = supportFragmentManager
