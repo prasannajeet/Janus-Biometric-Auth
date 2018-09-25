@@ -204,7 +204,7 @@
 
 package com.praszapps.janus.contract
 
-import android.support.annotation.Keep
+import androidx.annotation.Keep
 
 @Keep
 internal interface ManagerViewInteractor {

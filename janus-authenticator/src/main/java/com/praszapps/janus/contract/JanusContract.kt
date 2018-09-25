@@ -204,7 +204,7 @@
 
 package com.praszapps.janus.contract
 
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import com.praszapps.janus.model.JanusInitResponseModel
 
 internal interface JanusContract {

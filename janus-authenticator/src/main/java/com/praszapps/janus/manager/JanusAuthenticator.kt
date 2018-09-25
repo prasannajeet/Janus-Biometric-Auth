@@ -207,7 +207,7 @@ package com.praszapps.janus.manager
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
-import android.support.annotation.Keep
+import androidx.annotation.Keep
 import com.praszapps.janus.contract.ManagerViewInteractor
 import com.praszapps.janus.util.JanusUtil
 

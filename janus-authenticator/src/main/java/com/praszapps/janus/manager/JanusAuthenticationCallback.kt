@@ -204,7 +204,7 @@
 
 package com.praszapps.janus.manager
 
-import android.support.annotation.Keep
+import androidx.annotation.Keep
 
 /**
  * Callback methods for [JanusAuthenticator.authenticate] method

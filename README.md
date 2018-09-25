@@ -1,18 +1,19 @@
 # Janus - The easy biometric authentication library for Android
-[![GitLabCI](https://gitlab.com/prasannajeet/Janus/badges/master/build.svg)](https://gitlab.com/prasannajeet/Janus/pipelines) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus.svg?type=shield)](https://app.fossa.io/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus?ref=badge_shield) [ ![Download](https://api.bintray.com/packages/prasannajeet89/praszappsMaven/janus/images/download.svg) ](https://bintray.com/prasannajeet89/praszappsMaven/janus/_latestVersion) [![Apache 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/prasannajeet/Fingertip/blob/master/LICENSE)
+[![GitLabCI](https://gitlab.com/prasannajeet/Janus/badges/master/build.svg)](https://gitlab.com/prasannajeet/Janus/pipelines) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus.svg?type=shield)](https://app.fossa.io/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus?ref=badge_shield) [ ![Download](https://api.bintray.com/packages/prasannajeet89/praszappsMaven/janus/images/download.svg) ](https://bintray.com/prasannajeet89/praszappsMaven/janus/_latestVersion) [![Apache 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://gitlab.com/prasannajeet/Janus/blob/master/LICENSE)
 ### Currently in alpha (v0.3) - may be buggy
 
-Tired of having to write an entire chunk of code, check for OS versions, create layouts and store icons to implement a simple biometric authentication dialog? 
+# Tired of having to write an entire chunk of code, check for OS versions, create layouts and store icons to implement a simple biometric authentication dialog? 
 
 This Android library project is designed to simplify the complicated biometric authentication process in Android.
 
-Upon completion, it will offer 2 biometric authentication mechanisms
+# Note-- The library is configured to AndroidX and hence will work only on AndroidX applications. Ensure your application is configured to use AndroidX using the "Refactor->Migrate to AndroidX" option in Android Studio 3.2 and above.
+
+Upon completion, it will offer following biometric authentication
 
 - Biometric Authentication Dialog - Fingerprint slider for pre-Android P and biometric slider for Android P and above
-- Device lock based Authentication (will work only if biometrics is available)
 
 There are 2 steps in conducting the authentication
-1. Set configuration such as context and type of authentication (dialog/activity/device lock) 
+1. Set configuration such as context and type of authentication 
 2. Call authentication UI and listen for results
 
 ## Gradle Dependency
@@ -64,7 +65,7 @@ Release notes can be found [here](https://github.com/prasannajeet/Fingertip/blob
 
 ## Development Milestones
 - **v0.3.1** - Converted fingerprint dialog to bottom sheet for pre Pie API level *(September 19 2018)*
-- **v0.3.0** - Rebranded Fingertip to Janus *(September 19 2018)*
+- **v0.3.0** - Re-branded Fingertip to Janus *(September 19 2018)*
 - **v0.2.2** - Stabilized fingerprint dialog. Added coroutines. Removed RxJava. Configured proguard. *(September 18 2018)*
 - **v0.2.0** - Fragment based fingerprint authentication implemented with initial UI *(September 15 2018)*
 - **v0.1.3** - Converted project to Kotlin *(September 15 2018)*

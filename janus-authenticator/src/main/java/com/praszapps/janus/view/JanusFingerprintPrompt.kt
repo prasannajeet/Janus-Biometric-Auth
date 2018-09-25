@@ -208,12 +208,11 @@ import android.app.Dialog
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.BottomSheetDialog
-import android.support.design.widget.BottomSheetDialogFragment
-import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.praszapps.janus.R
 import com.praszapps.janus.contract.JanusContract
 import com.praszapps.janus.contract.ManagerViewInteractor
@@ -224,7 +223,7 @@ import kotlinx.android.synthetic.main.fingerprint_dialog.*
 internal class JanusFingerprintPrompt : BottomSheetDialogFragment(), JanusContract.IView {
 
     internal lateinit var listener: ManagerViewInteractor
-    internal lateinit var fragmentManager: FragmentManager
+    internal lateinit var fragmentManager: androidx.fragment.app.FragmentManager
 
     override fun getTheme(): Int {
         return R.style.JanusV23BottomSheetDialogTheme

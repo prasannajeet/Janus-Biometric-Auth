@@ -204,10 +204,10 @@
 
 package com.praszapps.janus.manager
 
-import android.support.annotation.Keep
+import androidx.annotation.Keep
 
 /**
- * This sealed class represents the different error scenarios for the [JanusAuthenticationCallback.onAuthenticationFail] callback in [JanusAuthenticator]
+ * This sealed class represents the different error scenarios for the [JanusAuthenticationCallback.onAuthenticationResponse] callback in [JanusAuthenticator]
  * @author Prasannajeet Pani
  * @since 0.2.1
  */
