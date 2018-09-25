@@ -2,11 +2,11 @@
 [![GitLabCI](https://gitlab.com/prasannajeet/Janus/badges/master/build.svg)](https://gitlab.com/prasannajeet/Janus/pipelines) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus.svg?type=shield)](https://app.fossa.io/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus?ref=badge_shield) [ ![Download](https://api.bintray.com/packages/prasannajeet89/praszappsMaven/janus/images/download.svg) ](https://bintray.com/prasannajeet89/praszappsMaven/janus/_latestVersion) [![Apache 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://gitlab.com/prasannajeet/Janus/blob/master/LICENSE)
 ### Currently in alpha (v0.3) - may be buggy
 
-# Tired of having to write an entire chunk of code, check for OS versions, create layouts and store icons to implement a simple biometric authentication dialog? 
+**Tired of having to write an entire chunk of code, check for OS versions, create layouts and store icons to implement a simple biometric authentication dialog?**
 
 This Android library project is designed to simplify the complicated biometric authentication process in Android.
 
-# Note-- The library is configured to AndroidX and hence will work only on AndroidX applications. Ensure your application is configured to use AndroidX using the "Refactor->Migrate to AndroidX" option in Android Studio 3.2 and above.
+**Note-- The library is configured to AndroidX and hence will work only on AndroidX applications. Ensure your application is configured to use AndroidX using the "Refactor->Migrate to AndroidX" option in Android Studio 3.2 and above.**
 
 Upon completion, it will offer following biometric authentication
 
@@ -64,6 +64,7 @@ For now the UI will be the default UI provided by the library, eventually overri
 Release notes can be found [here](https://github.com/prasannajeet/Fingertip/blob/master/release-notes.md)
 
 ## Development Milestones
+- **v0.4.5** - Converted project to AndroidX *(September 24 2018)*
 - **v0.3.1** - Converted fingerprint dialog to bottom sheet for pre Pie API level *(September 19 2018)*
 - **v0.3.0** - Re-branded Fingertip to Janus *(September 19 2018)*
 - **v0.2.2** - Stabilized fingerprint dialog. Added coroutines. Removed RxJava. Configured proguard. *(September 18 2018)*

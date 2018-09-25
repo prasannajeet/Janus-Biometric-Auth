@@ -1,5 +1,7 @@
 # Release Notes
 
+## 0.4.5
+- Converted project to AndroidX
 ## 0.3.3
 - Fixed crash on tapping cancel button
 ## 0.3.2
