@@ -1,5 +1,7 @@
 # Release Notes
 
+## 0.4.6
+- Replaced a listener with LiveData
 ## 0.4.5
 - Converted project to AndroidX
 ## 0.3.3
