@@ -213,6 +213,9 @@ import androidx.annotation.Keep
  */
 @Keep
 enum class JanusAuthenticationStyle {
+    /**
+     * Shows fingerprint/biometric dialog
+     */
     BIOMETRIC_DIALOG,
     //DEVICE_LOCK
 }

@@ -231,5 +231,7 @@ sealed class JanusAuthenticationResponse {
      * Error class for any error message to be passed to the app during the failure of authentication via fingerprint
      */
     @Keep
-    data class ErrorDuringFingerprintAuthentication(val errorMessage: String) : JanusAuthenticationResponse()
+    data class ErrorDuringFingerprintAuthentication(
+            /**Error message**/
+            val errorMessage: String) : JanusAuthenticationResponse()
 }
