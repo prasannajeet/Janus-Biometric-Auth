@@ -1,12 +1,12 @@
 # Janus - The easy biometric authentication library for Android
 [![GitLabCI](https://gitlab.com/prasannajeet/Janus/badges/master/build.svg)](https://gitlab.com/prasannajeet/Janus/pipelines) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus.svg?type=shield)](https://app.fossa.io/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus?ref=badge_shield) [ ![Download](https://api.bintray.com/packages/prasannajeet89/praszappsMaven/janus/images/download.svg) ](https://bintray.com/prasannajeet89/praszappsMaven/janus/_latestVersion) [![Apache 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://gitlab.com/prasannajeet/Janus/blob/master/LICENSE)
-### Currently in alpha (v0.3) - may be buggy
+### Currently in alpha - may be buggy
 
 **Tired of having to write an entire chunk of code, check for OS versions, create layouts and store icons to implement a simple biometric authentication dialog?**
 
 This Android library project is designed to simplify the complicated biometric authentication process in Android.
 
-**Note-- The library is configured to AndroidX and hence will work only on AndroidX applications. Ensure your application is configured to use AndroidX using the "Refactor->Migrate to AndroidX" option in Android Studio 3.2 and above.**
+**Note: The library is configured to AndroidX and hence will work only on AndroidX applications. Ensure your application is configured to use AndroidX using the "Refactor->Migrate to AndroidX" option in Android Studio 3.2 and above.**
 
 Upon completion, it will offer following biometric authentication
 
