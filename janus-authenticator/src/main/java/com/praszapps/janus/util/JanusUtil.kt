@@ -209,18 +209,21 @@ import android.app.KeyguardManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.support.v4.app.FragmentManager
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
-import android.support.v7.app.AppCompatActivity
-import com.praszapps.janus.contract.ManagerViewInteractor
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat
+import androidx.lifecycle.MutableLiveData
+import com.praszapps.janus.model.JanusResponseModel
 import com.praszapps.janus.view.JanusFingerprintPrompt
 
 @TargetApi(23)
+/**
+ * Util class
+ */
 object JanusUtil {
 
     internal lateinit var fManager: FingerprintManagerCompat
     private lateinit var kManager: KeyguardManager
-    private lateinit var supportFragmentManager: FragmentManager
+    private lateinit var supportFragmentManager: androidx.fragment.app.FragmentManager
     internal val DEFAULT_KEY_NAME = "JanusKeyName"
     internal val tag = "fingerprintdialogTag"
 
@@ -237,13 +240,12 @@ object JanusUtil {
         return packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT) && fManager.isHardwareDetected && fManager.hasEnrolledFingerprints() && kManager.isDeviceSecure && kManager.isKeyguardSecure && isApiLevelSupported()
     }
 
-    internal fun showBiometricDialog(listener: ManagerViewInteractor) {
+    internal fun showBiometricDialog(successLiveData: MutableLiveData<JanusResponseModel>) {
         val fingerDialog = JanusFingerprintPrompt()
-        fingerDialog.listener = listener
+        fingerDialog.liveData = successLiveData
         fingerDialog.fragmentManager = supportFragmentManager
         fingerDialog.initialize()
     }
-
 
     private fun isApiLevelSupported(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 }

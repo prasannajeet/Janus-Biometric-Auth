@@ -202,12 +202,6 @@
  *    limitations under the License.
  */
 
-package com.praszapps.janus.contract
+package com.praszapps.janus.model
 
-import android.support.annotation.Keep
-
-@Keep
-internal interface ManagerViewInteractor {
-    fun onAuthSuccess()
-    fun onAuthFailure(message: String)
-}
+internal data class JanusResponseModel(val isSuccess: Boolean = false, val message: String = "")

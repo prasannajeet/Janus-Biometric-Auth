@@ -206,9 +206,12 @@ package com.praszapps.janus.manager
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.os.Build
-import android.support.annotation.Keep
-import com.praszapps.janus.contract.ManagerViewInteractor
+import androidx.annotation.Keep
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import com.praszapps.janus.R
+import com.praszapps.janus.model.JanusResponseModel
 import com.praszapps.janus.util.JanusUtil
 
 /**
@@ -221,37 +224,70 @@ import com.praszapps.janus.util.JanusUtil
 object JanusAuthenticator {
 
     /**
-     * The authentication function that initiated the desired type of fingerprint authentication. If the API level of the application on which this function is called is less than 23
+     * The authentication function that initiated the desired type of fingerprint authentication.
+     * If the API level of the application on which this function is called is less than 23
      * the method will invoke the failure callback [JanusAuthenticationCallback.onAuthenticationResponse] passing the [JanusAuthenticationResponse.DeviceApiLevelBelow23] object
      * @since 0.3.3
+     * @param janusAuthenticationStyle [JanusAuthenticationStyle] type to specify which type of UI to show
      * @param context [Context] object of the calling Activity
      * @param listener [JanusAuthenticationCallback] callback to denote the calling application for success and failure scenarios
      */
     fun authenticate(janusAuthenticationStyle: JanusAuthenticationStyle, context: Context, listener: JanusAuthenticationCallback) {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (JanusUtil.isSupportFingerprintAuthentication(context)) {
-                when (janusAuthenticationStyle) {
+        if (JanusUtil.isSupportFingerprintAuthentication(context)) {
 
-                    //JanusAuthenticationStyle.DEVICE_LOCK -> {}
-                    JanusAuthenticationStyle.BIOMETRIC_DIALOG -> {
-                        JanusUtil.showBiometricDialog(object : ManagerViewInteractor {
+            when (janusAuthenticationStyle) {
 
-                            override fun onAuthSuccess() {
-                                listener.onAuthenticationResponse(JanusAuthenticationResponse.Success)
-                            }
+                JanusAuthenticationStyle.BIOMETRIC_DIALOG -> {
+                    val liveData = MutableLiveData<JanusResponseModel>()
+                    liveData.observe(context as LifecycleOwner, Observer<JanusResponseModel> { response ->
 
-                            override fun onAuthFailure(message: String) {
-                                listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(message))
-                            }
-                        })
-                    }
+                        if (response.isSuccess) {
+                            listener.onAuthenticationResponse(JanusAuthenticationResponse.Success)
+                        } else {
+                            listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(response.message))
+                        }
+                    })
+                    JanusUtil.showBiometricDialog(liveData)
                 }
-            } else {
-                listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication("Either device not support fingerprint or no fingerprint added"))
             }
         } else {
-            listener.onAuthenticationResponse(JanusAuthenticationResponse.DeviceApiLevelBelow23)
+            listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(context.getString(R.string.no_fp)))
         }
+    }
+
+    /**
+     * The authentication function that initiated the desired type of fingerprint authentication and return a [MutableLiveData] of [JanusAuthenticationResponse] type
+     * If the API level of the application on which this function is called is less than 23
+     * the method will return the [JanusAuthenticationResponse.DeviceApiLevelBelow23] object via the LiveData object
+     * @since 0.4.7
+     * @param janusAuthenticationStyle [JanusAuthenticationStyle] type to specify which type of UI to show
+     * @param context [Context] object of the calling Activity
+     * @return [MutableLiveData] of [JanusAuthenticationResponse] type to calling app to observe
+     */
+    fun authenticate(janusAuthenticationStyle: JanusAuthenticationStyle, context: Context): MutableLiveData<JanusAuthenticationResponse> {
+
+        val resultLiveData = MutableLiveData<JanusAuthenticationResponse>()
+
+        if (JanusUtil.isSupportFingerprintAuthentication(context)) {
+
+            when (janusAuthenticationStyle) {
+
+                JanusAuthenticationStyle.BIOMETRIC_DIALOG -> {
+                    val liveData = MutableLiveData<JanusResponseModel>()
+                    liveData.observe(context as LifecycleOwner, Observer<JanusResponseModel> { response ->
+                        if (response.isSuccess) {
+                            resultLiveData.value = JanusAuthenticationResponse.Success
+                        } else {
+                            resultLiveData.value = JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(response.message)
+                        }
+                    })
+                    JanusUtil.showBiometricDialog(liveData)
+                }
+            }
+        } else {
+            resultLiveData.value = JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(context.getString(R.string.no_fp))
+        }
+        return resultLiveData
     }
 }

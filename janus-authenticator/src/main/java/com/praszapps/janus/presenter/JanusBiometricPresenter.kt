@@ -204,7 +204,7 @@
 
 package com.praszapps.janus.presenter
 
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import com.praszapps.janus.contract.JanusContract
 import com.praszapps.janus.model.repository.JanusSecureProvider
 import kotlinx.coroutines.experimental.GlobalScope
