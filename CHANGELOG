@@ -1,7 +1,9 @@
 # Release Notes
 
+## 0.4.7
+- Added a overloaded `authenticate` method returning a LiveData instead of listener
 ## 0.4.6
-- Replaced a listener with LiveData
+- Replaced a internal listener with LiveData
 ## 0.4.5
 - Converted project to AndroidX
 ## 0.3.3
@@ -11,7 +13,7 @@
 ## 0.3.1
 - Converted pre Android pie fingerprint UX from dialog to bottom sheet
 ## 0.3.0
-- Rebranded Fingertip to Janus
+- Re-branded Fingertip to Janus
 - Added Kotlin coroutines and removed RxJava
 - Fixed crashes related to fingerprint dialog
 - Configured proguard
