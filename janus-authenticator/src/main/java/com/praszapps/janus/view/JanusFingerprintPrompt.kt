@@ -205,9 +205,8 @@
 package com.praszapps.janus.view
 
 import android.app.Dialog
-import android.hardware.fingerprint.FingerprintManager
+import android.hardware.biometrics.BiometricPrompt
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -220,6 +219,10 @@ import com.praszapps.janus.model.JanusResponseModel
 import com.praszapps.janus.presenter.JanusBiometricPresenter
 import com.praszapps.janus.util.JanusUtil
 import kotlinx.android.synthetic.main.fingerprint_dialog.*
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.experimental.launch
 
 internal class JanusFingerprintPrompt : BottomSheetDialogFragment(), JanusContract.IView {
 
@@ -269,13 +272,14 @@ internal class JanusFingerprintPrompt : BottomSheetDialogFragment(), JanusContra
 
         icon_FAB.setImageResource(R.drawable.ic_error_white_24dp)
         error_TextView.text = text
-        if (id == FingerprintManager.FINGERPRINT_ERROR_LOCKOUT || id == FingerprintManager.FINGERPRINT_ERROR_CANCELED) {
+        if (id == BiometricPrompt.BIOMETRIC_ERROR_LOCKOUT || id == BiometricPrompt.BIOMETRIC_ERROR_CANCELED) {
             dismissAfterHalfSecond(false, text)
         }
     }
 
     private fun dismissAfterHalfSecond(isSuccess: Boolean = true, message: String? = null) {
-        Handler().postDelayed({
+        GlobalScope.launch(Dispatchers.Main) {
+            Thread.sleep(500)
             mPresenter.cancelFingerprintDetection()
             if (isSuccess) {
                 liveData.value = JanusResponseModel(true)
@@ -285,6 +289,6 @@ internal class JanusFingerprintPrompt : BottomSheetDialogFragment(), JanusContra
                 }
             }
             dismiss()
-        }, 500)
+        }
     }
 }
