@@ -94,7 +94,7 @@ JanusAuthenticator.INSTANCE.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIAL
 For now the UI will be the default UI provided by the library, eventually override options will be provided
 
 ## Release Notes
-Release notes can be found [here](https://gitlab.com/prasannajeet/Janus/blob/master/CHANGELOG.md)
+Release notes can be found [here](https://gitlab.com/prasannajeet/Janus/blob/master/CHANGELOG)
 
 ## Notable Development Milestones
 - **v0.4.5** - Converted project to AndroidX *(September 24 2018)*
