@@ -22,7 +22,6 @@ import com.praszapps.janus.model.JanusResponseModel
 internal interface JanusContract {
 
     interface IView {
-        fun initialize()
         fun setUpFingerprintViews()
         fun onFingerPrintAuthenticationSuccess()
         fun onFingerprintAuthenticationFailed(id: Int = -2000, text: String)
