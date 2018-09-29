@@ -17,14 +17,16 @@
 package com.praszapps.janus.manager
 
 import android.annotation.TargetApi
-import android.content.Context
+import android.app.Activity
 import androidx.annotation.Keep
-import androidx.lifecycle.LifecycleOwner
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.praszapps.janus.R
 import com.praszapps.janus.model.JanusResponseModel
 import com.praszapps.janus.util.JanusUtil
+import com.praszapps.janus.view.JanusFingerprintPrompt
+import org.jetbrains.annotations.NotNull
 
 /**
  * Authenticator class for Janus. Main entry point for the library. Provides functions for authentication and verifying is authentication is possible
@@ -41,18 +43,18 @@ object JanusAuthenticator {
      * the method will invoke the failure callback [JanusAuthenticationCallback.onAuthenticationResponse] passing the [JanusAuthenticationResponse.DeviceApiLevelBelow23] object
      * @since 0.3.3
      * @param janusAuthenticationStyle [JanusAuthenticationStyle] type to specify which type of UI to show
-     * @param context [Context] object of the calling Activity
+     * @param activity Calling [Activity]
      * @param listener [JanusAuthenticationCallback] callback to denote the calling application for success and failure scenarios
      */
-    fun authenticate(janusAuthenticationStyle: JanusAuthenticationStyle, context: Context, listener: JanusAuthenticationCallback) {
+    fun authenticate(janusAuthenticationStyle: JanusAuthenticationStyle, activity: FragmentActivity, listener: JanusAuthenticationCallback) {
 
-        if (JanusUtil.isSupportFingerprintAuthentication(context)) {
+        if (JanusUtil.initiate(activity)) {
 
             when (janusAuthenticationStyle) {
 
                 JanusAuthenticationStyle.BIOMETRIC_DIALOG -> {
                     val liveData = MutableLiveData<JanusResponseModel>()
-                    liveData.observe(context as LifecycleOwner, Observer<JanusResponseModel> { response ->
+                    liveData.observe(activity, Observer<JanusResponseModel> { response ->
 
                         if (response.isSuccess) {
                             listener.onAuthenticationResponse(JanusAuthenticationResponse.Success)
@@ -60,11 +62,12 @@ object JanusAuthenticator {
                             listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(response.message))
                         }
                     })
-                    JanusUtil.showBiometricDialog(liveData)
+                    val fingerDialog = JanusFingerprintPrompt(liveData)
+                    fingerDialog.show(activity.supportFragmentManager, JanusUtil.tag)
                 }
             }
         } else {
-            listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(context.getString(R.string.no_fp)))
+            listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(activity.getString(R.string.no_fp)))
         }
     }
 
@@ -74,32 +77,18 @@ object JanusAuthenticator {
      * the method will return the [JanusAuthenticationResponse.DeviceApiLevelBelow23] object via the LiveData object
      * @since 0.4.7
      * @param janusAuthenticationStyle [JanusAuthenticationStyle] type to specify which type of UI to show
-     * @param context [Context] object of the calling Activity
+     * @param activity Calling [Activity]
      * @return [MutableLiveData] of [JanusAuthenticationResponse] type to calling app to observe
      */
-    fun authenticate(janusAuthenticationStyle: JanusAuthenticationStyle, context: Context): MutableLiveData<JanusAuthenticationResponse> {
+    fun authenticate(@NotNull janusAuthenticationStyle: JanusAuthenticationStyle, @NotNull activity: FragmentActivity): MutableLiveData<JanusAuthenticationResponse> {
 
         val resultLiveData = MutableLiveData<JanusAuthenticationResponse>()
 
-        if (JanusUtil.isSupportFingerprintAuthentication(context)) {
-
-            when (janusAuthenticationStyle) {
-
-                JanusAuthenticationStyle.BIOMETRIC_DIALOG -> {
-                    val liveData = MutableLiveData<JanusResponseModel>()
-                    liveData.observe(context as LifecycleOwner, Observer<JanusResponseModel> { response ->
-                        if (response.isSuccess) {
-                            resultLiveData.value = JanusAuthenticationResponse.Success
-                        } else {
-                            resultLiveData.value = JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(response.message)
-                        }
-                    })
-                    JanusUtil.showBiometricDialog(liveData)
-                }
+        authenticate(janusAuthenticationStyle, activity, object : JanusAuthenticationCallback {
+            override fun onAuthenticationResponse(authenticationResponse: JanusAuthenticationResponse) {
+                resultLiveData.value = authenticationResponse
             }
-        } else {
-            resultLiveData.value = JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(context.getString(R.string.no_fp))
-        }
+        })
         return resultLiveData
     }
 }

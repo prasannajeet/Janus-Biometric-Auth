@@ -28,17 +28,17 @@ ext {
     materialVersion = "1.0.0"
     coroutinesVersion = "0.26.0"
     junitVersion = "4.12"
-    kotlin_version = "1.2.71"
     livedataVersion = "2.0.0"
 }
 buildscript {
+    ext.kotlin_version = '1.2.71'
     repositories {
         google()
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.71'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'guru.stefma.bintrayrelease:bintrayrelease:1.0.0'
     }
 }
