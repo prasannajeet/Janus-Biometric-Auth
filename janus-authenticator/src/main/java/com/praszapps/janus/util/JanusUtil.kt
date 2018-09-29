@@ -21,11 +21,7 @@ import android.app.KeyguardManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
-import androidx.lifecycle.MutableLiveData
-import com.praszapps.janus.model.JanusResponseModel
-import com.praszapps.janus.view.JanusFingerprintPrompt
 
 @TargetApi(23)
 /**
@@ -35,7 +31,6 @@ object JanusUtil {
 
     internal lateinit var fManager: FingerprintManagerCompat
     private lateinit var kManager: KeyguardManager
-    private lateinit var supportFragmentManager: androidx.fragment.app.FragmentManager
     internal val DEFAULT_KEY_NAME = "JanusKeyName"
     internal val tag = "fingerprintdialogTag"
 
@@ -43,20 +38,12 @@ object JanusUtil {
      * Helper function to inform application if Fingertip supports authentication
      * @return true if supports, false otherwise
      */
-    internal fun isSupportFingerprintAuthentication(context: Context): Boolean {
+    internal fun initiate(context: Context): Boolean {
         val packageManager: PackageManager = context.packageManager
-        supportFragmentManager = (context as AppCompatActivity).supportFragmentManager
         fManager = FingerprintManagerCompat.from(context)
         kManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
         return packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT) && fManager.isHardwareDetected && fManager.hasEnrolledFingerprints() && kManager.isDeviceSecure && kManager.isKeyguardSecure && isApiLevelSupported()
-    }
-
-    internal fun showBiometricDialog(successLiveData: MutableLiveData<JanusResponseModel>) {
-        val fingerDialog = JanusFingerprintPrompt()
-        fingerDialog.liveData = successLiveData
-        fingerDialog.fragmentManager = supportFragmentManager
-        fingerDialog.initialize()
     }
 
     private fun isApiLevelSupported(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M

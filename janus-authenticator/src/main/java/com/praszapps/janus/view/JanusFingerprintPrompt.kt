@@ -16,7 +16,7 @@
 
 package com.praszapps.janus.view
 
-import android.app.Dialog
+import android.annotation.SuppressLint
 import android.hardware.biometrics.BiometricPrompt
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -29,26 +29,21 @@ import com.praszapps.janus.R
 import com.praszapps.janus.contract.JanusContract
 import com.praszapps.janus.model.JanusResponseModel
 import com.praszapps.janus.presenter.JanusBiometricPresenter
-import com.praszapps.janus.util.JanusUtil
 import kotlinx.android.synthetic.main.fingerprint_dialog.*
-import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch
 
-internal class JanusFingerprintPrompt : BottomSheetDialogFragment(), JanusContract.IView {
-
-    internal lateinit var liveData: MutableLiveData<JanusResponseModel>
-    internal lateinit var fragmentManager: androidx.fragment.app.FragmentManager
+@SuppressLint("ValidFragment")
+internal class JanusFingerprintPrompt(private val liveData: MutableLiveData<JanusResponseModel>) : BottomSheetDialogFragment(), JanusContract.IView {
 
     override fun getTheme(): Int {
         return R.style.JanusV23BottomSheetDialogTheme
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
-
-    override fun initialize() {
-        show(fragmentManager, JanusUtil.tag)
+    override fun onCreateDialog(savedInstanceState: Bundle?): BottomSheetDialog {
+        val dialog = BottomSheetDialog(requireContext(), theme)
+        retainInstance = true
+        return dialog
     }
 
     private val mPresenter: JanusContract.IPresenter by lazy {
@@ -74,33 +69,30 @@ internal class JanusFingerprintPrompt : BottomSheetDialogFragment(), JanusContra
     }
 
     override fun onFingerPrintAuthenticationSuccess() {
-        icon_FAB.setImageResource(R.drawable.ic_check_white_24dp)
-        error_TextView.text = getString(R.string.auth_success_message)
+        icon_FAB?.setImageResource(R.drawable.ic_check_white_24dp)
+        error_TextView?.text = getString(R.string.auth_success_message)
+        liveData.value = JanusResponseModel(true)
         dismissAfterHalfSecond()
 
     }
 
     override fun onFingerprintAuthenticationFailed(id: Int, text: String) {
 
-        icon_FAB.setImageResource(R.drawable.ic_error_white_24dp)
-        error_TextView.text = text
+        icon_FAB?.setImageResource(R.drawable.ic_error_white_24dp)
+        error_TextView?.text = text
         if (id == BiometricPrompt.BIOMETRIC_ERROR_LOCKOUT || id == BiometricPrompt.BIOMETRIC_ERROR_CANCELED) {
-            dismissAfterHalfSecond(false, text)
+            liveData.value = JanusResponseModel(message = text)
+            dismissAfterHalfSecond()
         }
     }
 
-    private fun dismissAfterHalfSecond(isSuccess: Boolean = true, message: String? = null) {
-        GlobalScope.launch(Dispatchers.Main) {
+    private fun dismissAfterHalfSecond() {
+        GlobalScope.launch {
             Thread.sleep(500)
             mPresenter.cancelFingerprintDetection()
-            if (isSuccess) {
-                liveData.value = JanusResponseModel(true)
-            } else {
-                if (message != null) {
-                    liveData.value = JanusResponseModel(message = message)
-                }
+            if (this@JanusFingerprintPrompt.isVisible && !this@JanusFingerprintPrompt.isRemoving) {
+                dismissAllowingStateLoss()
             }
-            dismiss()
         }
     }
 }
