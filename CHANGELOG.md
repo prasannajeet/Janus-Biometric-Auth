@@ -1,5 +1,11 @@
 # Release Notes
 
+## 0.4.9
+- Fixed crash on rotation
+- Refactored public API
+## 0.4.8
+- Additional coroutines implementation
+- Removed deprecated references
 ## 0.4.7
 - Added a overloaded `authenticate` method returning a LiveData instead of listener
 ## 0.4.6
