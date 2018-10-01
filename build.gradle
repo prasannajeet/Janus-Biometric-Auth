@@ -1,5 +1,5 @@
 /*
- *    Copyright [2018] [Prasannajeet Pani]
+ *    Copyright 2018 Prasannajeet Pani
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 ext {
     versionMajor = 0
     versionMinor = 4
-    versionPatch = 8
+    versionPatch = 9
     minimumSdkVersion = 21
 
 
