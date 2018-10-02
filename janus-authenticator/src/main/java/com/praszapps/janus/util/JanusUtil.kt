@@ -31,8 +31,8 @@ object JanusUtil {
 
     internal lateinit var fManager: FingerprintManagerCompat
     private lateinit var kManager: KeyguardManager
-    internal val DEFAULT_KEY_NAME = "JanusKeyName"
-    internal val tag = "fingerprintdialogTag"
+    internal const val DEFAULT_KEY_NAME = "JanusKeyName"
+    internal const val tag = "fingerprintdialogTag"
 
     /**
      * Helper function to inform application if Fingertip supports authentication
