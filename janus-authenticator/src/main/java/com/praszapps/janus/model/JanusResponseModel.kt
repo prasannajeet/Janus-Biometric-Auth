@@ -16,4 +16,4 @@
 
 package com.praszapps.janus.model
 
-internal data class JanusResponseModel(val isSuccess: Boolean = false, val message: String = "")
+internal data class JanusResponseModel(val isSuccess: Boolean = false, val messageId: Int = -2000, val message: String = "")

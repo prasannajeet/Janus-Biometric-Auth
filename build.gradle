@@ -17,8 +17,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 ext {
     versionMajor = 0
-    versionMinor = 4
-    versionPatch = 9
+    versionMinor = 5
+    versionPatch = 0
     minimumSdkVersion = 21
 
 

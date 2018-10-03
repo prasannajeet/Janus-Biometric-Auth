@@ -1,5 +1,8 @@
 # Release Notes
 
+## 0.5.0
+- Replaced MVP with MVVM
+- Project is now on public beta
 ## 0.4.9
 - Fixed crash on rotation
 - Refactored public API

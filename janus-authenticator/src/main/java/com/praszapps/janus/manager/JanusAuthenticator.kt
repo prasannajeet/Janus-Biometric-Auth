@@ -22,9 +22,7 @@ import androidx.annotation.Keep
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.praszapps.janus.R
 import com.praszapps.janus.model.JanusResponseModel
-import com.praszapps.janus.util.JanusUtil
 import com.praszapps.janus.view.JanusFingerprintPrompt
 import org.jetbrains.annotations.NotNull
 
@@ -48,26 +46,21 @@ object JanusAuthenticator {
      */
     fun authenticate(janusAuthenticationStyle: JanusAuthenticationStyle, activity: FragmentActivity, listener: JanusAuthenticationCallback) {
 
-        if (JanusUtil.initiate(activity)) {
+        when (janusAuthenticationStyle) {
 
-            when (janusAuthenticationStyle) {
+            JanusAuthenticationStyle.BIOMETRIC_DIALOG -> {
+                val liveData = MutableLiveData<JanusResponseModel>()
+                liveData.observe(activity, Observer<JanusResponseModel> { response ->
 
-                JanusAuthenticationStyle.BIOMETRIC_DIALOG -> {
-                    val liveData = MutableLiveData<JanusResponseModel>()
-                    liveData.observe(activity, Observer<JanusResponseModel> { response ->
-
-                        if (response.isSuccess) {
-                            listener.onAuthenticationResponse(JanusAuthenticationResponse.Success)
-                        } else {
-                            listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(response.message))
-                        }
-                    })
-                    val fingerDialog = JanusFingerprintPrompt(liveData)
-                    fingerDialog.show(activity.supportFragmentManager, JanusUtil.tag)
-                }
+                    if (response.isSuccess) {
+                        listener.onAuthenticationResponse(JanusAuthenticationResponse.Success)
+                    } else {
+                        listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(response.message))
+                    }
+                })
+                val fingerDialog = JanusFingerprintPrompt(liveData)
+                fingerDialog.show(activity.supportFragmentManager, null)
             }
-        } else {
-            listener.onAuthenticationResponse(JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication(activity.getString(R.string.no_fp)))
         }
     }
 

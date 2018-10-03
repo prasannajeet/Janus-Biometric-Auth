@@ -89,5 +89,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata:$livedataVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$livedataVersion"
 }
