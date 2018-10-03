@@ -1,6 +1,6 @@
 # Janus - The easy biometric authentication library for Android
 [![GitLabCI](https://gitlab.com/prasannajeet/Janus/badges/master/build.svg)](https://gitlab.com/prasannajeet/Janus/pipelines) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus.svg?type=shield)](https://app.fossa.io/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus?ref=badge_shield) [ ![Download](https://api.bintray.com/packages/prasannajeet89/praszappsMaven/janus/images/download.svg) ](https://bintray.com/prasannajeet89/praszappsMaven/janus/_latestVersion) [![Apache 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://gitlab.com/prasannajeet/Janus/blob/master/LICENSE)
-### Currently in alpha - may be buggy
+### Currently in *beta* - If you face any issues please raise a [new issue](https://gitlab.com/prasannajeet/Janus/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=) in Gitlab
 
 **Tired of having to write an entire chunk of code, check for OS versions, create layouts and store icons to implement a simple biometric authentication dialog?**
 
@@ -97,6 +97,7 @@ For now the UI will be the default UI provided by the library, eventually overri
 Release notes can be found [here](https://gitlab.com/prasannajeet/Janus/blob/master/CHANGELOG.md)
 
 ## Notable Development Milestones
+- **v.0.5.0** - Project moved to public beta
 - **v0.4.5** - Converted project to AndroidX *(September 24 2018)*
 - **v0.3.1** - Converted fingerprint dialog to bottom sheet for pre Pie API level *(September 19 2018)*
 - **v0.3.0** - Re-branded Fingertip to Janus *(September 19 2018)*
@@ -110,7 +111,7 @@ Release notes can be found [here](https://gitlab.com/prasannajeet/Janus/blob/mas
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus.svg?type=large)](https://app.fossa.io/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus?ref=badge_large)
 
 ```
-   Copyright [2018] [Prasannajeet Pani]
+   Copyright 2018 Prasannajeet Pani
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

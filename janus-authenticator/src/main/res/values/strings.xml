@@ -1,5 +1,5 @@
 <!--
-  ~    Copyright [2018] [Prasannajeet Pani]
+  ~    Copyright 2018 Prasannajeet Pani
   ~
   ~    Licensed under the Apache License, Version 2.0 (the "License");
   ~    you may not use this file except in compliance with the License.
@@ -15,12 +15,11 @@
   -->
 
 <resources>
-    <string name="app_name">Easy Fingerprint</string>
     <string name="cancel">Cancel</string>
     <string name="sign_in">Fingerprint sign in</string>
     <string name="confirm_fingerprint_to_continue">Confirm fingerprint to continue.</string>
     <string name="touch_sensor">Touch sensor</string>
     <string name="auth_success_message">Authentication Successful</string>
-    <string name="no_fp">Either device not support fingerprint or no fingerprint added</string>
-    <string name="authenticate_ex_text">Cannot have both listener and LiveData as null for function call</string>
+    <string name="no_biometrics">Either device not support biometric or no biometrics added</string>
+    <string name="fingerprint_auth_failed">Fingerprint not recognized. Try again</string>
 </resources>

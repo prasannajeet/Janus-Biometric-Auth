@@ -1,5 +1,5 @@
 /*
- *    Copyright [2018] [Prasannajeet Pani]
+ *    Copyright 2018 Prasannajeet Pani
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,4 +16,4 @@
 
 package com.praszapps.janus.model
 
-internal data class JanusResponseModel(val isSuccess: Boolean = false, val message: String = "")
+internal data class JanusResponseModel(val isSuccess: Boolean = false, val messageId: Int = -2000, val message: String = "")

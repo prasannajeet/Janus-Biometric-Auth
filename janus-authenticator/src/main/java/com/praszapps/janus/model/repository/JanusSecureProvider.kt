@@ -1,5 +1,5 @@
 /*
- *    Copyright [2018] [Prasannajeet Pani]
+ *    Copyright 2018 Prasannajeet Pani
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -22,25 +22,23 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
-import com.praszapps.janus.contract.JanusContract
 import com.praszapps.janus.model.JanusResponseModel
-import com.praszapps.janus.util.JanusUtil
-import com.praszapps.janus.util.JanusUtil.DEFAULT_KEY_NAME
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 
 @TargetApi(23)
-internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCallback(), JanusContract.IModel {
+internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCallback() {
 
     private val mSignal = CancellationSignal()
 
+    private val _keyName = "JanusKeyName"
     private lateinit var keyStore: KeyStore
     private lateinit var keyGenerator: KeyGenerator
     private lateinit var mCryptoObj: FingerprintManagerCompat.CryptoObject
 
-    override suspend fun initialize(): JanusResponseModel {
+    internal fun initialize(): JanusResponseModel {
 
         val defaultCipher: Cipher
 
@@ -52,7 +50,7 @@ internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCall
             // Set the alias of the entry in Android KeyStore where the key will appear
             // and the constrains (purposes) in the constructor of the Builder
 
-            val builder = KeyGenParameterSpec.Builder(DEFAULT_KEY_NAME,
+            val builder = KeyGenParameterSpec.Builder(_keyName,
                     KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                     .setUserAuthenticationRequired(true)
@@ -70,7 +68,7 @@ internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCall
                     + KeyProperties.BLOCK_MODE_CBC + "/"
                     + KeyProperties.ENCRYPTION_PADDING_PKCS7)
             keyStore.load(null)
-            val key = keyStore.getKey(DEFAULT_KEY_NAME, null) as SecretKey
+            val key = keyStore.getKey(_keyName, null) as SecretKey
             defaultCipher.init(Cipher.ENCRYPT_MODE, key)
             mCryptoObj = FingerprintManagerCompat.CryptoObject(defaultCipher)
 
@@ -81,11 +79,11 @@ internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCall
         }
     }
 
-    override fun startFingerprintTracking(listener: FingerprintManagerCompat.AuthenticationCallback) {
-        JanusUtil.fManager.authenticate(mCryptoObj, 0, mSignal, listener, null)
+    internal fun startFingerprintTracking(fManager: FingerprintManagerCompat, listener: FingerprintManagerCompat.AuthenticationCallback) {
+        fManager.authenticate(mCryptoObj, 0, mSignal, listener, null)
     }
 
-    override fun stopFingerprintTracking() {
+    internal fun stopFingerprintTracking() {
         mSignal.cancel()
     }
 }
