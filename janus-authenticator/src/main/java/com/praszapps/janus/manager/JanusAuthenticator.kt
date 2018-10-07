@@ -18,7 +18,12 @@ package com.praszapps.janus.manager
 
 import android.annotation.TargetApi
 import android.app.Activity
+import android.app.KeyguardManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.annotation.Keep
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -83,5 +88,20 @@ object JanusAuthenticator {
             }
         })
         return resultLiveData
+    }
+
+    /**
+     * Utility method to denote support for biometric authentication in the device
+     * @since 0.5.1
+     * @param context [Context] object
+     * @return `true` if biometric authentication is supported, `false` otherwise
+     */
+    fun isBiometricAuthenticationSupported(context: Context): Boolean {
+        val fingerprintManager = FingerprintManagerCompat.from(context)
+        val keyGuardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+
+        return context.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT) && fingerprintManager.isHardwareDetected
+                && fingerprintManager.hasEnrolledFingerprints() && keyGuardManager.isDeviceSecure
+                && keyGuardManager.isKeyguardSecure && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
     }
 }
