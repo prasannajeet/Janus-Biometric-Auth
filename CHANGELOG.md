@@ -1,5 +1,7 @@
 # Release Notes
 
+## 0.5.1
+- Added new API to check biometric possibility
 ## 0.5.0
 - Replaced MVP with MVVM
 - Project is now on public beta

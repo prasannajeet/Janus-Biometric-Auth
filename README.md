@@ -97,7 +97,7 @@ For now the UI will be the default UI provided by the library, eventually overri
 Release notes can be found [here](https://gitlab.com/prasannajeet/Janus/blob/master/CHANGELOG.md)
 
 ## Notable Development Milestones
-- **v.0.5.0** - Project moved to public beta
+- **v0.5.0** - Project moved to public beta
 - **v0.4.5** - Converted project to AndroidX *(September 24 2018)*
 - **v0.3.1** - Converted fingerprint dialog to bottom sheet for pre Pie API level *(September 19 2018)*
 - **v0.3.0** - Re-branded Fingertip to Janus *(September 19 2018)*
