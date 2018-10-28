@@ -43,8 +43,8 @@ sealed class JanusAuthenticationResponse {
     /**
      * Instance for biometric credentials changed, such as fingerprint added or removed
      */
-    @Keep
-    object BiometricsChanged : JanusAuthenticationResponse()
+    /*@Keep
+    object BiometricsChanged : JanusAuthenticationResponse()*/
 
     /**
      * Instance for any error occurred during authentication

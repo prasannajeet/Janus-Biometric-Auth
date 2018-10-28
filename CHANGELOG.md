@@ -1,5 +1,9 @@
 # Release Notes
 
+## 0.6.0
+- Added BiometricPrompt for Android P+ devices
+- Renamed public APIs
+- Made adding JanusAuthenticatorStyle to authenticator API optional
 ## 0.5.1
 - Added new API to check biometric possibility
 ## 0.5.0

@@ -60,7 +60,7 @@ object JanusAuthenticator {
      * pass the [JanusAuthenticationResponse.BiometricsUnsupported] sealed class.
      * If the device has previously performed biometric authentication and then the biometric was changed
      * (fingerprint added/removed), the response class will
-     * pass the [JanusAuthenticationResponse.BiometricsChanged] sealed class.
+     * pass the [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful] sealed class.
      * If there is any error during authentication the error message, the response class will
      * pass the [JanusAuthenticationResponse.BiometricAuthenticationError] sealed class.
      * @since 0.3.3
@@ -101,7 +101,7 @@ object JanusAuthenticator {
      * pass the [JanusAuthenticationResponse.BiometricsUnsupported] sealed class.
      * If the device has previously performed biometric authentication and then the biometric was changed
      * (fingerprint added/removed), the response class will
-     * pass the [JanusAuthenticationResponse.BiometricsChanged] sealed class.
+     * pass the [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful] sealed class.
      * If there is any error during authentication the error message, the response class will
      * pass the [JanusAuthenticationResponse.BiometricAuthenticationError] sealed class.
      */
@@ -130,7 +130,7 @@ object JanusAuthenticator {
      * pass the [JanusAuthenticationResponse.BiometricsUnsupported] sealed class.
      * If the device has previously performed biometric authentication and then the biometric was changed
      * (fingerprint added/removed), the response class will
-     * pass the [JanusAuthenticationResponse.BiometricsChanged] sealed class.
+     * pass the [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful] sealed class.
      * If there is any error during authentication the error message, the response class will
      * pass the [JanusAuthenticationResponse.BiometricAuthenticationError] sealed class.
      */
@@ -149,7 +149,7 @@ object JanusAuthenticator {
      * pass the [JanusAuthenticationResponse.BiometricsUnsupported] sealed class.
      * If the device has previously performed biometric authentication and then the biometric was changed
      * (fingerprint added/removed), the response class will
-     * pass the [JanusAuthenticationResponse.BiometricsChanged] sealed class.
+     * pass the [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful] sealed class.
      * If there is any error during authentication the error message, the response class will
      * pass the [JanusAuthenticationResponse.BiometricAuthenticationError] sealed class.
      * @since 0.6.0
@@ -187,7 +187,7 @@ object JanusAuthenticator {
         liveData.observe(activity, Observer<JanusResponseModel> { response ->
             when {
                 response.isSuccess -> listener.onAuthenticationResponse(JanusAuthenticationResponse.BioMetricAuthenticationSuccessful)
-                response.isKeyInvalidated -> listener.onAuthenticationResponse(JanusAuthenticationResponse.BiometricsChanged)
+                response.isKeyInvalidated -> listener.onAuthenticationResponse(JanusAuthenticationResponse.BioMetricAuthenticationSuccessful)
                 else -> listener.onAuthenticationResponse(JanusAuthenticationResponse.BiometricAuthenticationError(response.message))
             }
         })

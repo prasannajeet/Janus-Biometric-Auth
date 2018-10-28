@@ -64,12 +64,12 @@ internal class JanusFingerprintPrompt(private val liveData: MutableLiveData<Janu
         val result = viewModel.initiateFingerprintAuthentication()
         when (result) {
             is JanusResult.Success -> {
-                if (result.successObject.isKeyInvalidated) {
+                /*if(result.successObject.isKeyInvalidated) {
                     liveData.value = JanusResponseModel(false, true)
                     dismissImmediately()
-                } else {
+                } else {*/
                     setUpFingerprintViews()
-                }
+                //}
             }
             is JanusResult.Error -> liveData.value = JanusResponseModel(message = result.exception.localizedMessage)
         }
