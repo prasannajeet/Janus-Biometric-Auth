@@ -19,7 +19,8 @@ package com.praszapps.janus.manager
 import androidx.annotation.Keep
 
 /**
- * Callback methods for [JanusAuthenticator.authenticate] method
+ * Callback methods for to pass results of the biometric authentication done with
+ * [JanusAuthenticator.authenticate] method
  * @since 0.2.1
  */
 @Keep
@@ -28,7 +29,16 @@ interface JanusAuthenticationCallback {
     /**
      * Callback method for failed authentication
      * @since 0.3.3
-     * @param authenticationResponse [JanusAuthenticationResponse] sealed object representing the error ocurred
+     * @param authenticationResponse [JanusAuthenticationResponse] response sealed class object
+     * that passes the relevant authentication result.
+     * [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful]
+     * if biometric authentication successful
+     * [JanusAuthenticationResponse.BiometricsUnsupported]
+     * if device doesn't support biometric authentication
+     * [JanusAuthenticationResponse.BiometricsChanged]
+     * if the biometrics of the device was changes after previous authentication
+     * [JanusAuthenticationResponse.BiometricAuthenticationError]
+     * if there was an error during biometric authentication
      */
     fun onAuthenticationResponse(authenticationResponse: JanusAuthenticationResponse)
 }

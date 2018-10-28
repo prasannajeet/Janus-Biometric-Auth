@@ -18,17 +18,16 @@ package com.praszapps.janus.viewmodel
 
 import android.annotation.TargetApi
 import android.app.Application
-import android.app.KeyguardManager
-import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.praszapps.janus.R
+import com.praszapps.janus.model.FingerprintInitializationKeyInvalidation
 import com.praszapps.janus.model.JanusResponseModel
+import com.praszapps.janus.model.JanusResult
 import com.praszapps.janus.model.repository.JanusSecureProvider
+import kotlinx.coroutines.experimental.runBlocking
 
 /**
  * [AndroidViewModel] class for Fragment
@@ -36,27 +35,16 @@ import com.praszapps.janus.model.repository.JanusSecureProvider
 internal class JanusDialogViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context = application.applicationContext
-
     private val fingerprintManager = FingerprintManagerCompat.from(context)
-    private val keyGuardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
     private val mFingerprintRepository = JanusSecureProvider()
 
     /**
      * Check if device is capable to doing biometric authentication, if true then initate keystore and return true
      */
-    @TargetApi(23)
-    internal fun isBiometricAuthenticationPossible(): Boolean {
-        return if (context.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT) && fingerprintManager.isHardwareDetected
-                && fingerprintManager.hasEnrolledFingerprints() && keyGuardManager.isDeviceSecure
-                && keyGuardManager.isKeyguardSecure && isApiLevelSupported()) {
-
-            mFingerprintRepository.initialize().isSuccess
-        } else {
-            false
-        }
+    @TargetApi(24)
+    internal fun initiateFingerprintAuthentication(): JanusResult<FingerprintInitializationKeyInvalidation> = runBlocking {
+        return@runBlocking mFingerprintRepository.initialize()
     }
-
-    private fun isApiLevelSupported(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 
     /**
      * Perform biometric authentication

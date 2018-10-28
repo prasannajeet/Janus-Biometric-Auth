@@ -27,13 +27,13 @@ implementation 'com.praszapps.biometric:janus:{latest_release_see_badge_on_top}'
 JanusAuthenticator.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, this, object : JanusAuthenticationCallback {
     override fun onAuthenticationResponse(authenticationResponse: JanusAuthenticationResponse) {
         when(authenticationResponse) {
-            is JanusAuthenticationResponse.Success -> {
+            is JanusAuthenticationResponse.BioMetricAuthenticationSuccessful -> {
                 Toast.makeText(this@MainActivity, "Successful Auth", Toast.LENGTH_LONG).show()
             }
-            is JanusAuthenticationResponse.DeviceApiLevelBelow23 -> {
-                Toast.makeText(this@MainActivity, "FailureReason: API level is below 23 for device", Toast.LENGTH_LONG).show()
+            is JanusAuthenticationResponse.BiometricsUnsupported -> {
+                Toast.makeText(this@MainActivity, "Device doesn't support biometric authentication", Toast.LENGTH_LONG).show()
             }
-            is JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication -> {
+            is JanusAuthenticationResponse.BiometricAuthenticationError -> {
                 Toast.makeText(this@MainActivity, "Auth failed with reason - ${authenticationResponse.errorMessage}", Toast.LENGTH_LONG).show()
             }
         }
@@ -45,12 +45,12 @@ JanusAuthenticator.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, this,
 JanusAuthenticator.INSTANCE.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, this, new JanusAuthenticationCallback() {
     @Override
     public void onAuthenticationResponse(@NotNull JanusAuthenticationResponse janusAuthenticationResponse) {
-        if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.Success){
+        if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.BioMetricAuthenticationSuccessful){
             Toast.makeText(MainActivity.this, "Authentication Success!", Toast.LENGTH_SHORT).show();
-        } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.DeviceApiLevelBelow23) {
-            Toast.makeText(MainActivity.this, "Device error below API 23", Toast.LENGTH_SHORT).show();
-        } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication) {
-            Toast.makeText(MainActivity.this, ((JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication) janusAuthenticationResponse).getErrorMessage(), Toast.LENGTH_SHORT).show();
+        } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.BiometricsUnsupported) {
+            Toast.makeText(MainActivity.this, "Device doesn't support biometric authentication", Toast.LENGTH_SHORT).show();
+        } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.BiometricAuthenticationError) {
+            Toast.makeText(MainActivity.this, ((JanusAuthenticationResponse.BiometricAuthenticationError) janusAuthenticationResponse).getErrorMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 });
@@ -61,15 +61,15 @@ JanusAuthenticator.INSTANCE.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIAL
 ```
 JanusAuthenticator.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, this@MainActivity).observe(this@MainActivity, Observer {response ->
     when(response) {
-        is JanusAuthenticationResponse.Success -> {
+        is JanusAuthenticationResponse.BioMetricAuthenticationSuccessful -> {
             Toast.makeText(this@MainActivity, "Auth Success", Toast.LENGTH_SHORT).show()
         }
 
-        is JanusAuthenticationResponse.DeviceApiLevelBelow23 -> {
-            Toast.makeText(this@MainActivity, "Device below API 23", Toast.LENGTH_SHORT).show()
+        is JanusAuthenticationResponse.BiometricsUnsupported -> {
+            Toast.makeText(this@MainActivity, "Device doesn't support biometric authentication", Toast.LENGTH_SHORT).show()
         }
 
-        is JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication -> {
+        is JanusAuthenticationResponse.BiometricAuthenticationError -> {
             Toast.makeText(this@MainActivity, "Error - ${response.errorMessage}", Toast.LENGTH_SHORT).show()
         }
     }
@@ -80,12 +80,12 @@ JanusAuthenticator.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, this@
 JanusAuthenticator.INSTANCE.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, MainActivity.this).observe(MainActivity.this, new Observer<JanusAuthenticationResponse>() {
     @Override
     public void onChanged(JanusAuthenticationResponse janusAuthenticationResponse) {
-        if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.Success){
+        if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.BioMetricAuthenticationSuccessful){
             Toast.makeText(MainActivity.this, "Authentication Success!", Toast.LENGTH_SHORT).show();
-        } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.DeviceApiLevelBelow23) {
-            Toast.makeText(MainActivity.this, "Device error below API 23", Toast.LENGTH_SHORT).show();
-        } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication) {
-            Toast.makeText(MainActivity.this, ((JanusAuthenticationResponse.ErrorDuringFingerprintAuthentication) janusAuthenticationResponse).getErrorMessage(), Toast.LENGTH_SHORT).show();
+        } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.BiometricsUnsupported) {
+            Toast.makeText(MainActivity.this, "Device doesn't support biometric authentication", Toast.LENGTH_SHORT).show();
+        } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.BiometricAuthenticationError) {
+            Toast.makeText(MainActivity.this, ((JanusAuthenticationResponse.BiometricAuthenticationError) janusAuthenticationResponse).getErrorMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 });
@@ -97,7 +97,7 @@ For now the UI will be the default UI provided by the library, eventually overri
 Release notes can be found [here](https://gitlab.com/prasannajeet/Janus/blob/master/CHANGELOG.md)
 
 ## Notable Development Milestones
-- **v0.5.0** - Project moved to public beta
+- **v0.5.0** - Project moved to public beta *(October 2 2018)*
 - **v0.4.5** - Converted project to AndroidX *(September 24 2018)*
 - **v0.3.1** - Converted fingerprint dialog to bottom sheet for pre Pie API level *(September 19 2018)*
 - **v0.3.0** - Re-branded Fingertip to Janus *(September 19 2018)*

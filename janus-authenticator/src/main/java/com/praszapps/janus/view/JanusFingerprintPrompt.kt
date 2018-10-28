@@ -29,6 +29,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.praszapps.janus.R
 import com.praszapps.janus.model.JanusResponseModel
+import com.praszapps.janus.model.JanusResult
 import com.praszapps.janus.viewmodel.JanusDialogViewModel
 import kotlinx.android.synthetic.main.fingerprint_dialog.*
 import kotlinx.coroutines.experimental.GlobalScope
@@ -59,13 +60,20 @@ internal class JanusFingerprintPrompt(private val liveData: MutableLiveData<Janu
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (viewModel.isBiometricAuthenticationPossible()) {
-            setUpFingerprintViews()
-        } else {
-            liveData.value = JanusResponseModel(message = activity!!.getString(R.string.no_biometrics))
+
+        val result = viewModel.initiateFingerprintAuthentication()
+        when (result) {
+            is JanusResult.Success -> {
+                /*if(result.successObject.isKeyInvalidated) {
+                    liveData.value = JanusResponseModel(false, true)
+                    dismissImmediately()
+                } else {*/
+                    setUpFingerprintViews()
+                //}
+            }
+            is JanusResult.Error -> liveData.value = JanusResponseModel(message = result.exception.localizedMessage)
         }
     }
-
 
     private fun setUpFingerprintViews() {
         cancel_Button.setOnClickListener {
@@ -79,6 +87,11 @@ internal class JanusFingerprintPrompt(private val liveData: MutableLiveData<Janu
                 onFingerprintAuthenticationFailed(model.messageId, model.message)
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.cancelFingerprintDetection()
     }
 
     private fun onFingerPrintAuthenticationSuccess() {
@@ -106,6 +119,13 @@ internal class JanusFingerprintPrompt(private val liveData: MutableLiveData<Janu
             if (this@JanusFingerprintPrompt.isVisible && !this@JanusFingerprintPrompt.isRemoving) {
                 dismissAllowingStateLoss()
             }
+        }
+    }
+
+    private fun dismissImmediately() {
+        GlobalScope.launch {
+            viewModel.cancelFingerprintDetection()
+            dismissAllowingStateLoss()
         }
     }
 }

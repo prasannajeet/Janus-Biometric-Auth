@@ -19,7 +19,9 @@ package com.praszapps.janus.manager
 import androidx.annotation.Keep
 
 /**
- * This sealed class represents the different error scenarios for the [JanusAuthenticationCallback.onAuthenticationResponse] callback in [JanusAuthenticator]
+ * This sealed class that wraps the different result scenarios for
+ * the [JanusAuthenticationCallback.onAuthenticationResponse] callback in [JanusAuthenticator]
+ * authenticate functions
  * @author Prasannajeet Pani
  * @since 0.2.1
  */
@@ -30,20 +32,26 @@ sealed class JanusAuthenticationResponse {
      * Success instance
      */
     @Keep
-    object Success : JanusAuthenticationResponse()
-
-
-    /**
-     * Error instance for device API level less than 23
-     */
-    @Keep
-    object DeviceApiLevelBelow23 : JanusAuthenticationResponse()
+    object BioMetricAuthenticationSuccessful : JanusAuthenticationResponse()
 
     /**
-     * Error class for any error message to be passed to the app during the failure of authentication via fingerprint
+     * Error instance for biometric authentication unsupported
      */
     @Keep
-    data class ErrorDuringFingerprintAuthentication(
+    object BiometricsUnsupported : JanusAuthenticationResponse()
+
+    /**
+     * Instance for biometric credentials changed, such as fingerprint added or removed
+     */
+    /*@Keep
+    object BiometricsChanged : JanusAuthenticationResponse()*/
+
+    /**
+     * Instance for any error occurred during authentication
+     * @param errorMessage Display message to show to the user for the error
+     */
+    @Keep
+    data class BiometricAuthenticationError(
             /**Error message**/
             val errorMessage: String) : JanusAuthenticationResponse()
 }

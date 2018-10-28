@@ -75,6 +75,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    /*dokka {
+        outputFormat = 'html'
+        outputDirectory = "$buildDir/javadoc"
+        reportUndocumented = true
+        skipDeprecated = true
+        jdkVersion = 6
+    }*/
 }
 
 private Integer generateVersionCode() {
