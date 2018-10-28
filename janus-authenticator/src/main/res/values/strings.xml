@@ -16,10 +16,10 @@
 
 <resources>
     <string name="cancel">Cancel</string>
-    <string name="sign_in">Fingerprint sign in</string>
-    <string name="confirm_fingerprint_to_continue">Confirm fingerprint to continue.</string>
+    <string name="sign_in">Biometrics sign in</string>
+    <string name="confirm_fingerprint_to_continue">Confirm biometrics to continue.</string>
     <string name="touch_sensor">Touch sensor</string>
     <string name="auth_success_message">Authentication Successful</string>
-    <string name="no_biometrics">Either device not support biometric or no biometrics added</string>
+    <string name="no_biometrics">Either device does not support biometric or no biometrics added</string>
     <string name="fingerprint_auth_failed">Fingerprint not recognized. Try again</string>
 </resources>

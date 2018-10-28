@@ -16,4 +16,19 @@
 
 package com.praszapps.janus.model
 
-internal data class JanusResponseModel(val isSuccess: Boolean = false, val isKeyInvalidated: Boolean = false, val messageId: Int = -2000, val message: String = "")
+/**
+ * A generic class that holds a value with its loading status.
+ * @param <T>
+ */
+internal sealed class JanusResult<out T : Any> {
+
+    data class Success<out T : Any>(val successObject: T) : JanusResult<T>()
+    data class Error(val exception: Exception) : JanusResult<Nothing>()
+
+    override fun toString(): String {
+        return when (this) {
+            is Success<*> -> "Success[successObject=$successObject]"
+            is Error -> "Error[exception=$exception]"
+        }
+    }
+}

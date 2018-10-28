@@ -16,4 +16,7 @@
 
 package com.praszapps.janus.model
 
-internal data class JanusResponseModel(val isSuccess: Boolean = false, val isKeyInvalidated: Boolean = false, val messageId: Int = -2000, val message: String = "")
+/**
+ * Initialization success object
+ */
+internal data class FingerprintInitializationKeyInvalidation(val isKeyInvalidated: Boolean = false)

@@ -17,8 +17,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 ext {
     versionMajor = 0
-    versionMinor = 5
-    versionPatch = 1
+    versionMinor = 6
+    versionPatch = 0
     minimumSdkVersion = 21
 
 
@@ -37,7 +37,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'guru.stefma.bintrayrelease:bintrayrelease:1.0.0'
     }

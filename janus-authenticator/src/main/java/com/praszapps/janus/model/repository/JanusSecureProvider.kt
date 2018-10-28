@@ -19,10 +19,13 @@ package com.praszapps.janus.model.repository
 import android.annotation.TargetApi
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyPermanentlyInvalidatedException
 import android.security.keystore.KeyProperties
+import androidx.annotation.RequiresApi
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
-import com.praszapps.janus.model.JanusResponseModel
+import com.praszapps.janus.model.FingerprintInitializationKeyInvalidation
+import com.praszapps.janus.model.JanusResult
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -38,7 +41,8 @@ internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCall
     private lateinit var keyGenerator: KeyGenerator
     private lateinit var mCryptoObj: FingerprintManagerCompat.CryptoObject
 
-    internal fun initialize(): JanusResponseModel {
+    @RequiresApi(Build.VERSION_CODES.N)
+    internal fun initialize(): JanusResult<FingerprintInitializationKeyInvalidation> {
 
         val defaultCipher: Cipher
 
@@ -54,6 +58,7 @@ internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCall
                     KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                     .setUserAuthenticationRequired(true)
+                    .setInvalidatedByBiometricEnrollment(true)
                     .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
 
             // This is a workaround to avoid crashes on devices whose API level is < 24
@@ -71,11 +76,12 @@ internal class JanusSecureProvider : FingerprintManagerCompat.AuthenticationCall
             val key = keyStore.getKey(_keyName, null) as SecretKey
             defaultCipher.init(Cipher.ENCRYPT_MODE, key)
             mCryptoObj = FingerprintManagerCompat.CryptoObject(defaultCipher)
-
-            return JanusResponseModel(true)
-
+            return JanusResult.Success(FingerprintInitializationKeyInvalidation())
+        } catch (e1: KeyPermanentlyInvalidatedException) {
+            keyStore.deleteEntry(_keyName)
+            return JanusResult.Success(FingerprintInitializationKeyInvalidation(true))
         } catch (e: Exception) {
-            return JanusResponseModel(message = e.localizedMessage)
+            return JanusResult.Error(e)
         }
     }
 
