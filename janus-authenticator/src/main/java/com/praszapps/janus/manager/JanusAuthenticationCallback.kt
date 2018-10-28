@@ -31,11 +31,11 @@ interface JanusAuthenticationCallback {
      * @since 0.3.3
      * @param authenticationResponse [JanusAuthenticationResponse] response sealed class object
      * that passes the relevant authentication result.
-     * [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful]
+     * [JanusAuthenticationResponse.BiometricAuthenticationSuccessful]
      * if biometric authentication successful
      * [JanusAuthenticationResponse.BiometricsUnsupported]
      * if device doesn't support biometric authentication
-     * [JanusAuthenticationResponse.BiometricsChanged]
+     * [JanusAuthenticationResponse.BiometricAuthenticationSuccessful]
      * if the biometrics of the device was changes after previous authentication
      * [JanusAuthenticationResponse.BiometricAuthenticationError]
      * if there was an error during biometric authentication

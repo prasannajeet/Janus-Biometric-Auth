@@ -1,6 +1,8 @@
 # Release Notes
 
 ## 0.6.0
+- Fixed misnamed Authentication result sealed class object
+## 0.6.0
 - Added BiometricPrompt for Android P+ devices
 - Renamed public APIs
 - Made adding JanusAuthenticatorStyle to authenticator API optional
