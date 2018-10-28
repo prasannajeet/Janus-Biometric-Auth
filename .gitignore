@@ -49,3 +49,4 @@ testfingerprint/.gitignore
 .idea/shelf/LiveData1.xml
 .idea/shelf/LiveData/shelved.patch
 .idea/gradle.xml
+.idea/sonarlint/issuestore

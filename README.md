@@ -27,7 +27,7 @@ implementation 'com.praszapps.biometric:janus:{latest_release_see_badge_on_top}'
 JanusAuthenticator.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, this, object : JanusAuthenticationCallback {
     override fun onAuthenticationResponse(authenticationResponse: JanusAuthenticationResponse) {
         when(authenticationResponse) {
-            is JanusAuthenticationResponse.BioMetricAuthenticationSuccessful -> {
+            is JanusAuthenticationResponse.BiometricAuthenticationSuccessful -> {
                 Toast.makeText(this@MainActivity, "Successful Auth", Toast.LENGTH_LONG).show()
             }
             is JanusAuthenticationResponse.BiometricsUnsupported -> {
@@ -45,7 +45,7 @@ JanusAuthenticator.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, this,
 JanusAuthenticator.INSTANCE.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, this, new JanusAuthenticationCallback() {
     @Override
     public void onAuthenticationResponse(@NotNull JanusAuthenticationResponse janusAuthenticationResponse) {
-        if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.BioMetricAuthenticationSuccessful){
+        if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.BiometricAuthenticationSuccessful){
             Toast.makeText(MainActivity.this, "Authentication Success!", Toast.LENGTH_SHORT).show();
         } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.BiometricsUnsupported) {
             Toast.makeText(MainActivity.this, "Device doesn't support biometric authentication", Toast.LENGTH_SHORT).show();
@@ -61,7 +61,7 @@ JanusAuthenticator.INSTANCE.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIAL
 ```
 JanusAuthenticator.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, this@MainActivity).observe(this@MainActivity, Observer {response ->
     when(response) {
-        is JanusAuthenticationResponse.BioMetricAuthenticationSuccessful -> {
+        is JanusAuthenticationResponse.BiometricAuthenticationSuccessful -> {
             Toast.makeText(this@MainActivity, "Auth Success", Toast.LENGTH_SHORT).show()
         }
 
@@ -80,7 +80,7 @@ JanusAuthenticator.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, this@
 JanusAuthenticator.INSTANCE.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIALOG, MainActivity.this).observe(MainActivity.this, new Observer<JanusAuthenticationResponse>() {
     @Override
     public void onChanged(JanusAuthenticationResponse janusAuthenticationResponse) {
-        if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.BioMetricAuthenticationSuccessful){
+        if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.BiometricAuthenticationSuccessful){
             Toast.makeText(MainActivity.this, "Authentication Success!", Toast.LENGTH_SHORT).show();
         } else if(janusAuthenticationResponse instanceof JanusAuthenticationResponse.BiometricsUnsupported) {
             Toast.makeText(MainActivity.this, "Device doesn't support biometric authentication", Toast.LENGTH_SHORT).show();

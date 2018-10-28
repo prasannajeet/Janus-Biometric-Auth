@@ -95,10 +95,11 @@ private String generateVersionName() {
 dependencies {
     implementation "androidx.appcompat:appcompat:$androidXAppcompatVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
-    testImplementation "junit:junit:$junitVersion"
+    implementation "androidx.core:core-ktx:$androidXAppcompatVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$livedataVersion"
+    testImplementation "junit:junit:$junitVersion"
 }

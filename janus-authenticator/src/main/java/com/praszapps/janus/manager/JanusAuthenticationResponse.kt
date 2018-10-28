@@ -32,7 +32,7 @@ sealed class JanusAuthenticationResponse {
      * Success instance
      */
     @Keep
-    object BioMetricAuthenticationSuccessful : JanusAuthenticationResponse()
+    object BiometricAuthenticationSuccessful : JanusAuthenticationResponse()
 
     /**
      * Error instance for biometric authentication unsupported

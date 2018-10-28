@@ -54,13 +54,13 @@ object JanusAuthenticator {
      * callback [JanusAuthenticationCallback.onAuthenticationResponse] with various sealed class instances as
      * results of the biometric authentication result.
      * If the authentication is successful, the response class will
-     * pass the [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful] sealed class.
+     * pass the [JanusAuthenticationResponse.BiometricAuthenticationSuccessful] sealed class.
      * If the device calling this function does not support biometric authentication
      * (either due to unsupported hardware or API level), the response class will
      * pass the [JanusAuthenticationResponse.BiometricsUnsupported] sealed class.
      * If the device has previously performed biometric authentication and then the biometric was changed
      * (fingerprint added/removed), the response class will
-     * pass the [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful] sealed class.
+     * pass the [JanusAuthenticationResponse.BiometricAuthenticationSuccessful] sealed class.
      * If there is any error during authentication the error message, the response class will
      * pass the [JanusAuthenticationResponse.BiometricAuthenticationError] sealed class.
      * @since 0.3.3
@@ -95,13 +95,13 @@ object JanusAuthenticator {
      * @param activity [FragmentActivity] that calls the function, either through itself or a fragment
      * @return [LiveData] wrapper of [JanusAuthenticationResponse] type to calling app to observe.
      * If the authentication is successful, the response class will
-     * pass the [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful] sealed class.
+     * pass the [JanusAuthenticationResponse.BiometricAuthenticationSuccessful] sealed class.
      * If the device calling this function does not support biometric authentication
      * (either due to unsupported hardware or API level), the response class will
      * pass the [JanusAuthenticationResponse.BiometricsUnsupported] sealed class.
      * If the device has previously performed biometric authentication and then the biometric was changed
      * (fingerprint added/removed), the response class will
-     * pass the [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful] sealed class.
+     * pass the [JanusAuthenticationResponse.BiometricAuthenticationSuccessful] sealed class.
      * If there is any error during authentication the error message, the response class will
      * pass the [JanusAuthenticationResponse.BiometricAuthenticationError] sealed class.
      */
@@ -124,13 +124,13 @@ object JanusAuthenticator {
      * @param activity [FragmentActivity] that calls the function, either through itself or a fragment
      * @return [LiveData] wrapper of [JanusAuthenticationResponse] type to calling app to observe.
      * If the authentication is successful, the response class will
-     * pass the [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful] sealed class.
+     * pass the [JanusAuthenticationResponse.BiometricAuthenticationSuccessful] sealed class.
      * If the device calling this function does not support biometric authentication
      * (either due to unsupported hardware or API level), the response class will
      * pass the [JanusAuthenticationResponse.BiometricsUnsupported] sealed class.
      * If the device has previously performed biometric authentication and then the biometric was changed
      * (fingerprint added/removed), the response class will
-     * pass the [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful] sealed class.
+     * pass the [JanusAuthenticationResponse.BiometricAuthenticationSuccessful] sealed class.
      * If there is any error during authentication the error message, the response class will
      * pass the [JanusAuthenticationResponse.BiometricAuthenticationError] sealed class.
      */
@@ -143,13 +143,13 @@ object JanusAuthenticator {
      * callback [JanusAuthenticationCallback.onAuthenticationResponse] with various sealed class instances as
      * results of the biometric authentication result.
      * If the authentication is successful, the response class will
-     * pass the [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful] sealed class.
+     * pass the [JanusAuthenticationResponse.BiometricAuthenticationSuccessful] sealed class.
      * If the device calling this function does not support biometric authentication
      * (either due to unsupported hardware or API level), the response class will
      * pass the [JanusAuthenticationResponse.BiometricsUnsupported] sealed class.
      * If the device has previously performed biometric authentication and then the biometric was changed
      * (fingerprint added/removed), the response class will
-     * pass the [JanusAuthenticationResponse.BioMetricAuthenticationSuccessful] sealed class.
+     * pass the [JanusAuthenticationResponse.BiometricAuthenticationSuccessful] sealed class.
      * If there is any error during authentication the error message, the response class will
      * pass the [JanusAuthenticationResponse.BiometricAuthenticationError] sealed class.
      * @since 0.6.0
@@ -186,8 +186,8 @@ object JanusAuthenticator {
         val liveData = MutableLiveData<JanusResponseModel>()
         liveData.observe(activity, Observer<JanusResponseModel> { response ->
             when {
-                response.isSuccess -> listener.onAuthenticationResponse(JanusAuthenticationResponse.BioMetricAuthenticationSuccessful)
-                response.isKeyInvalidated -> listener.onAuthenticationResponse(JanusAuthenticationResponse.BioMetricAuthenticationSuccessful)
+                response.isSuccess -> listener.onAuthenticationResponse(JanusAuthenticationResponse.BiometricAuthenticationSuccessful)
+                response.isKeyInvalidated -> listener.onAuthenticationResponse(JanusAuthenticationResponse.BiometricAuthenticationSuccessful)
                 else -> listener.onAuthenticationResponse(JanusAuthenticationResponse.BiometricAuthenticationError(response.message))
             }
         })
@@ -209,7 +209,7 @@ object JanusAuthenticator {
         biometricPrompt.authenticate(CancellationSignal(), context.mainExecutor, object : BiometricPrompt.AuthenticationCallback() {
 
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
-                listener.onAuthenticationResponse(JanusAuthenticationResponse.BioMetricAuthenticationSuccessful)
+                listener.onAuthenticationResponse(JanusAuthenticationResponse.BiometricAuthenticationSuccessful)
             }
 
             override fun onAuthenticationFailed() {
