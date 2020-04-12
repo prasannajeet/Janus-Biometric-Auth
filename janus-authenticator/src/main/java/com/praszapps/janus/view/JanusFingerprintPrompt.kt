@@ -32,8 +32,8 @@ import com.praszapps.janus.model.JanusResponseModel
 import com.praszapps.janus.model.JanusResult
 import com.praszapps.janus.viewmodel.JanusDialogViewModel
 import kotlinx.android.synthetic.main.fingerprint_dialog.*
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @SuppressLint("ValidFragment")
 internal class JanusFingerprintPrompt(private val liveData: MutableLiveData<JanusResponseModel>) : BottomSheetDialogFragment() {
@@ -80,7 +80,7 @@ internal class JanusFingerprintPrompt(private val liveData: MutableLiveData<Janu
             viewModel.cancelFingerprintDetection()
         }
 
-        viewModel.authenticateViaFingerprint().observe(this, Observer { model ->
+        viewModel.authenticateViaFingerprint().observe(viewLifecycleOwner, Observer { model ->
             if (model.isSuccess) {
                 onFingerPrintAuthenticationSuccess()
             } else {

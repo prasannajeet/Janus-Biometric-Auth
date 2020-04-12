@@ -73,7 +73,7 @@ object JanusAuthenticator {
         when (janusAuthenticationStyle) {
             JanusAuthenticationStyle.BIOMETRIC_DIALOG -> {
                 if (isBiometricAuthenticationSupported(activity)) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    if (Build.VERSION.SDK_INT >= P) {
                         setupBiometricPrompt(activity, listener)
                     } else {
                         setupFingerprintPrompt(activity, listener)
@@ -170,10 +170,10 @@ object JanusAuthenticator {
         val fingerprintManager = FingerprintManagerCompat.from(context)
         val keyGuardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        return if (Build.VERSION.SDK_INT >= P) {
             (context.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT) && keyGuardManager.isDeviceSecure
                     && keyGuardManager.isKeyguardSecure)
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < P) {
             (context.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT) && fingerprintManager.isHardwareDetected
                     && fingerprintManager.hasEnrolledFingerprints() && keyGuardManager.isDeviceSecure
                     && keyGuardManager.isKeyguardSecure && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)

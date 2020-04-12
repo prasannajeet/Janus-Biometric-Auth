@@ -27,7 +27,7 @@ import com.praszapps.janus.model.FingerprintInitializationKeyInvalidation
 import com.praszapps.janus.model.JanusResponseModel
 import com.praszapps.janus.model.JanusResult
 import com.praszapps.janus.model.repository.JanusSecureProvider
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 
 /**
  * [AndroidViewModel] class for Fragment
