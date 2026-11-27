@@ -1,6 +1,6 @@
 # Janus - The easy biometric authentication library for Android
-[![GitLabCI](https://gitlab.com/prasannajeet/Janus/badges/master/build.svg)](https://gitlab.com/prasannajeet/Janus/pipelines) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus.svg?type=shield)](https://app.fossa.io/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus?ref=badge_shield) [ ![Download](https://api.bintray.com/packages/prasannajeet89/praszappsMaven/janus/images/download.svg) ](https://bintray.com/prasannajeet89/praszappsMaven/janus/_latestVersion) [![Apache 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://gitlab.com/prasannajeet/Janus/blob/master/LICENSE)
-### Currently in *beta* - If you face any issues please raise a [new issue](https://gitlab.com/prasannajeet/Janus/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=) in Gitlab
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus.svg?type=shield)](https://app.fossa.io/projects/git%2Bgitlab.com%2Fprasannajeet%2FJanus?ref=badge_shield) [ ![Download](https://api.bintray.com/packages/prasannajeet89/praszappsMaven/janus/images/download.svg) ](https://bintray.com/prasannajeet89/praszappsMaven/janus/_latestVersion) [![Apache 2.0](https://img.shields.io/hexpm/l/plug.svg)](LICENSE)
+### Currently in *beta* - If you face any issues please raise a [new issue](https://github.com/prasannajeet/Janus-Biometric-Auth/issues/new) on GitHub
 
 **Tired of having to write an entire chunk of code, check for OS versions, create layouts and store icons to implement a simple biometric authentication dialog?**
 
@@ -94,7 +94,7 @@ JanusAuthenticator.INSTANCE.authenticate(JanusAuthenticationStyle.BIOMETRIC_DIAL
 For now the UI will be the default UI provided by the library, eventually override options will be provided
 
 ## Release Notes
-Release notes can be found [here](https://gitlab.com/prasannajeet/Janus/blob/master/CHANGELOG.md)
+Release notes can be found [here](CHANGELOG.md)
 
 ## Notable Development Milestones
 - **v0.5.0** - Project moved to public beta *(October 2 2018)*
